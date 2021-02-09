@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 
@@ -42,8 +43,6 @@ class UserController extends Controller
 
     public function store(UserStoreRequest $request)
     {
-        //\Auth::user()->id;
-
         $user = $this->userRepository->create($request->all());
 
         return (new JResource(['status' => 'success', 'user_id' => $user['id']]))
@@ -53,7 +52,8 @@ class UserController extends Controller
 
     public function meUser()
     {
-        $user = $this->userRepository->find(\Auth::id());
+
+        $user = $this->userRepository->find(Auth::id());
         return new UserResourceOne($user);
     }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
         return new UserResourceOne($user);
     }
 
- 
+
     public function update(UserUpdateRequest $request, $userId)
     {
         $this->userRepository->update($request->all(), $userId);

@@ -8,8 +8,8 @@ export default {
 
         // apiUrl: 'http://admin.decor-retro.ru/api',
         // apiWebUrl: 'http://193.169.179.233/api',
-        apiUrl: 'http://192.168.0.107:8001/api',
-        apiWebUrl: 'http://192.168.0.107:8000/api',
+        apiUrl: process.env.API_URL,
+        apiWebUrl: process.env.API_WEB_URL,
     },
 
     server: {
@@ -112,7 +112,7 @@ export default {
      */
     axios: {
         // baseURL: 'http://admin.decor-retro.ru/api',
-        baseURL: 'http://192.168.0.107:8001/api',
+        baseURL: process.env.APP_URL,
     },
     /*
      ** Build configuration

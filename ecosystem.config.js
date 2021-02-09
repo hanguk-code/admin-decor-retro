@@ -3,7 +3,7 @@ module.exports = {
         {
             name: 'decor-admin',
             host: process.env.APP_URL,
-            script: 'npm run build && npm run start',
+            script: 'npm run start',
             watch: true,
             env: {
                 NODE_ENV: 'development'
@@ -14,8 +14,8 @@ module.exports = {
         },
         {
             name: 'laravel-decor-admin',
-            script: 'php artisan serve --host=192.168.0.107 --port=8001',
-            watch: false,
+            script: 'php artisan serve --host=192.168.0.107 --port=8041',
+            watch: true,
             env: {
                 NODE_ENV: 'development',
             },
