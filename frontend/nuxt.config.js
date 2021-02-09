@@ -6,8 +6,10 @@ export default {
     env: {
         appUrl: process.env.APP_URL,
 
-        apiUrl: 'http://admin.decor-retro.ru/api',
-        apiWebUrl: 'http://193.169.179.233/api',
+        // apiUrl: 'http://admin.decor-retro.ru/api',
+        // apiWebUrl: 'http://193.169.179.233/api',
+        apiUrl: 'http://192.168.0.107:8001/api',
+        apiWebUrl: 'http://192.168.0.107:8000/api',
     },
 
     server: {
@@ -67,7 +69,7 @@ export default {
     ** See https://nuxtjs.org/api/configuration-components
     */
     components: true,
-    
+
     router: {
         middleware: ['check-auth']
     },
@@ -84,7 +86,7 @@ export default {
         '~plugins/vue-google-maps.js',
          '~/plugins/vue-product-zoomer.js',
         '~plugins/vue-h-zoom.js',
-        //'~plugins/vue-zoomer.js', 
+        //'~plugins/vue-zoomer.js',
         '~plugins/nuxt-client-init', // Comment this for SSR
         //'~plugins/vform',
     ],
@@ -109,7 +111,8 @@ export default {
      ** See https://axios.nuxtjs.org/options
      */
     axios: {
-        baseURL: 'http://admin.decor-retro.ru/api',
+        // baseURL: 'http://admin.decor-retro.ru/api',
+        baseURL: 'http://192.168.0.107:8001/api',
     },
     /*
      ** Build configuration
