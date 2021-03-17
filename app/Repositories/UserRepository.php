@@ -105,9 +105,7 @@ class UserRepository
      */
     public function find(int $userId)
     {
-        $user = $this->user->with(['roles'])->findOrFail($userId);
-
-        return $user;
+        return $this->user->with(['roles'])->findOrFail($userId);
     }
 
     /**

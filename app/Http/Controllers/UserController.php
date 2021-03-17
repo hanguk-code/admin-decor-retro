@@ -52,9 +52,7 @@ class UserController extends Controller
 
     public function meUser()
     {
-
-        $user = $this->userRepository->find(Auth::id());
-        return new UserResourceOne($user);
+        return new UserResourceOne($this->userRepository->find(Auth::id()));
     }
 
 

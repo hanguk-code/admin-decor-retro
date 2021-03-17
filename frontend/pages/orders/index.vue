@@ -55,8 +55,8 @@
                 //DataTable
                 url: process.env.apiWebUrl+'/adm/orders',
                 itemRouteNameEdit: 'orders-id',
-                permissionEdit: ['order_edit'],
-                permissionShow: ['order_show'],
+                permissionEdit: ['*'],
+                permissionShow: ['*'],
             };
         },
         fetch() {

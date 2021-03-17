@@ -10,6 +10,7 @@ export default {
         // apiWebUrl: 'http://193.169.179.233/api',
         apiUrl: process.env.API_URL,
         apiWebUrl: process.env.API_WEB_URL,
+        apiImgUrl: process.env.API_IMG_URL,
     },
 
     server: {

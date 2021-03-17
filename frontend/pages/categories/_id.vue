@@ -27,25 +27,23 @@
                                 <div class="row" v-show="showPhoto">
                                     <div class="col-md-2">
                                         <img :src="photo" style="border-radius: 50%; width: 100%; height: auto;">
-
                                     </div>
                                 </div>
-                                <br v-show="showPhoto">
                                 <div class="row">
-
                                     <div class="col-md-2">
-                                        <a class="btn btn-success btn-sm btn-block" style="color: white;"
-                                           @click="toggleShow">Изменить фото</a>
+                                        <a class="btn btn-success btn-sm btn-block"
+                                           style="color: white; margin: 10px 0;"
+                                           @click="toggleShow">
+                                            <span v-show="showPhoto">Изменить фото</span>
+                                            <span v-show="!showPhoto">Добавить фото</span>
+                                        </a>
                                     </div>
-                                    <br>
                                     <my-upload field="img"
                                                @crop-success="cropSuccess"
                                                v-model="show"
                                                :params="params"
                                                langType="ru"></my-upload>
-
                                 </div>
-                                <br>
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -73,7 +71,6 @@
                                     <div class="col-md-6">
                                         <div class="form-group ">
                                             <label>Категория</label>
-                                            <br>
                                             <treeselect
                                                 :options="categories"
                                                 :sort-value-by="sortValueBy"
@@ -87,7 +84,6 @@
                                     <div class="col-md-6">
                                         <div class="form-group ">
                                             <label>Статус</label>
-                                            <br>
                                             <el-select v-model="category.status" class="form-control fixed-select"
                                                        filterable placeholder="Выберите статус">
                                                 <el-option
@@ -125,14 +121,14 @@
                                             <div class="col-md-6">
                                                 <div class="form-group form-group-last">
                                                     <label>Seo описание</label>
-                                                    <textarea class="form-control" v-model="category.seo_description"
+                                                    <textarea class="form-control" v-model="category.meta_description"
                                                               rows="4"></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group form-group-last">
                                                     <label>Seo ключевые слова</label>
-                                                    <textarea class="form-control" v-model="category.seo_keywords"
+                                                    <textarea class="form-control" v-model="category.meta_keyword"
                                                               rows="4"></textarea>
                                                 </div>
                                             </div>
@@ -176,6 +172,7 @@ export default {
     },
     data() {
         return {
+            apiImgUrl: process.env.apiImgUrl,
             breadcrumbsItems: [
                 {
                     title: 'Категории',
@@ -193,11 +190,11 @@ export default {
             statuses: [
                 {
                     label: 'Включено',
-                    value: 'active'
+                    value: 1
                 },
                 {
                     label: 'Отключено',
-                    value: 'inactive'
+                    value: 0
                 },
             ],
 
@@ -228,55 +225,54 @@ export default {
     },
     async fetch() {
         if (!this.$permission(['*'])) {
-            this.$router.push({name: 'index'});
+            await this.$router.push({name: 'index'});
         }
         await this.getItemOptionsData()
         await this.getEditData()
     },
 
     methods: {
-        getItemOptionsData() {
-            this.loadingOptions = true;
-            this.$axios.get(process.env.apiWebUrl + `/adm/categories/options/data`, {params: {id: this.$route.params.id}})
-                .then(response => {
-                    let data = response.data.data;
-                    this.categories = data.categories
-                    this.categories.sort((a, b) => parseFloat(a.id) - parseFloat(b.id));
-                })
-                .catch(errors => {
-                    console.log(errors);
-                })
-                .finally(() => {
-                    this.loadingOptions = false;
-                });
+        async getItemOptionsData() {
+            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/categories/options/data`, {params: {id: this.$route.params.id}})
+            if (response) {
+                this.categories = response.data
+                // this.categories.sort((a, b) => parseFloat(a.id) - parseFloat(b.id));
+            }
         },
-        getEditData() {
-            this.loading = true;
-            this.$axios.get(process.env.apiWebUrl + `/adm/categories/${this.$route.params.id}`)
-                .then(response => {
-                    this.category = response.data.data;
 
-                    if (this.category.parent_id === null) {
-                        this.category.parent_id = 0
-                    }
-
-                    if (data.image_url) {
-                        this.photo = data.image_url
-                        this.showPhoto = true
-                    }
-                })
-                .catch(errors => {
-                    console.log(errors);
-                })
-                .finally(() => {
-                    this.loading = false;
-                });
+        async getEditData() {
+            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/categories/${this.$route.params.id}`)
+            if (response) {
+                this.category = response.data
+                if (this.category.description) {
+                    this.category.name = this.category.description.name
+                    this.category.seo_title = this.category.description.seo_title
+                    this.category.meta_description = this.category.description.meta_description
+                    this.category.meta_keyword = this.category.description.meta_keyword
+                }
+                if (this.category.image) {
+                    this.photo = process.env.apiImgUrl + 'image/' + this.category.image
+                    this.showPhoto = true
+                }
+                if (this.category.parent_id === null) {
+                    this.category.parent_id = 0
+                }
+            }
         },
+
         update() {
             this.loading = true;
             if (this.category.parent_id === 0) {
                 this.category.parent_id = null
             }
+            if (this.category.description) {
+                this.category.description.name = this.category.name
+                this.category.description.seo_title = this.category.seo_title
+                this.category.description.meta_description = this.category.meta_description
+                this.category.description.meta_keyword = this.category.meta_keyword
+            }
+            this.$delete(this.category, 'dates')
+
             this.$axios.patch(process.env.apiWebUrl + `/adm/categories/${this.$route.params.id}`, {
                 category: this.category,
                 photo: this.photo

@@ -7,7 +7,7 @@
                 <div class="kt-portlet">
                     <div class="kt-portlet__body" @dragenter="activeDrop=true"
                          @drop="activeDrop=false"  @mouseout="activeDrop=false">
-                       
+
                         <button type="button" class="btn btn-outline-brand btn-elevate btn-pill filezone"
                                 style="color: #ffffff; background-color: rgb(93, 120, 255, 0.7); border: none;"
                                 v-show="activeDrop"><i class="la la-cloud-download"></i>
@@ -27,7 +27,7 @@
                         <div class="kt-separator kt-separator--height-sm"></div>
 
 
-                       
+
                         <div style="margin-left: 49%;" v-if="loading">
                             <div class="kt-spinner kt-spinner--v2 kt-spinner--md kt-spinner--info" style=" top: 2rem;"></div>
                         </div>
@@ -63,12 +63,12 @@
                                              style="margin-top: 20px; margin-left: 25px; box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);"
                                              v-for="(file, key) in files" :key="file.id">
 
-                                          
+
                                                 <div class="kt-bg-metal w-100 ">
 
-                                                    <i class="flaticon-close delete-file"  @click="deleteFile(file.id, file.image_url)"></i>
+                                                    <i class="flaticon-close delete-file"  @click="deleteFile(file.id, file.image)"></i>
 
-                                                    <img :src="file.image_url" :alt="file.name" width="100%" style="border-radius: 0.3rem;" />
+                                                    <img :src="file.image" :alt="file.name" width="100%" style="border-radius: 0.3rem;" />
                                                 </div>
                                                 <div class="card-body">
                                                     <h5 class="card-title"> {{ file.name }}.{{ file.extension }}</h5>
@@ -78,14 +78,14 @@
                                                     </p>
                                                     <p class="card-text" v-if="file == editingFile" @mouseleave="closeEdit">
                                                         <!--<v-select taggable v-model="label" :options="labels"></v-select>-->
-                                                        <el-select v-model="label" filterable allow-create >
-                                                            <el-option
-                                                                v-for="item in labels"
-                                                                :key="item.id"
-                                                                :label="item.name"
-                                                                :value="item.id">
-                                                            </el-option>
-                                                        </el-select>
+<!--                                                        <el-select v-model="label" filterable allow-create >-->
+<!--                                                            <el-option-->
+<!--                                                                v-for="item in labels"-->
+<!--                                                                :key="item.id"-->
+<!--                                                                :label="item.name"-->
+<!--                                                                :value="item.id">-->
+<!--                                                            </el-option>-->
+<!--                                                        </el-select>-->
                                                         <span id="mID" style="display: none;">{{file.id}}</span>
                                                         <span id="keyID" style="display: none;">{{ key }}</span>
                                                     </p>
@@ -94,7 +94,7 @@
                                             </div>
 
 
-                                      
+
 
                                         </draggable>
 
@@ -192,7 +192,7 @@
                 }).then(() => {
                     this.$axios.delete(process.env.apiWebUrl+`/adm/media/${id}`, {params: {item_type: this.itemType}})
                         .then(response => {
-                          console.log(response.data.data )
+                          // console.log(response.data.data )
                             if(response.data.data.status === 'success') {
                               this.fetchFile(this.activeTab, this.pagination.current_page);
                                 this.$message({
@@ -279,9 +279,9 @@
                 this.$axios.get(process.env.apiWebUrl+`/adm/media` + '?page=' + page + '&item_id=' + this.$route.params.id + '&item_type=' + this.itemType).then(result => {
                     this.loading = false;
                     this.files = result.data.data.data;
-                    console.log(this.files);
+                    // console.log(this.files);
                     this.pagination = result.data.pagination;
-                    console.log(this.pagination);
+                    // console.log(this.pagination);
                 }).catch(error => {
                     console.log(error);
                     this.loading = false;
