@@ -80,7 +80,7 @@
                                       :big-url="apiImgUrl + 'image/' + item[column.name]"
                                       :scale="2.5"></pic-zoom>
 
-                            <span v-else-if="column.name === 'status'">
+                            <span v-else-if="column.name === 'order_status'">
                                 {{ statuses[item.status] }}
                             </span>
                             <span v-else>
