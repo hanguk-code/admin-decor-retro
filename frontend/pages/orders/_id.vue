@@ -219,7 +219,7 @@ export default {
         update() {
             this.loading = true;
             this.order.total_price = this.totalPrice
-            this.$axios.patch(`/orders/${this.$route.params.id}`, {
+            this.$axios.patch(process.env.apiWebUrl + `/adm/orders/${this.$route.params.id}`, {
                 order: this.order,
                 order_data: this.orderData
             })
