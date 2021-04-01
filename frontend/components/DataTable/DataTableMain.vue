@@ -8,6 +8,7 @@
                    :typeClass="typeClass"
                    :statusClass="statusClass"
                    :permissionEdit="permissionEdit"
+                   :statuses="statuses"
                    :loading="loading"
                    @sort="sortBy"
                    @search="searchData"
@@ -27,6 +28,7 @@
         },
         props: [
             'url',
+            'statuses',
             'itemRouteNameEdit',
             'uniqueItems',
             'permissionEdit',

@@ -42,78 +42,53 @@
             <!--begin: Table -->
             <div class="table-responsive" style="">
                 <table class="table table-hover">
-
-                    <thead class="">
-                    <tr class="">
-                        <th class="  " scope="col">
-                                    <span>
-                                        <label
-                                            class="kt-checkbox kt-checkbox--single kt-checkbox--all kt-checkbox--solid">
-                                            <input type="checkbox" v-model="selectAll">&nbsp;<span></span>
-                                        </label>
-                                    </span>
+                    <thead>
+                    <tr>
+                        <th>
+                            <label class="kt-checkbox kt-checkbox--single kt-checkbox--all kt-checkbox--solid">
+                                <input type="checkbox" v-model="selectAll"><span></span>
+                            </label>
                         </th>
                         <th v-for="column in columns"
                             :key="column.name"
+                            class="pointer"
                             @click="$emit('sort', column.name)"
-                            :style="'cursor:pointer;'"
-                            scope="col"
                         >
                             <span
                                 :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'span-sort' : 'span-sort') : ''">
                                 {{ column.label }}
                                  <i :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'flaticon2-arrow-up arrow-sort' : 'flaticon2-arrow-down arrow-sort') : ''"></i>
                             </span>
-
                         </th>
                     </tr>
                     </thead>
 
-                    <tbody class="">
-                    <tr v-if="items.length > 0" v-for="item in items" :key="item.id">
-                        <td class="" scope="row">
-                             <span>
-                                 <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"
-                                        @click="checkUncheck(item.id)">
-                                            <input type="checkbox" :id="item.id" :value="item.id"
-                                                   v-model="checkedItems">&nbsp;<span></span>
-                                        </label>
-                             </span>
+                    <tbody>
+                    <tr v-if="items.length > 0" v-for="item in items" :key="item.id" class="pointer">
+                        <td>
+                            <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"
+                                   @click="checkUncheck(item.id)">
+                                <input type="checkbox" :id="item.id" :value="item.id"
+                                       v-model="checkedItems">&nbsp;<span></span>
+                            </label>
                         </td>
-                        <td v-for="column in columns" style="cursor:pointer;">
-                            <span v-if="column.name === 'data_column'">
-                                <n-link :to="dataColumn(item, column).url">
-                                    {{ dataColumn(item, column).name }}
-                                </n-link>
-                            </span>
-                            <span v-if="column.name === 'dates'"
-                                  v-html="dataColumn(item, column)"
-                                  @click="goToItemEdit(item.id, item.item_id)">
-                            </span>
 
-                            <span v-else-if="column.name === 'type'"
-                                  @click="goToItemEdit(item.id, item.item_id)">
-                               <span
-                                   :class='typeClassFind(typeClass, item.type).type === item.type ? "kt-badge " + typeClassFind(typeClass, item.type).badge+ " kt-badge--dot" : ""'></span>
-                                <span
-                                    :class='typeClassFind(typeClass, item.type).type === item.type ? "kt-font-bold " + typeClassFind(typeClass, item.type).font+"" : ""'>
-                                    {{ dataColumn(item, column) }}</span>
-                            </span>
-
-                            <span v-else-if="column.type === 'image'" @click="goToItemEdit(item.id, item.item_id)">
-                            <pic-zoom :url="apiImgUrl + 'image/' + dataColumn(item, column)"
+                        <td v-for="column in columns" @click="goToItemEdit(item.id, item.item_id)">
+                            <pic-zoom v-if="column.name === 'image'"
+                                      :url="apiImgUrl + 'image/' + item[column.name]"
                                       style="width:90px;height:90px"
-                                      :big-url="apiImgUrl + 'image/' + dataColumn(item, column)"
+                                      :big-url="apiImgUrl + 'image/' + item[column.name]"
                                       :scale="2.5"></pic-zoom>
+
+                            <span v-else-if="column.name === 'status'">
+                                {{ statuses[item.status] }}
                             </span>
                             <span v-else>
-                                <span v-if="column.name !== 'data_column'"
-                                      @click="goToItemEdit(item.id, item.item_id)">{{ dataColumn(item, column) }}
-                                </span>
+                            {{ item[column.name] }}
                             </span>
                         </td>
                     </tr>
-                    <tr v-if="items.length < 1">
+                    <tr v-else>
                         <td class="text-center" colspan="6"><span><b>Нет Данных</b></span></td>
                     </tr>
                     </tbody>
@@ -150,6 +125,7 @@ export default {
         'statusClass',
         'permissionEdit',
         'loading',
+        'statuses',
     ],
     data() {
 
@@ -416,6 +392,10 @@ export default {
 </script>
 
 <style>
+.pointer {
+    cursor: pointer;
+}
+
 .mouse-cover-canvas {
     width: 200px;
     height: 200px;
@@ -460,4 +440,16 @@ button {
     line-height: 0;
     vertical-align: middle;
 }
+
+th > .kt-checkbox.kt-checkbox--single,
+td > .kt-checkbox.kt-checkbox--single {
+    right: 0;
+    top: 5px;
+    margin: 0;
+}
+
+td > .kt-checkbox.kt-checkbox--single {
+    top: 0;
+}
+
 </style>

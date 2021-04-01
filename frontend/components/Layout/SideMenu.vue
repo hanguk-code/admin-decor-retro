@@ -8,7 +8,7 @@
             <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
                 <div class="kt-aside__brand-logo">
                     <a href="#">
-                        <img alt="Logo" src="/assets/media/logos/logo.png" style="width: 40%" />
+                        <img alt="Logo" src="/logo.png" style="width: 40%" />
                     </a>
                 </div>
                 <div class="kt-aside__brand-tools">
@@ -173,14 +173,14 @@
                         icon: 'flaticon-more-v2',
                         permission: ['*'],
                     },
-                    {
-                        title: 'Рабочий стол',
-                        url: '/',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-graphic',
-                        permission: ['*'],
-                    },
+                    // {
+                    //     title: 'Рабочий стол',
+                    //     url: '/',
+                    //     section: false,
+                    //     nested: false,
+                    //     icon: 'flaticon2-graphic',
+                    //     permission: ['*'],
+                    // },
                     {
                         title: 'Пользователи',
                         url: '/web/users',
@@ -189,8 +189,6 @@
                         icon: 'flaticon2-calendar-3',
                         permission: ['user_web_show', 'user_web_create', 'user_web_edit'],
                     },
-                    
-
                     {
                         title: 'Меню',
                         url: false,
@@ -223,9 +221,6 @@
                         icon: 'flaticon2-cube-1',
                         permission: ['*'],
                     },
-                  
-                 
-                    
                     {
                         title: 'Системное',
                         url: false,

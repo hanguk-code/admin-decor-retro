@@ -24,6 +24,7 @@
 
                 <DataTableMain :url="url"
                                :itemRouteNameEdit="itemRouteNameEdit"
+                               :statuses="statuses"
                                :permissionEdit="permissionEdit"
                                :permissionShow="permissionShow"
                 />
@@ -50,6 +51,15 @@
                         title: 'Заказы',
                         name: 'orders'
                     }
+                ],
+                statuses: [
+                    'новый',
+                    'обработан ( не оплачен )',
+                    'обработан ( оплачен )',
+                    'передан исполнителю',
+                    'принят исполнителем',
+                    'доставлен',
+                    'на удержани',
                 ],
 
                 //DataTable

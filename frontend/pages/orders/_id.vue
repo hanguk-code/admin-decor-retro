@@ -26,6 +26,7 @@
                                         <div class="form-group ">
                                             <el-select
                                                 v-model="order.status"
+                                                name="status"
                                                 class="form-control fixed-select" filterable
                                                 placeholder="Выберите статус">
                                                 <el-option
@@ -36,9 +37,15 @@
                                                 >
                                                 </el-option>
                                             </el-select>
-                                            <!--                                                    v-bind:value="order.status"-->
                                         </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="kt-form__actions" v-loading="loading">
+                                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
@@ -66,35 +73,46 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
+                                            <label>Дата заказа</label>
+                                            <div>{{ order.created_at }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
                                             <label>Комментарий</label>
                                             <div>{{ order.comment }}</div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <hr>
-
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Список товаров</label>
-                                            <table>
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th>Фото</th>
+                                                    <th>Атикул</th>
+                                                    <th>Название</th>
+                                                </tr>
                                                 <tr v-for="product in order.product_id">
-                                                    <td>{{ product.product_id }}</td>
-                                                    <td><img :src="apiImgUrl + 'image/' + product.image" width="100"/>
+
+                                                    <td>
+                                                        <img :src="apiImgUrl + 'image/' + product.image" width="100"/>
                                                     </td>
-                                                    <td>{{ product.description.name }}</td>
+                                                    <td>
+                                                        {{ product.sku }}
+                                                    </td>
+                                                    <td>
+                                                        {{ product.description.name }}
+                                                    </td>
                                                 </tr>
                                             </table>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="kt-portlet__foot">
-                                <div class="kt-form__actions" v-loading="loading">
-                                    <button type="submit" class="btn btn-primary">Сохранить</button>
                                 </div>
                             </div>
 
