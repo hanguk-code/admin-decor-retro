@@ -106,6 +106,7 @@ export default {
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
+        // 'vue-upload-multiple-image',
     ],
     /*
      ** Axios module configuration

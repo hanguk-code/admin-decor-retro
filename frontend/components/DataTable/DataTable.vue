@@ -74,11 +74,10 @@
                         </td>
 
                         <td v-for="column in columns" @click="goToItemEdit(item.id, item.item_id)">
-                            <pic-zoom v-if="column.name === 'image'"
-                                      :url="apiImgUrl + 'image/' + item[column.name]"
-                                      style="width:90px;height:90px"
-                                      :big-url="apiImgUrl + 'image/' + item[column.name]"
-                                      :scale="2.5"></pic-zoom>
+                            <img v-if="column.name === 'image'"
+                                 :src="apiImgUrl + 'image/' + item[column.name]"
+                                 @error="imageUrlAlt"
+                                 style="width:90px;height:90px"/>
 
                             <span v-else-if="column.name === 'order_status'">
                                 {{ statuses[item.status] }}
@@ -205,6 +204,10 @@ export default {
         }
     },
     methods: {
+        imageUrlAlt(event) {
+            event.target.src = process.env.apiImgUrl + "image/no_image.jpg"
+        },
+
         dataColumn(item, column) {
             return item[column.name]
         },

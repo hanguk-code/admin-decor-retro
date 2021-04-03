@@ -25,24 +25,33 @@
 
                             <div class="kt-portlet__body">
                                 <div class="row" v-show="showPhoto">
-                                    <div class="col-md-2">
-                                        <img :src="photo" style="border-radius: 50%; width: 100%; height: auto;">
+<!--                                    <div class="col-md-2">-->
+<!--                                        <img-->
+<!--                                            :src="photo"-->
+<!--                                            @error="imageUrlAlt"-->
+<!--                                            style="border-radius: 50%; width: 100%; height: auto;">-->
+<!--                                        <a class="btn btn-success btn-sm btn-block"-->
+<!--                                           style="color: white; margin: 10px 0;"-->
+<!--                                           @click="toggleShow">-->
+<!--                                            <span v-show="showPhoto">Изменить фото</span>-->
+<!--                                            <span v-show="!showPhoto">Добавить фото</span>-->
+<!--                                        </a>-->
+<!--                                        <my-upload field="img"-->
+<!--                                                   @crop-success="cropSuccess"-->
+<!--                                                   v-model="show"-->
+<!--                                                   :params="params"-->
+<!--                                                   langType="ru"></my-upload>-->
+<!--                                    </div>-->
+                                    <div class="col-md-4">
+                                        <vue-upload-multiple-image
+                                            @upload-success="uploadImageSuccess"
+                                            @before-remove="beforeRemove"
+                                            @edit-image="editImage"
+                                            :data-images="images"
+                                            idUpload="myIdUpload"
+                                            editUpload="myIdEdit"
+                                        ></vue-upload-multiple-image>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <a class="btn btn-success btn-sm btn-block"
-                                           style="color: white; margin: 10px 0;"
-                                           @click="toggleShow">
-                                            <span v-show="showPhoto">Изменить фото</span>
-                                            <span v-show="!showPhoto">Добавить фото</span>
-                                        </a>
-                                    </div>
-                                    <my-upload field="img"
-                                               @crop-success="cropSuccess"
-                                               v-model="show"
-                                               :params="params"
-                                               langType="ru"></my-upload>
                                 </div>
                                 <!--                                <div v-if="!showPhoto">-->
                                 <!--                                    <h2>Добавить фотографию</h2>-->
@@ -202,15 +211,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group ">
                                             <label>Теги</label>
-                                            <!--                                            <el-select v-model="product.tags" class="form-control fixed-select" multiple-->
-                                            <!--                                                       filterable allow-create placeholder="Выберите или создайте теги">-->
-                                            <!--                                                <el-option-->
-                                            <!--                                                    v-for="item in tags"-->
-                                            <!--                                                    :key="item.id"-->
-                                            <!--                                                    :label="item.name"-->
-                                            <!--                                                    :value="item.id">-->
-                                            <!--                                                </el-option>-->
-                                            <!--                                            </el-select>-->
+                                            <input type="text" v-model="product.description.tag"
+                                                   class="form-control" placeholder="">
                                         </div>
                                     </div>
                                 </div>
@@ -219,15 +221,15 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-last">
                                             <label>Описание</label>
-                                            <!--                                            <quill-editor ref="myTextEditor"-->
-                                            <!--                                                          v-model="product.description"-->
-                                            <!--                                                          :options="editorOption">-->
-                                            <!--                                            </quill-editor>-->
+                                            <quill-editor ref="myTextEditor"
+                                                          v-model="description"
+                                                          :options="editorOption">
+                                            </quill-editor>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="card">
+                                <div class="card mt-4">
                                     <div class="card-header" id="headingOne3">
                                         <div class="card-title collapsed" data-toggle="collapse"
                                              data-target="#collapseOne3" aria-expanded="false"
@@ -320,7 +322,8 @@
                                                                     </span>
                                 </div>
 
-<!--                                <media-update v-bind:="product"/>-->
+                                <!--                                <media-update itemType="product" />-->
+
                             </div>
 
                             <div class="kt-portlet__foot">
@@ -347,21 +350,22 @@
 import myUpload from 'vue-image-crop-upload';
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import VueUploadMultipleImage from 'vue-upload-multiple-image'
 
 import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import Errors from '~/helpers/error.js'
 
-import {quillEditor} from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import {quillEditor} from 'vue-quill-editor'
 
 import slug from 'limax';
 
 export default {
     middleware: 'auth',
     components: {
-        Breadcrumbs, 'my-upload': myUpload, Treeselect, quillEditor
+        Breadcrumbs, 'my-upload': myUpload, Treeselect, quillEditor, VueUploadMultipleImage
     },
     data() {
         return {
@@ -378,6 +382,7 @@ export default {
                 }
             ],
             editorOption: {},
+            description: '',
 
             product: {
                 description: [],
@@ -453,6 +458,7 @@ export default {
                 //token: tokenN.content,
                 name: 'photo'
             },
+            images: [],
 
             loading: false,
             loadingOptions: false,
@@ -478,6 +484,29 @@ export default {
     },
 
     methods: {
+        imageUrlAlt(event) {
+            event.target.src = process.env.apiImgUrl + "image/no_image.jpg"
+        },
+
+        uploadImageSuccess(formData, index, fileList) {
+            console.log('data', formData, index, fileList)
+            // Upload image api
+            // axios.post('http://your-url-upload', formData).then(response => {
+            //   console.log(response)
+            // })
+        },
+        beforeRemove(index, done, fileList) {
+            console.log('index', index, fileList)
+            var r = confirm("remove image")
+            if (r == true) {
+                done()
+            } else {
+            }
+        },
+        editImage(formData, index, fileList) {
+            console.log('edit data', formData, index, fileList)
+        },
+
         async getItemOptionsData() {
             const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`,)
             if (response) {
@@ -498,6 +527,12 @@ export default {
                 }
 
                 if (this.product.description) {
+                    this.description = this.product.description.description
+                    // this.product.name = this.product.description.name
+                }
+
+                if (this.product.images) {
+                    this.images = this.product.images
                     // this.product.name = this.product.description.name
                 }
 
@@ -586,8 +621,7 @@ export default {
          * [param] imgDataUrl
          * [param] field
          */
-        cropSuccess(e) {
-            console.log(e)
+        cropSuccess(imgDataUrl) {
             this.photo = imgDataUrl;
             this.showPhoto = true;
         },
