@@ -2,7 +2,6 @@
     <div class="row">
         <div class="col-md-12">
             <div class="kt-pricing-v2">
-
                 <!--begin::Portlet-->
                 <div class="kt-portlet">
                     <div class="kt-portlet__body" @dragenter="activeDrop=true"
@@ -19,17 +18,19 @@
                                    v-on:change="handleFiles()"/>
                             Перетащите файлы сюда
                         </button>
-<!--                        <div class="kt-separator kt-separator&#45;&#45;height-xs"></div>-->
-                        <h3 class="kt-heading kt-heading--center kt-heading--space-sm kt-heading--xl kt-heading--bolder">
-                            Изображения</h3>
-<!--                        <div class="kt-separator kt-separator&#45;&#45;height-sm"></div>-->
+                        <!--                        <div class="kt-separator kt-separator&#45;&#45;height-xs"></div>-->
+                        <h3 class="kt-heading kt-heading--center kt-heading--space-sm kt-heading--xl kt-heading--bolder"
+                            style="width: 90%;">
+                            Изображения
+                        </h3>
+                        <!--                        <div class="kt-separator kt-separator&#45;&#45;height-sm"></div>-->
 
                         <div style="margin-left: 49%;" v-if="loading">
                             <div class="kt-spinner kt-spinner--v2 kt-spinner--md kt-spinner--info"
                                  style=" top: 2rem;"></div>
                         </div>
 
-<!--                        <div class="kt-separator kt-separator&#45;&#45;height-md"></div>-->
+                        <!--                        <div class="kt-separator kt-separator&#45;&#45;height-md"></div>-->
 
                         <div class="tab-content">
 
@@ -69,39 +70,17 @@
                                                      width="100%"
                                                      style="border-radius: 0.3rem;"/>
                                             </div>
-                                            <!--                                            <div class="card-body">-->
-                                            <!--&lt;!&ndash;                                                <h5 class="card-title"> {{ file.name }}.{{ file.extension }}</h5>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;                                                <p class="card-text" v-if="file !== editingFile"&ndash;&gt;-->
-                                            <!--&lt;!&ndash;                                                   @dblclick="editFile(file)">&ndash;&gt;-->
-                                            <!--&lt;!&ndash;                                                    {{ file.label }}&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;   <span v-if="file.label == null"><i>no label</i></span> &ndash;&gt;-->
-                                            <!--&lt;!&ndash;                                                </p>&ndash;&gt;-->
-                                            <!--                                                <p class="card-text" v-if="file == editingFile" @mouseleave="closeEdit">-->
-                                            <!--                                                    &lt;!&ndash;<v-select taggable v-model="label" :options="labels"></v-select>&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                        <el-select v-model="label" filterable allow-create >&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                            <el-option&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                                v-for="item in labels"&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                                :key="item.id"&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                                :label="item.name"&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                                :value="item.id">&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                            </el-option>&ndash;&gt;-->
-                                            <!--                                                    &lt;!&ndash;                                                        </el-select>&ndash;&gt;-->
-                                            <!--                                                    <span id="mID" style="display: none;">{{ file.id }}</span>-->
-                                            <!--                                                    <span id="keyID" style="display: none;">{{ key }}</span>-->
-                                            <!--                                                </p>-->
-                                            <!--                                            </div>-->
-                                            <!--                                            <div class="card-footer"><small> {{ convertDate(file.created_at) }}</small></div>-->
                                         </div>
                                     </draggable>
                                 </div>
-
-                                <div class="row" v-if="pagination.last_page > 1" v-cloak style="width: 90%; margin-top: 10px;">
+                                <div class="row" v-if="pagination.last_page > 1" v-cloak
+                                     style="width: 90%; margin-top: 10px;">
                                     <ul class="pagination pagination--grid">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" @click.prevent="changePage(1)"
-                                               :disabled="pagination.current_page <= 1" style="width: 100px;">First
-                                                page</a>
-                                        </li>
+                                        <!--                                        <li class="page-item">-->
+                                        <!--                                            <a class="page-link" href="#" @click.prevent="changePage(1)"-->
+                                        <!--                                               :disabled="pagination.current_page <= 1" style="width: 100px;">First-->
+                                        <!--                                                page</a>-->
+                                        <!--                                        </li>-->
                                         <li class="page-item">
                                             <a class="page-link" href="#"
                                                @click.prevent="changePage(pagination.current_page - 1)"
@@ -120,12 +99,12 @@
                                                :disabled="pagination.current_page >= pagination.last_page"
                                                style="width: 100px;">Next</a>
                                         </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#"
-                                               @click.prevent="changePage(pagination.last_page)"
-                                               :disabled="pagination.current_page >= pagination.last_page"
-                                               style="width: 100px;">Last page</a>
-                                        </li>
+                                        <!--                                        <li class="page-item">-->
+                                        <!--                                            <a class="page-link" href="#"-->
+                                        <!--                                               @click.prevent="changePage(pagination.last_page)"-->
+                                        <!--                                               :disabled="pagination.current_page >= pagination.last_page"-->
+                                        <!--                                               style="width: 100px;">Last page</a>-->
+                                        <!--                                        </li>-->
                                     </ul>
                                 </div>
                                 <!--end:: Content -->
@@ -135,6 +114,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-success btn-sm btn-block"
+                   style="color: white;"
+                   @click="activeDrop = !activeDrop">
+                    <span v-show="activeDrop">Закрыть</span>
+                    <span v-show="!activeDrop">Добавить фото</span>
+                </a>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -221,29 +212,26 @@ export default {
         },
 
         handleFiles() {
-            let uploadedFiles = this.$refs.files.files;
+            // let uploadedFiles = this.$refs.files.files;
 
-            for (var i = 0; i < uploadedFiles.length; i++) {
-                this.files.push(uploadedFiles[i]);
-            }
+            // for (var i = 0; i < uploadedFiles.length; i++) {
+            //     this.files.push(uploadedFiles[i]);
+            // }
             this.submitFiles();
         },
 
         submitFiles() {
-            for (let i = 0; i < this.files.length; i++) {
-                if (this.files[i].id) {
-                    continue;
-                }
-                let formData = new FormData();
-                formData.append('file', this.files[i]);
-                formData.append('id', this.$route.params.id);
-                formData.append('item_type', this.itemType);
+            for (let i = 0; i < this.$refs.files.files.length; i++) {
+                let formData = new FormData()
+                formData.append('id', this.$route.params.id)
+                formData.append('item_type', this.itemType)
+                formData.append('file', this.$refs.files.files[i])
 
                 this.$axios.post(process.env.apiWebUrl + '/adm/media',
                     formData,
                     {
                         headers: {
-                            'X-Requested-With': 'XMLHttpRequest',
+                            // 'X-Requested-With': 'XMLHttpRequest',
                             'Content-Type': 'multipart/form-data'
                         }
                     }
@@ -252,7 +240,45 @@ export default {
                 }.bind(this)).catch(function (data) {
                     console.log('error');
                 });
+
             }
+
+            // for (let i = 0; i < uploadedFiles.length; i++) {
+                // if (uploadedFiles[i].id) {
+                //     continue;
+                // }
+                // console.log('uploadedFiles[i]', uploadedFiles[i])
+                // console.log('this.$route.params.id', this.$route.params.id)
+                // console.log('this.itemType', this.itemType)
+
+                // let formData = new FormData()
+                // formData.set('file', uploadedFiles[i])
+                // formData.set('id', this.$route.params.id)
+                // formData.set('item_type', this.itemType)
+
+                // const formData = {
+                //     "file": uploadedFiles[i],
+                //     "id": this.$route.params.id,
+                //     "item_type": this.itemType,
+                // }
+                //
+                // console.log('formData', formData)
+                // // return false
+                //
+                // this.$axios.post(process.env.apiWebUrl + '/adm/media',
+                //     formData,
+                //     {
+                //         headers: {
+                //             'X-Requested-With': 'XMLHttpRequest',
+                //             'Content-Type': 'multipart/form-data'
+                //         }
+                //     }
+                // ).then(function (response) {
+                //     this.afterSubmitSave(response.data.media_data)
+                // }.bind(this)).catch(function (data) {
+                //     console.log('error');
+                // });
+            // }
         },
 
         afterSubmitSave() {
@@ -286,9 +312,7 @@ export default {
             this.$axios.get(process.env.apiWebUrl + `/adm/media` + '?page=' + page + '&item_id=' + this.$route.params.id + '&item_type=' + this.itemType).then(result => {
                 this.loading = false;
                 this.files = result.data.data.data;
-                console.log(' this.itemType', this.itemType);
                 this.pagination = result.data.pagination;
-                // console.log(this.pagination);
             }).catch(error => {
                 console.log(error);
                 this.loading = false;
