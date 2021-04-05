@@ -6,7 +6,6 @@
                 <div class="kt-portlet">
                     <div class="kt-portlet__body" @dragenter="activeDrop=true"
                          @drop="activeDrop=false" @mouseout="activeDrop=false">
-
                         <button type="button" class="btn btn-outline-brand btn-elevate btn-pill filezone"
                                 style="color: #ffffff; background-color: rgb(93, 120, 255, 0.7); border: none;"
                                 v-show="activeDrop"><i class="la la-cloud-download"></i>
@@ -18,6 +17,7 @@
                                    v-on:change="handleFiles()"/>
                             Перетащите файлы сюда
                         </button>
+
                         <!--                        <div class="kt-separator kt-separator&#45;&#45;height-xs"></div>-->
                         <h3 class="kt-heading kt-heading--center kt-heading--space-sm kt-heading--xl kt-heading--bolder"
                             style="width: 90%;">
@@ -64,7 +64,7 @@
                                             <div class="kt-bg-metal w-100 ">
 
                                                 <i class="flaticon-close delete-file"
-                                                   @click="deleteFile(file.id, file.image)"></i>
+                                                   @click="deleteFile(file.product_image_id, file.image)"></i>
 
                                                 <img :src="apiImgUrl + 'image/' + file.image" :alt="file.name"
                                                      width="100%"
@@ -113,18 +113,20 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <a class="btn btn-success btn-sm btn-block"
-                   style="color: white;"
-                   @click="activeDrop = !activeDrop">
-                    <span v-show="activeDrop">Закрыть</span>
-                    <span v-show="!activeDrop">Добавить фото</span>
-                </a>
+            <div class="row">
+                <div class="col-md-2">
+                    <a class="btn btn-success btn-sm btn-block"
+                       style="color: white;"
+                       @click="activeDrop = !activeDrop">
+                        <span v-show="activeDrop">Закрыть</span>
+                        <span v-show="!activeDrop">Добавить фото</span>
+                    </a>
+                </div>
             </div>
         </div>
+
+
 
     </div>
 </template>
@@ -187,7 +189,7 @@ export default {
                 cancelButtonText: 'Отмена',
                 type: 'warning'
             }).then(() => {
-                this.$axios.delete(process.env.apiWebUrl + `/adm/media/${id}`, {params: {item_type: this.itemType}})
+                this.$axios.delete(process.env.apiWebUrl + `/adm/media/` + id, {params: {item_type: this.itemType}})
                     .then(response => {
                         // console.log(response.data.data )
                         if (response.data.data.status === 'success') {
