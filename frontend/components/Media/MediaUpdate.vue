@@ -4,7 +4,7 @@
             <div class="kt-pricing-v2">
                 <!--begin::Portlet-->
                 <div class="kt-portlet">
-                    <div class="kt-portlet__body" @dragenter="activeDrop=true"
+                    <div class="kt-portlet__body" @dragenter="activeDrop=false"
                          @drop="activeDrop=false" @mouseout="activeDrop=false">
                         <button type="button" class="btn btn-outline-brand btn-elevate btn-pill filezone"
                                 style="color: #ffffff; background-color: rgb(93, 120, 255, 0.7); border: none;"
@@ -14,7 +14,7 @@
                                    ref="files"
                                    multiple
                                    accept="image/jpeg,image/jpg,image/png,image/gif,audio/mp3,audio/mpga,audio/ogg,video/mp4,video/mpeg,application/pdf,application/msword,application/vnd.oasis.opendocument.text"
-                                   v-on:change="handleFiles()"/>
+                                   v-on:change="submitFiles"/>
                             Перетащите файлы сюда
                         </button>
 
@@ -76,11 +76,11 @@
                                 <div class="row" v-if="pagination.last_page > 1" v-cloak
                                      style="width: 90%; margin-top: 10px;">
                                     <ul class="pagination pagination--grid">
-                                        <!--                                        <li class="page-item">-->
-                                        <!--                                            <a class="page-link" href="#" @click.prevent="changePage(1)"-->
-                                        <!--                                               :disabled="pagination.current_page <= 1" style="width: 100px;">First-->
-                                        <!--                                                page</a>-->
-                                        <!--                                        </li>-->
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" @click.prevent="changePage(1)"
+                                               :disabled="pagination.current_page <= 1" style="width: 100px;">First
+                                                page</a>
+                                        </li>
                                         <li class="page-item">
                                             <a class="page-link" href="#"
                                                @click.prevent="changePage(pagination.current_page - 1)"
@@ -99,12 +99,12 @@
                                                :disabled="pagination.current_page >= pagination.last_page"
                                                style="width: 100px;">Next</a>
                                         </li>
-                                        <!--                                        <li class="page-item">-->
-                                        <!--                                            <a class="page-link" href="#"-->
-                                        <!--                                               @click.prevent="changePage(pagination.last_page)"-->
-                                        <!--                                               :disabled="pagination.current_page >= pagination.last_page"-->
-                                        <!--                                               style="width: 100px;">Last page</a>-->
-                                        <!--                                        </li>-->
+                                        <li class="page-item">
+                                            <a class="page-link" href="#"
+                                               @click.prevent="changePage(pagination.last_page)"
+                                               :disabled="pagination.current_page >= pagination.last_page"
+                                               style="width: 100px;">Last page</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <!--end:: Content -->
@@ -125,7 +125,6 @@
                 </div>
             </div>
         </div>
-
 
 
     </div>
@@ -213,15 +212,6 @@ export default {
             });
         },
 
-        handleFiles() {
-            // let uploadedFiles = this.$refs.files.files;
-
-            // for (var i = 0; i < uploadedFiles.length; i++) {
-            //     this.files.push(uploadedFiles[i]);
-            // }
-            this.submitFiles();
-        },
-
         submitFiles() {
             for (let i = 0; i < this.$refs.files.files.length; i++) {
                 let formData = new FormData()
@@ -246,40 +236,40 @@ export default {
             }
 
             // for (let i = 0; i < uploadedFiles.length; i++) {
-                // if (uploadedFiles[i].id) {
-                //     continue;
-                // }
-                // console.log('uploadedFiles[i]', uploadedFiles[i])
-                // console.log('this.$route.params.id', this.$route.params.id)
-                // console.log('this.itemType', this.itemType)
+            // if (uploadedFiles[i].id) {
+            //     continue;
+            // }
+            // console.log('uploadedFiles[i]', uploadedFiles[i])
+            // console.log('this.$route.params.id', this.$route.params.id)
+            // console.log('this.itemType', this.itemType)
 
-                // let formData = new FormData()
-                // formData.set('file', uploadedFiles[i])
-                // formData.set('id', this.$route.params.id)
-                // formData.set('item_type', this.itemType)
+            // let formData = new FormData()
+            // formData.set('file', uploadedFiles[i])
+            // formData.set('id', this.$route.params.id)
+            // formData.set('item_type', this.itemType)
 
-                // const formData = {
-                //     "file": uploadedFiles[i],
-                //     "id": this.$route.params.id,
-                //     "item_type": this.itemType,
-                // }
-                //
-                // console.log('formData', formData)
-                // // return false
-                //
-                // this.$axios.post(process.env.apiWebUrl + '/adm/media',
-                //     formData,
-                //     {
-                //         headers: {
-                //             'X-Requested-With': 'XMLHttpRequest',
-                //             'Content-Type': 'multipart/form-data'
-                //         }
-                //     }
-                // ).then(function (response) {
-                //     this.afterSubmitSave(response.data.media_data)
-                // }.bind(this)).catch(function (data) {
-                //     console.log('error');
-                // });
+            // const formData = {
+            //     "file": uploadedFiles[i],
+            //     "id": this.$route.params.id,
+            //     "item_type": this.itemType,
+            // }
+            //
+            // console.log('formData', formData)
+            // // return false
+            //
+            // this.$axios.post(process.env.apiWebUrl + '/adm/media',
+            //     formData,
+            //     {
+            //         headers: {
+            //             'X-Requested-With': 'XMLHttpRequest',
+            //             'Content-Type': 'multipart/form-data'
+            //         }
+            //     }
+            // ).then(function (response) {
+            //     this.afterSubmitSave(response.data.media_data)
+            // }.bind(this)).catch(function (data) {
+            //     console.log('error');
+            // });
             // }
         },
 
