@@ -25,32 +25,22 @@
 
                             <div class="kt-portlet__body">
                                 <div class="row" v-show="showPhoto">
-<!--                                    <div class="col-md-2">-->
-<!--                                        <img-->
-<!--                                            :src="photo"-->
-<!--                                            @error="imageUrlAlt"-->
-<!--                                            style="border-radius: 50%; width: 100%; height: auto;">-->
-<!--                                        <a class="btn btn-success btn-sm btn-block"-->
-<!--                                           style="color: white; margin: 10px 0;"-->
-<!--                                           @click="toggleShow">-->
-<!--                                            <span v-show="showPhoto">Изменить фото</span>-->
-<!--                                            <span v-show="!showPhoto">Добавить фото</span>-->
-<!--                                        </a>-->
-<!--                                        <my-upload field="img"-->
-<!--                                                   @crop-success="cropSuccess"-->
-<!--                                                   v-model="show"-->
-<!--                                                   :params="params"-->
-<!--                                                   langType="ru"></my-upload>-->
-<!--                                    </div>-->
-                                    <div class="col-md-4">
-                                        <vue-upload-multiple-image
-                                            @upload-success="uploadImageSuccess"
-                                            @before-remove="beforeRemove"
-                                            @edit-image="editImage"
-                                            :data-images="images"
-                                            idUpload="myIdUpload"
-                                            editUpload="myIdEdit"
-                                        ></vue-upload-multiple-image>
+                                    <div class="col-md-2">
+                                        <img
+                                            :src="photo"
+                                            @error="imageUrlAlt"
+                                            style="border-radius: 50%; width: 100%; height: auto;">
+                                        <a class="btn btn-success btn-sm btn-block"
+                                           style="color: white; margin: 10px 0;"
+                                           @click="toggleShow">
+                                            <span v-show="showPhoto">Изменить фото</span>
+                                            <span v-show="!showPhoto">Добавить фото</span>
+                                        </a>
+                                        <my-upload field="img"
+                                                   @crop-success="cropSuccess"
+                                                   v-model="show"
+                                                   :params="params"
+                                                   langType="ru"></my-upload>
                                     </div>
                                 </div>
                                 <!--                                <div v-if="!showPhoto">-->
@@ -74,7 +64,7 @@
                                                 :sort-value-by="sortValueBy"
                                                 :show-count="true"
                                                 placeholder="Выберите категорию"
-                                                v-model="main_category_id"
+                                                v-model="product.main_category_id"
                                                 required
                                             />
                                         </div>
@@ -99,12 +89,12 @@
                                         <div class="form-group">
                                             <label>Название</label>
                                             <span style="display: none;"> {{ iSlug }}</span>
-                                            <input type="text" :value="product.description.name"
+                                            <input type="text" v-model="product.description.name"
                                                    :class="errors.get('name') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="Введите название"
                                                    required
                                             >
-                                            <div class="invalid-feedback">{{ errors.get('name') }}</div>
+                                            <!--                                            <div class="invalid-feedback">{{ errors.get('name') }}</div>-->
                                         </div>
                                     </div>
 
@@ -114,7 +104,7 @@
                                             <input type="text" v-model="product.keyword"
                                                    :class="errors.get('slug') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="" readonly>
-                                            <div class="invalid-feedback">{{ errors.get('slug') }}</div>
+                                            <!--                                            <div class="invalid-feedback">{{ errors.get('slug') }}</div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +119,7 @@
                                                    placeholder="Введите артикул"
                                                    required
                                             >
-                                            <div class="invalid-feedback">{{ errors.get('name') }}</div>
+                                            <!--                                            <div class="invalid-feedback">{{ errors.get('name') }}</div>-->
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -140,7 +130,7 @@
                                                    placeholder="Введите цену"
                                                    required
                                             >
-                                            <div class="invalid-feedback">{{ errors.get('price') }}</div>
+                                            <!--                                            <div class="invalid-feedback">{{ errors.get('price') }}</div>-->
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -221,10 +211,11 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-last">
                                             <label>Описание</label>
-                                            <quill-editor ref="myTextEditor"
-                                                          v-model="description"
-                                                          :options="editorOption">
+                                            <quill-editor
+                                                v-model="product.description.description"
+                                                :options="editorOption">
                                             </quill-editor>
+
                                         </div>
                                     </div>
                                 </div>
@@ -322,7 +313,7 @@
                                                                     </span>
                                 </div>
 
-                                <!--                                <media-update itemType="product" />-->
+                                <media-update itemType="product"/>
 
                             </div>
 
@@ -350,26 +341,31 @@
 import myUpload from 'vue-image-crop-upload';
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import VueUploadMultipleImage from 'vue-upload-multiple-image'
 
 import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import Errors from '~/helpers/error.js'
 
+import {quillEditor} from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
-import {quillEditor} from 'vue-quill-editor'
 
 import slug from 'limax';
 
 export default {
     middleware: 'auth',
     components: {
-        Breadcrumbs, 'my-upload': myUpload, Treeselect, quillEditor, VueUploadMultipleImage
+        Breadcrumbs, 'my-upload': myUpload, Treeselect, quillEditor
     },
     data() {
         return {
             apiImgUrl: process.env.apiImgUrl,
+            editorOptions: {
+                hideModeSwitch: false
+            },
+            content: [
+                '<span class="size" style="font-size:16px"><span class="font" style="font-family:arial, helvetica, sans-serif">Очень красивая фигурка лебедя, времен СССР, скорей всего хрусталь, <span class="size" style="font-size:16px">очень эффектно и антуражно смотрится, не хуже чем у Сваровски, <span class="size" style="font-size:16px">необыкновенно хорошо вписывается в любой интерьер, </span></span>высота 16см. Состояние идеальное, без сколов и трещин</span></span>.',
+            ].join("\n"),
             breadcrumbsItems: [
                 {
                     title: 'Товары',
@@ -389,8 +385,8 @@ export default {
                 attributes: [],
                 categories: [],
                 gallery: [],
+                main_category_id: null,
             },
-            main_category_id: null,
 
             categories: [],
             categoriesShow: [],
@@ -488,25 +484,6 @@ export default {
             event.target.src = process.env.apiImgUrl + "image/no_image.jpg"
         },
 
-        uploadImageSuccess(formData, index, fileList) {
-            console.log('data', formData, index, fileList)
-            // Upload image api
-            // axios.post('http://your-url-upload', formData).then(response => {
-            //   console.log(response)
-            // })
-        },
-        beforeRemove(index, done, fileList) {
-            console.log('index', index, fileList)
-            var r = confirm("remove image")
-            if (r == true) {
-                done()
-            } else {
-            }
-        },
-        editImage(formData, index, fileList) {
-            console.log('edit data', formData, index, fileList)
-        },
-
         async getItemOptionsData() {
             const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`,)
             if (response) {
@@ -552,7 +529,7 @@ export default {
                     list_categories.push(value.category_id);
                 });
                 this.product.categories = list_categories
-                this.main_category_id = main_category
+                this.product.main_category_id = main_category
             }
         },
 
@@ -633,6 +610,7 @@ export default {
 
             this.createImage(files[0]);
         },
+
         createImage(file) {
             let image = new Image();
             let reader = new FileReader();
@@ -656,4 +634,6 @@ export default {
     padding-top: 4px;
     position: absolute;
 }
+
+
 </style>
