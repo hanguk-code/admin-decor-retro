@@ -11,6 +11,7 @@ export default {
         apiUrl: process.env.API_URL,
         apiWebUrl: process.env.API_WEB_URL,
         apiImgUrl: process.env.API_IMG_URL,
+        clientUrl: process.env.CLIENT_URL,
     },
 
     server: {

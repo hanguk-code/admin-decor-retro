@@ -24,7 +24,7 @@
 
 
                             <div class="kt-portlet__body">
-                                <div class="row" v-show="showPhoto">
+                                <div class="row">
                                     <div class="col-md-2">
                                         <img
                                             :src="photo"
@@ -101,7 +101,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Seo Url</label>
-                                            <input type="text" v-model="product.keyword"
+                                            <input type="text" v-model="product_slug"
                                                    :class="errors.get('slug') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="" readonly>
                                             <!--                                            <div class="invalid-feedback">{{ errors.get('slug') }}</div>-->
@@ -113,7 +113,6 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Артикул</label>
-                                            <span style="display: none;"> {{ iSlug }}</span>
                                             <input type="number" v-model="product.sku"
                                                    :class="errors.get('name') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="Введите артикул"
@@ -387,6 +386,7 @@ export default {
                 gallery: [],
                 main_category_id: null,
             },
+            product_slug: '',
 
             categories: [],
             categoriesShow: [],
@@ -463,9 +463,9 @@ export default {
     },
     computed: {
         iSlug: function () {
-            if (this.product.name) {
-                let iSlug = this.sanitizeTitle(this.product.name);
-                this.product.slug = iSlug;
+            if (this.product.description.name) {
+                let iSlug = this.sanitizeTitle(this.product.description.name);
+                this.product_slug = iSlug;
                 return iSlug;
             }
         },
@@ -513,6 +513,8 @@ export default {
                     // this.product.name = this.product.description.name
                 }
 
+                this.product_slug = this.product.keyword
+
                 // let f = this.product.tags
                 // self.product.tags = []
                 // f.forEach(function (value, key) {
@@ -537,7 +539,8 @@ export default {
             this.loading = true;
             this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}`, {
                 product: this.product,
-                photo: this.photo
+                photo: this.photo,
+                product_slug: this.product_slug,
             })
                 .then(response => {
                     let status = response.data.data;
