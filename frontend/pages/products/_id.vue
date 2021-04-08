@@ -200,8 +200,15 @@
                                     <div class="col-md-12">
                                         <div class="form-group ">
                                             <label>Теги</label>
-                                            <input type="text" v-model="product.description.tag"
-                                                   class="form-control" placeholder="">
+                                            <el-select v-model="product.description.tag" class="form-control fixed-select"
+                                                       filterable allow-create placeholder="Выберите или создайте теги" required>
+                                                <el-option
+                                                    v-for="item in tags"
+                                                    :key="item.tag"
+                                                    :label="item.tag"
+                                                    :value="item.tag">
+                                                </el-option>
+                                            </el-select>
                                         </div>
                                     </div>
                                 </div>
@@ -487,7 +494,7 @@ export default {
         async getItemOptionsData() {
             const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`,)
             if (response) {
-                // this.tags = response.data.tags
+                this.tags = response.data.tags
                 this.attributes = response.data.attributes
                 this.categories = response.data.categories
             }
@@ -565,6 +572,7 @@ export default {
             this.product.attributes.push({
                 name: '',
                 description: '',
+                id: '',
             })
         },
 

@@ -196,8 +196,19 @@
                                     <div class="col-md-12">
                                         <div class="form-group ">
                                             <label>Теги</label>
-                                            <input type="text" v-model="product.description.tag"
-                                                   class="form-control" placeholder="" required>
+                                            <!--                                            <input type="text" v-model="product.description.tag"-->
+                                            <!--                                                   class="form-control" placeholder="" required>-->
+                                            <el-select v-model="product.description.tag"
+                                                       class="form-control fixed-select"
+                                                       filterable allow-create placeholder="Выберите или создайте теги"
+                                                       required>
+                                                <el-option
+                                                    v-for="item in tags"
+                                                    :key="item.tag"
+                                                    :label="item.tag"
+                                                    :value="item.tag">
+                                                </el-option>
+                                            </el-select>
                                         </div>
                                     </div>
                                 </div>
@@ -263,20 +274,20 @@
                                 </div>
 
                                 <h4 class="kt-heading kt-heading--md">Атрибуты товара</h4>
-                                <div class="form-group row" v-for="attr, index in product.attributes" :key="index">
+                                <div class="form-group row" v-for="attribute in product.attributes" :key="index">
 
                                     <div class="col-md-4">
                                         <div class="form-group ">
                                             <label>Атрибут</label>
-                                            <br>
-                                            <el-select v-model="attr.name" class="form-control fixed-select"
+                                            <el-select v-model="attribute.attribute_id"
+                                                       class="form-control fixed-select"
                                                        allow-create filterable
                                                        placeholder="Выберите Атрибут или создайте новый" required>
                                                 <el-option
                                                     v-for="item in attributes"
-                                                    :key="item.name"
-                                                    :label="item.name"
-                                                    :value="item.name">
+                                                    :key="item.id"
+                                                    :label="item.label"
+                                                    :value="item.id">
                                                 </el-option>
                                             </el-select>
                                         </div>
@@ -285,25 +296,21 @@
                                     <div class="col-md-4">
                                         <div class="form-group form-group-last">
                                             <label>Текст</label>
-                                            <textarea class="form-control" v-model="attr.description"
-                                                      rows="2" required></textarea>
+                                            <textarea class="form-control" v-model="attribute.text" rows="2"
+                                                      required></textarea>
                                         </div>
                                     </div>
 
                                     <div class="col-md-1"><label></label>
                                         <div class="input-group-append" style="display: block;">
-                                            <button class="btn btn-icon btn-font-danger"
-                                                    @click="removeAttribute(index)">
+                                            <button type="button" class="btn btn-icon btn-font-danger"
+                                                    @click="removeAttribute(index, attr.id)">
                                                 <i class="la la-close kt-font-danger"></i>
                                             </button>
                                         </div>
                                     </div>
-
-
                                     <div class="kt-separator kt-separator--space-sm"></div>
-
                                 </div>
-
                                 <div class="kt-repeater__add-data " @click="addAttribute(index)">
                                                                     <span data-repeater-create=""
                                                                           class="btn btn-accent btn-sm ">
@@ -501,7 +508,7 @@ export default {
         },
 
         store() {
-            if(!this.product.description.description) {
+            if (!this.product.description.description) {
                 alert('Зполните описание товара');
                 return false
             }
