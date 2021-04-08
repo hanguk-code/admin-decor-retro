@@ -27,7 +27,7 @@ class UserRepository
      */
     public function all($request)
     {
-        if ( $request->input('client') ) {
+        if ($request->input('client')) {
             return $this->user->select('id', 'name', 'email', 'status', 'created_at', 'updated_at', 'deleted_at')->get();
         }
 
@@ -42,7 +42,7 @@ class UserRepository
             ->orderBy($columns[$column], $dir);
 
         if ($searchValue) {
-            $query->where(function($query) use ($searchValue) {
+            $query->where(function ($query) use ($searchValue) {
                 $query->where('id', 'like', '%' . $searchValue . '%')
                     ->orWhere('name', 'like', '%' . $searchValue . '%')
                     ->orWhere('email', 'like', '%' . $searchValue . '%')
@@ -53,16 +53,16 @@ class UserRepository
         }
 
         $data = $query->paginate($length);
-        $columns = array (
-            array('width' => '33%','label' => 'Id', 'name' => 'id'),
-            array('width' => '33%','label' => 'ФИО', 'name' => 'name'),
-            array('width' => '33%','label' => 'Email', 'name' => 'email'),
-            array('width' => '33%','label' => 'Статус', 'name' => 'status'),
-            array('width' => '33%','label' => 'Даты', 'name' => 'dates')
+        $columns = array(
+            array('width' => '33%', 'label' => 'Id', 'name' => 'id'),
+            array('width' => '33%', 'label' => 'ФИО', 'name' => 'name'),
+            array('width' => '33%', 'label' => 'Email', 'name' => 'email'),
+            array('width' => '33%', 'label' => 'Статус', 'name' => 'status'),
+            array('width' => '33%', 'label' => 'Даты', 'name' => 'dates')
         );
 
-        $statusClass = array (
-            array('status' => 'active','badge' => 'kt-badge--success'),
+        $statusClass = array(
+            array('status' => 'active', 'badge' => 'kt-badge--success'),
             array('status' => 'blocked', 'badge' => 'kt-badge--danger')
         );
 
@@ -113,9 +113,13 @@ class UserRepository
      */
     public function update(array $request, int $userId)
     {
+        if (!empty($request['password'])) {
+            $request['password'] = Hash::make($request['password']);
+        }
+
         $this->user::find($userId)->update($request);
-        if(isset($request['profile'])){
-            if(isset($request['profile']['id'])) {
+        if (isset($request['profile'])) {
+            if (isset($request['profile']['id'])) {
                 $this->user::find($userId)->profile()->update($request['profile']);
             } else {
                 $this->user::find($userId)->profile()->create($request['profile']);
@@ -152,7 +156,7 @@ class UserRepository
         $data = [
             'role' => $roleUnique,
             'status' => $status,
-            ];
+        ];
 
         return $data;
     }
