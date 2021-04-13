@@ -205,7 +205,7 @@ export default {
                 .then(response => {
                     let status = response.data;
                     if (status.status === 'success') {
-                        this.roleIdToName(this.roles, this.user.role)
+                        // this.roleIdToName(this.roles, this.user.role)
                         this.$message({
                             showClose: true,
                             message: 'Успешно обновлено',

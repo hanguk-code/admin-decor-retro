@@ -38,8 +38,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 Route::apiResource('categories', 'CategoryController');
 
-Route::apiResource('orders', 'OrderController');
-Route::get('orders/options/data', 'OrderController@optionsData');
+//Route::apiResource('orders', 'OrderController');
+//Route::get('orders/options/data', 'OrderController@optionsData');
 
 Route::apiResource('logs', 'LogController');
 
