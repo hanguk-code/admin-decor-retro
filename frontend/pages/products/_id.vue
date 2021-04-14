@@ -153,7 +153,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group ">
                                             <label>Стикеры</label>
-                                            <el-select v-model="product.sticker" class="form-control fixed-select"
+                                            <el-select v-model="product.upc" class="form-control fixed-select"
                                                        filterable placeholder="Выберите стикер">
                                                 <el-option
                                                     v-for="item in stickers"
@@ -417,7 +417,7 @@ export default {
             stickers: [
                 {
                     label: 'Нет',
-                    value: null
+                    value: ''
                 },
                 {
                     label: 'Новинка',

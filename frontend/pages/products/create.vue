@@ -86,6 +86,7 @@
                                                    :class="errors.get('name') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="Введите название"
                                                    required
+                                                   v-on:blur="setSeoFields"
                                             >
                                             <div class="invalid-feedback">{{ errors.get('name') }}</div>
                                         </div>
@@ -111,7 +112,6 @@
                                                    placeholder="Введите артикул"
                                                    required
                                             >
-                                            <div class="invalid-feedback">{{ errors.get('name') }}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -122,13 +122,11 @@
                                                    placeholder="Введите цену"
                                                    required
                                             >
-                                            <div class="invalid-feedback">{{ errors.get('price') }}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group ">
                                             <label>Статус</label>
-                                            <br>
                                             <el-select v-model="product.status" class="form-control fixed-select"
                                                        filterable placeholder="Выберите статус">
                                                 <el-option
@@ -147,8 +145,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group ">
                                             <label>Стикеры</label>
-                                            <br>
-                                            <el-select v-model="product.sticker" class="form-control fixed-select"
+                                            <el-select v-model="product.upc" class="form-control fixed-select"
                                                        filterable placeholder="Выберите стикер">
                                                 <el-option
                                                     v-for="item in stickers"
@@ -162,7 +159,6 @@
                                     <div class="col-md-3">
                                         <div class="form-group ">
                                             <label>Расположение стикера</label>
-                                            <br>
                                             <el-select v-model="product.sticker_position    "
                                                        class="form-control fixed-select" filterable
                                                        placeholder="Выберите позицию стикера">
@@ -179,7 +175,7 @@
                                         <div class="form-group ">
                                             <label>Товар забронирован</label>
                                             <br>
-                                            <el-select v-model="product.is_booked    " class="form-control fixed-select"
+                                            <el-select v-model="product.is_booked" class="form-control fixed-select"
                                                        filterable placeholder="Выберите...">
                                                 <el-option
                                                     v-for="item in productBooking"
@@ -196,8 +192,6 @@
                                     <div class="col-md-12">
                                         <div class="form-group ">
                                             <label>Теги</label>
-                                            <!--                                            <input type="text" v-model="product.description.tag"-->
-                                            <!--                                                   class="form-control" placeholder="" required>-->
                                             <el-select v-model="product.description.tag"
                                                        class="form-control fixed-select"
                                                        filterable allow-create placeholder="Выберите или создайте теги"
@@ -403,17 +397,17 @@ export default {
             statuses: [
                 {
                     label: 'Включен',
-                    value: 'active'
+                    value: 1
                 },
                 {
                     label: 'Отключено',
-                    value: 'inactive'
+                    value: 0
                 },
             ],
             stickers: [
                 {
                     label: 'Нет',
-                    value: null
+                    value: ''
                 },
                 {
                     label: 'Новинка',
@@ -467,10 +461,11 @@ export default {
         iSlug: function () {
             if (this.product.description.name) {
                 let iSlug = this.sanitizeTitle(this.product.description.name);
-                this.product_slug = iSlug;
-                return iSlug;
+                this.product_slug = iSlug
+                return iSlug
             }
         },
+
 
     },
     // multiple(newValue) {
@@ -487,6 +482,12 @@ export default {
         await this.getItemOptionsData()
     },
     methods: {
+        setSeoFields() {
+            this.product.description.seo_h1 = this.product.description.name
+            this.product.description.seo_title = this.product.description.name
+            this.product.description.meta_description = this.product.description.name
+            this.product.description.meta_keyword = this.product.description.name
+        },
         getItemOptionsData() {
             this.loadingOptions = true;
             this.$axios.get(process.env.apiWebUrl + `/adm/products/options/data`)
