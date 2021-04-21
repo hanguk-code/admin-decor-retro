@@ -1,7 +1,7 @@
 export default {
     ssr: false,
     srcDir: __dirname,
-    target: 'server',
+    target: 'static',
 
     env: {
         appUrl: process.env.APP_URL,
@@ -16,7 +16,8 @@ export default {
 
     server: {
         port: 8040,
-        host: '0.0.0.0',
+        host: '127.0.0.1',
+        // host: '0.0.0.0',
     },
 
     /*
