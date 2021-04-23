@@ -1,7 +1,7 @@
 export default {
     ssr: false,
     srcDir: __dirname,
-    target: 'static',
+    target: 'server',
 
     env: {
         appUrl: process.env.APP_URL,
