@@ -25,35 +25,37 @@
 
                             <div class="kt-portlet__body">
                                 <div class="row">
-                                    <div class="col-md-2">
-                                        <img
-                                            :src="photo"
-                                            @error="imageUrlAlt"
-                                            style="border-radius: 50%; width: 100%; height: auto;">
-                                        <a class="btn btn-success btn-sm btn-block"
-                                           style="color: white; margin: 10px 0;"
-                                           @click="toggleShow">
+<!--                                    <div class="col-md-2">-->
+<!--                                        <img-->
+<!--                                            :src="photo"-->
+<!--                                            @error="imageUrlAlt"-->
+<!--                                            style="border-radius: 50%; width: 100%; height: auto;">-->
+<!--                                        <a class="btn btn-success btn-sm btn-block"-->
+<!--                                           style="color: white; margin: 10px 0;"-->
+<!--                                           @click="toggleShow">-->
+<!--                                            <span v-show="showPhoto">Изменить фото</span>-->
+<!--                                            <span v-show="!showPhoto">Добавить фото</span>-->
+<!--                                        </a>-->
+<!--                                        <my-upload field="img"-->
+<!--                                                   @crop-success="cropSuccess"-->
+<!--                                                   v-model="show"-->
+<!--                                                   :no-circle="true"-->
+<!--                                                   :params="params"-->
+<!--                                                   langType="ru"></my-upload>-->
+<!--                                    </div>-->
+                                    <div v-if="!showPhoto">
+                                        <span v-show="!showPhoto">Добавить фото</span>
+                                        <input type="file" @change="onFileChange">
+                                    </div>
+                                    <div class="row" v-else>
+                                        <div class="col-md-2">
+                                            <img :src="photo" style="border-radius: 50%; width: 100%; height: auto;"/>
                                             <span v-show="showPhoto">Изменить фото</span>
-                                            <span v-show="!showPhoto">Добавить фото</span>
-                                        </a>
-                                        <my-upload field="img"
-                                                   @crop-success="cropSuccess"
-                                                   v-model="show"
-                                                   :params="params"
-                                                   langType="ru"></my-upload>
+                                            <input type="file" @change="onFileChange">
+                                        </div>
                                     </div>
                                 </div>
-                                <!--                                <div v-if="!showPhoto">-->
-                                <!--                                    <h2>Добавить фотографию</h2>-->
-                                <!--                                    <input type="file" @change="onFileChange">-->
-                                <!--                                </div>-->
-                                <!--                                <div class="row" v-else>-->
-                                <!--                                    <div class="col-md-2">-->
-                                <!--                                        <img :src="photo" style="border-radius: 50%; width: 100%; height: auto;"/>-->
-                                <!--                                        <b>Изменить фотографию</b>-->
-                                <!--                                        <input type="file" @change="onFileChange">-->
-                                <!--                                    </div>-->
-                                <!--                                </div>-->
+
 
                                 <div class="row">
                                     <div class="col-md-4">
