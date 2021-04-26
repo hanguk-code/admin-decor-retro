@@ -47,9 +47,11 @@
                                         <span v-show="!showPhoto">Добавить фото</span>
                                         <input type="file" @change="onFileChange">
                                     </div>
-                                    <div class="row" v-else>
+                                    <div class="row" v-else style="margin-bottom: 10px;">
                                         <div class="col-md-2">
                                             <img :src="photo" style="border-radius: 50%; width: 100%; height: auto;"/>
+                                        </div>
+                                        <div class="col-md-2">
                                             <span v-show="showPhoto">Изменить фото</span>
                                             <input type="file" @change="onFileChange">
                                         </div>
