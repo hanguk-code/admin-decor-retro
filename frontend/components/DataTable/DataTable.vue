@@ -82,6 +82,9 @@
                             <span v-else-if="column.name === 'order_status'">
                                 {{ statuses[item.status] }}
                             </span>
+                            <span v-else-if="column.name === 'status'">
+                                {{ product_statuses[item.status] }}
+                            </span>
                             <span v-else>
                             {{ item[column.name] }}
                             </span>
@@ -135,6 +138,10 @@ export default {
             checkedItems: [],
             showActions: 'display: none;',
             dragging: false,
+            product_statuses: {
+                0: 'Отключен',
+                1: 'Включен',
+            },
 
             'images': {
                 'thumbs': [
