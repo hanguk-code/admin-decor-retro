@@ -157,8 +157,10 @@
                                     <div class="col-md-3">
                                         <div class="form-group ">
                                             <label>Стикеры</label>
-                                            <el-select v-model="product.upc" class="form-control fixed-select"
-                                                       filterable placeholder="Выберите стикер">
+                                            <el-select v-model="product.upc"
+                                                       class="form-control fixed-select"
+                                                       filterable
+                                                       placeholder="Выберите стикер">
                                                 <el-option
                                                     v-for="item in stickers"
                                                     :key="item.value"
@@ -171,9 +173,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group ">
                                             <label>Расположение стикера</label>
-                                            <br>
-                                            <el-select v-model="product.sticker_position"
-                                                       class="form-control fixed-select" filterable
+                                            <el-select v-model="product.jan"
+                                                       class="form-control fixed-select"
+                                                       filterable
                                                        placeholder="Выберите позицию стикера">
                                                 <el-option
                                                     v-for="item in stickerPositions"
@@ -186,11 +188,13 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group ">
-                                            <label>Товар забронирован</label>
-                                            <el-select v-model="product.is_booked" class="form-control fixed-select"
-                                                       filterable placeholder="Выберите...">
+                                            <label>Товар в архиве</label>
+                                            <el-select v-model="product.manufacturer_id"
+                                                       class="form-control fixed-select"
+                                                       filterable
+                                                       placeholder="Выберите...">
                                                 <el-option
-                                                    v-for="item in productBooking"
+                                                    v-for="item in productArchive"
                                                     :key="item.value"
                                                     :label="item.label"
                                                     :value="item.value">
@@ -198,6 +202,20 @@
                                             </el-select>
                                         </div>
                                     </div>
+<!--                                    <div class="col-md-3">-->
+<!--                                        <div class="form-group ">-->
+<!--                                            <label>Товар забронирован</label>-->
+<!--                                            <el-select v-model="product.is_booked" class="form-control fixed-select"-->
+<!--                                                       filterable placeholder="Выберите...">-->
+<!--                                                <el-option-->
+<!--                                                    v-for="item in productBooking"-->
+<!--                                                    :key="item.value"-->
+<!--                                                    :label="item.label"-->
+<!--                                                    :value="item.value">-->
+<!--                                                </el-option>-->
+<!--                                            </el-select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                 </div>
 
                                 <div class="row">
@@ -430,30 +448,34 @@ export default {
             ],
             stickerPositions: [
                 {
+                    label: 'Нет',
+                    value: ''
+                },
+                {
                     label: 'Справа сверху',
-                    value: 'top_right'
+                    value: '4'
                 },
                 {
                     label: 'Слева сверху',
-                    value: 'top_left'
+                    value: '1'
                 },
                 {
                     label: 'Справа снизу',
-                    value: 'bottom_right'
+                    value: '3'
                 },
                 {
                     label: 'Слева снизу',
-                    value: 'bottom_left'
+                    value: '2'
                 },
             ],
-            productBooking: [
+            productArchive: [
                 {
                     label: 'Нет',
-                    value: false
+                    value: 0
                 },
                 {
                     label: 'Да',
-                    value: true
+                    value: 8
                 },
             ],
 
@@ -496,7 +518,7 @@ export default {
         },
 
         async getItemOptionsData() {
-            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`,)
+            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`)
             if (response) {
                 this.tags = response.data.tags
                 this.attributes = response.data.attributes
