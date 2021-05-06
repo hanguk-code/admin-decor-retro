@@ -442,16 +442,16 @@ export default {
                 },
                 {
                     label: 'Слева сверху',
+                    value: '3'
+                },
+                {
+                    label: 'Справа снизу',
+                    value: '2'
+                },
+                {
+                    label: 'Слева снизу',
                     value: '1'
                 },
-                // {
-                //     label: 'Справа снизу',
-                //     value: '3'
-                // },
-                // {
-                //     label: 'Слева снизу',
-                //     value: '2'
-                // },
             ],
             productArchive: [
                 {
