@@ -145,11 +145,13 @@ export default {
         },
 
         sortBy(key) {
+
             this.items = [];
             this.sortKey = key;
             this.sortOrders[key] = this.sortOrders[key] * -1;
             this.tableData.column = this.getIndex(this.columns, 'name', key);
             this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
+            this.tableData.page = 1
             this.getItems();
         },
 
