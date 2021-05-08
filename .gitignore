@@ -16,3 +16,7 @@ npm-debug.log
 yarn-error.log
 /dist
 /dist/
+/public/image
+/public/_nuxt
+/ecosystem.config.js
+/frontend/nuxt.config.js
