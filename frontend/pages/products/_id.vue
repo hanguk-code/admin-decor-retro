@@ -25,24 +25,24 @@
 
                             <div class="kt-portlet__body">
                                 <div class="row">
-<!--                                    <div class="col-md-2">-->
-<!--                                        <img-->
-<!--                                            :src="photo"-->
-<!--                                            @error="imageUrlAlt"-->
-<!--                                            style="border-radius: 50%; width: 100%; height: auto;">-->
-<!--                                        <a class="btn btn-success btn-sm btn-block"-->
-<!--                                           style="color: white; margin: 10px 0;"-->
-<!--                                           @click="toggleShow">-->
-<!--                                            <span v-show="showPhoto">Изменить фото</span>-->
-<!--                                            <span v-show="!showPhoto">Добавить фото</span>-->
-<!--                                        </a>-->
-<!--                                        <my-upload field="img"-->
-<!--                                                   @crop-success="cropSuccess"-->
-<!--                                                   v-model="show"-->
-<!--                                                   :no-circle="true"-->
-<!--                                                   :params="params"-->
-<!--                                                   langType="ru"></my-upload>-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="col-md-2">-->
+                                    <!--                                        <img-->
+                                    <!--                                            :src="photo"-->
+                                    <!--                                            @error="imageUrlAlt"-->
+                                    <!--                                            style="border-radius: 50%; width: 100%; height: auto;">-->
+                                    <!--                                        <a class="btn btn-success btn-sm btn-block"-->
+                                    <!--                                           style="color: white; margin: 10px 0;"-->
+                                    <!--                                           @click="toggleShow">-->
+                                    <!--                                            <span v-show="showPhoto">Изменить фото</span>-->
+                                    <!--                                            <span v-show="!showPhoto">Добавить фото</span>-->
+                                    <!--                                        </a>-->
+                                    <!--                                        <my-upload field="img"-->
+                                    <!--                                                   @crop-success="cropSuccess"-->
+                                    <!--                                                   v-model="show"-->
+                                    <!--                                                   :no-circle="true"-->
+                                    <!--                                                   :params="params"-->
+                                    <!--                                                   langType="ru"></my-upload>-->
+                                    <!--                                    </div>-->
                                     <div v-if="!showPhoto">
                                         <span v-show="!showPhoto">Добавить фото</span>
                                         <input type="file" @change="onFileChange">
@@ -154,7 +154,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group ">
                                             <label>Стикеры</label>
                                             <el-select v-model="product.upc"
@@ -170,7 +170,7 @@
                                             </el-select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group ">
                                             <label>Расположение стикера</label>
                                             <el-select v-model="product.jan"
@@ -186,7 +186,7 @@
                                             </el-select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group ">
                                             <label>Товар в архиве</label>
                                             <el-select v-model="product.manufacturer_id"
@@ -202,28 +202,33 @@
                                             </el-select>
                                         </div>
                                     </div>
-<!--                                    <div class="col-md-3">-->
-<!--                                        <div class="form-group ">-->
-<!--                                            <label>Товар забронирован</label>-->
-<!--                                            <el-select v-model="product.is_booked" class="form-control fixed-select"-->
-<!--                                                       filterable placeholder="Выберите...">-->
-<!--                                                <el-option-->
-<!--                                                    v-for="item in productBooking"-->
-<!--                                                    :key="item.value"-->
-<!--                                                    :label="item.label"-->
-<!--                                                    :value="item.value">-->
-<!--                                                </el-option>-->
-<!--                                            </el-select>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group ">
+                                            <label>Товар забронирован</label>
+                                            <el-select v-model="product.is_booked" class="form-control fixed-select"
+                                                       filterable placeholder="Выберите...">
+                                                <el-option
+                                                    v-for="item in productBooking"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group ">
                                             <label>Теги</label>
-                                            <el-select v-model="product.description.tag" class="form-control fixed-select"
-                                                       filterable allow-create placeholder="Выберите или создайте теги" required>
+                                            <el-select v-model="product.description.tag"
+                                                       class="form-control fixed-select"
+                                                       filterable allow-create placeholder="Выберите или создайте теги"
+                                                       required>
                                                 <el-option
                                                     v-for="item in tags"
                                                     :key="item.tag"
@@ -478,6 +483,16 @@ export default {
                     value: 8
                 },
             ],
+            productBooking: [
+                {
+                    label: 'Нет',
+                    value: 0
+                },
+                {
+                    label: 'Да',
+                    value: 1
+                },
+            ],
 
             //Photo
             photo: '',
@@ -654,7 +669,7 @@ export default {
             let vm = this;
 
             reader.onload = (e) => {
-                console.log(e.target.result)
+                // console.log(e.target.result)
                 vm.photo = e.target.result;
             };
             reader.readAsDataURL(file);

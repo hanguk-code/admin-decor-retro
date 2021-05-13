@@ -376,7 +376,6 @@
              */
             cropSuccess(imgDataUrl){
                 this.avatar = imgDataUrl;
-                console.log(this.urltoFile(this.avatar))
                 this.showPhoto =  true;
             },
 
