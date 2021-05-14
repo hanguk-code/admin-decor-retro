@@ -22,42 +22,27 @@
                                 </div>
                             </div>
 
-
                             <div class="kt-portlet__body">
-                                <div class="row">
-                                    <!--                                    <div class="col-md-2">-->
-                                    <!--                                        <img-->
-                                    <!--                                            :src="photo"-->
-                                    <!--                                            @error="imageUrlAlt"-->
-                                    <!--                                            style="border-radius: 50%; width: 100%; height: auto;">-->
-                                    <!--                                        <a class="btn btn-success btn-sm btn-block"-->
-                                    <!--                                           style="color: white; margin: 10px 0;"-->
-                                    <!--                                           @click="toggleShow">-->
-                                    <!--                                            <span v-show="showPhoto">Изменить фото</span>-->
-                                    <!--                                            <span v-show="!showPhoto">Добавить фото</span>-->
-                                    <!--                                        </a>-->
-                                    <!--                                        <my-upload field="img"-->
-                                    <!--                                                   @crop-success="cropSuccess"-->
-                                    <!--                                                   v-model="show"-->
-                                    <!--                                                   :no-circle="true"-->
-                                    <!--                                                   :params="params"-->
-                                    <!--                                                   langType="ru"></my-upload>-->
-                                    <!--                                    </div>-->
-                                    <div v-if="!showPhoto">
-                                        <span v-show="!showPhoto">Добавить фото</span>
-                                        <input type="file" @change="onFileChange">
+                                <div class="form-group ">
+                                    <div class="row" v-if="!showPhoto">
+                                        <div class="col-md-2">
+                                            <img :src="photo" style="border-radius: 50%; width: 100px;"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h5>Добавить фото</h5>
+                                            <input type="file" @change="onFileChange">
+                                        </div>
                                     </div>
                                     <div class="row" v-else style="margin-bottom: 10px;">
                                         <div class="col-md-2">
-                                            <img :src="photo" style="border-radius: 50%; width: 100%; height: auto;"/>
+                                            <img :src="photo" style="border-radius: 50%; width: 100px; height: auto;"/>
                                         </div>
-                                        <div class="col-md-2">
-                                            <span v-show="showPhoto">Изменить фото</span>
+                                        <div class="col-md-4">
+                                            <h5>Изменить фото</h5>
                                             <input type="file" @change="onFileChange">
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -495,7 +480,7 @@ export default {
             ],
 
             //Photo
-            photo: '',
+            photo: 'https://decor-retro.ru/image/no_image.jpg',
             show: false,
             showPhoto: false,
             params: {
@@ -660,6 +645,7 @@ export default {
             if (!files.length)
                 return;
 
+            this.showPhoto = true
             this.createImage(files[0]);
         },
 
@@ -669,7 +655,6 @@ export default {
             let vm = this;
 
             reader.onload = (e) => {
-                // console.log(e.target.result)
                 vm.photo = e.target.result;
             };
             reader.readAsDataURL(file);
