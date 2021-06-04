@@ -315,7 +315,7 @@
                                     <div class="col-md-1"><label></label>
                                         <div class="input-group-append" style="display: block;">
                                             <button type="button" class="btn btn-icon btn-font-danger"
-                                                    @click="removeAttribute(index, attr.id)">
+                                                    @click="removeAttribute(index)">
                                                 <i class="la la-close kt-font-danger"></i>
                                             </button>
                                         </div>

@@ -317,7 +317,7 @@
                                     <div class="col-md-1"><label></label>
                                         <div class="input-group-append" style="display: block;">
                                             <button type="button" class="btn btn-icon btn-font-danger"
-                                                    @click="removeAttribute(index, attr.id)">
+                                                    @click="removeAttribute(index, product.product_id, attribute.attribute_id)">
                                                 <i class="la la-close kt-font-danger"></i>
                                             </button>
                                         </div>
@@ -602,10 +602,10 @@ export default {
             })
         },
 
-        removeAttribute: function (index, id) {
-            this.product.attributes.splice(index, 1);
+        removeAttribute: function (index, id, attr) {
+            this.product.attributes.splice(index, 1)
             if (id) {
-                this.$axios.delete(process.env.apiWebUrl + `/adm/products/attribute/delete/${id}`)
+                this.$axios.delete(process.env.apiWebUrl + `/adm/products/attribute/delete/${id}/${attr}`)
                     .then(response => {
                         this.$message({
                             showClose: true,
