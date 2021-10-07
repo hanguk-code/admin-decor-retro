@@ -29,7 +29,7 @@
                                             <img :src="photo" style="border-radius: 50%; width: 100px;"/>
                                         </div>
                                         <div class="col-md-4">
-                                            <h5>Добавить фото</h5>
+                                            <h5>Добавить фото_</h5>
                                             <input type="file" @change="onFileChange">
                                         </div>
                                     </div>
