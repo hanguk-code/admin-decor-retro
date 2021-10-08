@@ -435,6 +435,10 @@ export default {
                     label: 'Новинка',
                     value: 'new'
                 },
+                {
+                    label: 'Бронь',
+                    value: 'reserve'
+                },
             ],
             stickerPositions: [
                 {
@@ -480,7 +484,7 @@ export default {
             ],
 
             //Photo
-            photo: 'https://decor-retro.ru/image/no_image.jpg',
+            photo: 'https://retro-decor.ru/image/no_image.jpg',
             show: false,
             showPhoto: false,
             params: {

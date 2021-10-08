@@ -4,106 +4,199 @@
             <div class="kt-pricing-v2">
                 <!--begin::Portlet-->
                 <div class="kt-portlet">
-                    <div class="kt-portlet__body" @dragenter="activeDrop=false"
-                         @drop="activeDrop=false" @mouseout="activeDrop=false">
-                        <button type="button" class="btn btn-outline-brand btn-elevate btn-pill filezone"
-                                style="color: #ffffff; background-color: rgb(93, 120, 255, 0.7); border: none;"
-                                v-show="activeDrop"><i class="la la-cloud-download"></i>
-                            <input type="file"
-                                   id="files"
-                                   ref="files"
-                                   multiple
-                                   accept="image/jpeg,image/jpg,image/png,image/gif,audio/mp3,audio/mpga,audio/ogg,video/mp4,video/mpeg,application/pdf,application/msword,application/vnd.oasis.opendocument.text"
-                                   v-on:change="submitFiles"/>
+                    <div
+                        class="kt-portlet__body"
+                        @dragenter="activeDrop = false"
+                        @drop="activeDrop = false"
+                        @mouseout="activeDrop = false"
+                    >
+                        <button
+                            v-show="activeDrop"
+                            type="button"
+                            class="btn btn-outline-brand btn-elevate btn-pill filezone"
+                            style="color: #ffffff; background-color: rgb(93, 120, 255, 0.7); border: none;"
+                        >
+                            <i class="la la-cloud-download"></i>
+                            <input
+                                id="files"
+                                ref="files"
+                                type="file"
+                                multiple
+                                accept="image/jpeg,image/jpg,image/png,image/gif,audio/mp3,audio/mpga,audio/ogg,video/mp4,video/mpeg,application/pdf,application/msword,application/vnd.oasis.opendocument.text"
+                                @change="submitFiles"
+                            />
                             Перетащите файлы сюда
                         </button>
 
                         <!--                        <div class="kt-separator kt-separator&#45;&#45;height-xs"></div>-->
-                        <h3 class="kt-heading kt-heading--center kt-heading--space-sm kt-heading--xl kt-heading--bolder"
-                            style="width: 90%;">
+                        <h3
+                            class="kt-heading kt-heading--center kt-heading--space-sm kt-heading--xl kt-heading--bolder"
+                            style="width: 90%;"
+                        >
                             Изображения
                         </h3>
                         <!--                        <div class="kt-separator kt-separator&#45;&#45;height-sm"></div>-->
 
-                        <div style="margin-left: 49%;" v-if="loading">
-                            <div class="kt-spinner kt-spinner--v2 kt-spinner--md kt-spinner--info"
-                                 style=" top: 2rem;"></div>
+                        <div v-if="loading" style="margin-left: 49%;">
+                            <div
+                                class="kt-spinner kt-spinner--v2 kt-spinner--md kt-spinner--info"
+                                style=" top: 2rem;"
+                            ></div>
                         </div>
 
                         <!--                        <div class="kt-separator kt-separator&#45;&#45;height-md"></div>-->
 
                         <div class="tab-content">
-
-                            <div class="tab-pane active" id="kt_tabs_3_1" role="tabpanel">
+                            <div
+                                id="kt_tabs_3_1"
+                                class="tab-pane active"
+                                role="tabpanel"
+                            >
                                 <!-- begin:: Content -->
 
-                                <div class="kt-section__content kt-section__content--border">
-
-                                    <div class="row" v-if="pagination.total == 0" v-cloak>
+                                <div
+                                    class="kt-section__content kt-section__content--border"
+                                >
+                                    <div
+                                        v-if="pagination.total == 0"
+                                        v-cloak
+                                        class="row"
+                                    >
                                         <div class="col-md-12">
-                                            <p style="text-align: center;"> Перетащите файлы сюда для добавления
-                                                изображений</p>
+                                            <p style="text-align: center;">
+                                                Перетащите файлы сюда для
+                                                добавления изображений
+                                            </p>
                                         </div>
                                     </div>
 
                                     <draggable
+                                        v-model="files"
                                         :disabled="!canDrag"
                                         class="row"
-                                        v-model="files"
                                         v-bind="dragOptions"
                                         @start="drag = false"
                                         @end="drag = false"
                                         @change="sort()"
                                     >
-
-                                        <div class="card col-md-3"
-                                             style="margin-top: 20px; margin-left: 25px; box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);"
-                                             v-for="(file, key) in files" :key="file.id">
-
-
+                                        <div
+                                            v-for="(file, key) in files"
+                                            :key="file.id"
+                                            class="card col-md-3"
+                                            style="margin-top: 20px; margin-left: 25px; box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);"
+                                        >
                                             <div class="kt-bg-metal w-100 ">
+                                                <i
+                                                    class="flaticon-close delete-file"
+                                                    @click="
+                                                        deleteFile(
+                                                            file.product_image_id,
+                                                            file.image
+                                                        )
+                                                    "
+                                                ></i>
 
-                                                <i class="flaticon-close delete-file"
-                                                   @click="deleteFile(file.product_image_id, file.image)"></i>
-
-                                                <img :src="apiImgUrl + 'image/' + file.image" :alt="file.name"
-                                                     width="100%"
-                                                     style="border-radius: 0.3rem;"/>
+                                                <img
+                                                    :src="
+                                                        apiImgUrl +
+                                                            'image/' +
+                                                            file.image
+                                                    "
+                                                    :alt="file.name"
+                                                    width="100%"
+                                                    style="border-radius: 0.3rem;"
+                                                />
                                             </div>
                                         </div>
                                     </draggable>
                                 </div>
-                                <div class="row" v-if="pagination.last_page > 1" v-cloak
-                                     style="width: 90%; margin-top: 10px;">
+                                <div
+                                    v-if="pagination.last_page > 1"
+                                    v-cloak
+                                    class="row"
+                                    style="width: 90%; margin-top: 10px;"
+                                >
                                     <ul class="pagination pagination--grid">
                                         <li class="page-item">
-                                            <a class="page-link" href="#" @click.prevent="changePage(1)"
-                                               :disabled="pagination.current_page <= 1" style="width: 100px;">First
-                                                page</a>
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                :disabled="
+                                                    pagination.current_page <= 1
+                                                "
+                                                style="width: 100px;"
+                                                @click.prevent="changePage(1)"
+                                                >First page</a
+                                            >
                                         </li>
                                         <li class="page-item">
-                                            <a class="page-link" href="#"
-                                               @click.prevent="changePage(pagination.current_page - 1)"
-                                               :disabled="pagination.current_page <= 1"
-                                               style="width: 100px;">Previous</a>
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                :disabled="
+                                                    pagination.current_page <= 1
+                                                "
+                                                style="width: 100px;"
+                                                @click.prevent="
+                                                    changePage(
+                                                        pagination.current_page -
+                                                            1
+                                                    )
+                                                "
+                                                >Previous</a
+                                            >
                                         </li>
-                                        <li :class="isCurrentPage(page) ? 'page-item active' : 'page-item '"
-                                            v-for="page in pages">
-                                            <a class="page-link" href="#" @click.prevent="changePage(page)">{{
-                                                    page
-                                                }}</a>
+                                        <li
+                                            v-for="page in pages"
+                                            :class="
+                                                isCurrentPage(page)
+                                                    ? 'page-item active'
+                                                    : 'page-item '
+                                            "
+                                        >
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                @click.prevent="
+                                                    changePage(page)
+                                                "
+                                                >{{ page }}</a
+                                            >
                                         </li>
                                         <li class="page-item">
-                                            <a class="page-link" href="#"
-                                               @click.prevent="changePage(pagination.current_page + 1)"
-                                               :disabled="pagination.current_page >= pagination.last_page"
-                                               style="width: 100px;">Next</a>
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                :disabled="
+                                                    pagination.current_page >=
+                                                        pagination.last_page
+                                                "
+                                                style="width: 100px;"
+                                                @click.prevent="
+                                                    changePage(
+                                                        pagination.current_page +
+                                                            1
+                                                    )
+                                                "
+                                                >Next</a
+                                            >
                                         </li>
                                         <li class="page-item">
-                                            <a class="page-link" href="#"
-                                               @click.prevent="changePage(pagination.last_page)"
-                                               :disabled="pagination.current_page >= pagination.last_page"
-                                               style="width: 100px;">Last page</a>
+                                            <a
+                                                class="page-link"
+                                                href="#"
+                                                :disabled="
+                                                    pagination.current_page >=
+                                                        pagination.last_page
+                                                "
+                                                style="width: 100px;"
+                                                @click.prevent="
+                                                    changePage(
+                                                        pagination.last_page
+                                                    )
+                                                "
+                                                >Last page</a
+                                            >
                                         </li>
                                     </ul>
                                 </div>
@@ -116,17 +209,26 @@
 
             <div class="row">
                 <div class="col-md-2">
-                    <a class="btn btn-success btn-sm btn-block"
-                       style="color: white;"
-                       @click="activeDrop = !activeDrop">
+                    <a
+                        class="btn btn-success btn-sm btn-block"
+                        style="color: white;"
+                        @click="activeDrop = !activeDrop"
+                    >
                         <span v-show="activeDrop">Закрыть</span>
                         <span v-show="!activeDrop">Добавить фото</span>
                     </a>
                 </div>
+                <div class="col-md-2">
+                    <a
+                        class="btn btn-success btn-sm btn-block"
+                        style="color: white;"
+                        @click="activeDropGallery"
+                    >
+                        <span>Удалить все фото</span>
+                    </a>
+                </div>
             </div>
         </div>
-
-
     </div>
 </template>
 
@@ -158,28 +260,67 @@ export default {
             labels: [],
 
             editingFile: {},
-            activeDrop: false,
+            activeDrop: false
         }
     },
 
+    computed: {
+        dragOptions() {
+            return {
+                animation: 200,
+                group: 'description',
+                disabled: false,
+                ghostClass: 'ghost'
+            }
+        },
+
+        pages() {
+            const pages = []
+
+            let from =
+                this.pagination.current_page - Math.floor(this.offset / 2)
+
+            if (from < 1) {
+                from = 1
+            }
+
+            let to = from + this.offset - 1
+
+            if (to > this.pagination.last_page) {
+                to = this.pagination.last_page
+            }
+
+            while (from <= to) {
+                pages.push(from)
+                from++
+            }
+
+            return pages
+        }
+    },
+
+    mounted() {
+        this.fetchFile(this.activeTab, this.pagination.current_page)
+    },
 
     methods: {
         sort() {
-            this.$axios.post(process.env.apiWebUrl + `/adm/media/sort`, {
-                item_type: this.itemType,
-                files: this.files
-            })
+            this.$axios
+                .post(process.env.apiWebUrl + `/adm/media/sort`, {
+                    item_type: this.itemType,
+                    files: this.files
+                })
                 .then((response) => {
-                    let status = response.data.data.status;
+                    const status = response.data.data.status
                     if (status === 'success') {
                         this.$message({
                             showClose: true,
                             message: 'Сортировка успешно обновлена!.',
                             type: 'success',
                             center: true
-                        });
+                        })
                     }
-                });
+                })
         },
 
         deleteFile(id, path) {
@@ -187,52 +328,100 @@ export default {
                 confirmButtonText: 'Да',
                 cancelButtonText: 'Отмена',
                 type: 'warning'
-            }).then(() => {
-                this.$axios.delete(process.env.apiWebUrl + `/adm/media/` + id, {params: {item_type: this.itemType}})
-                    .then(response => {
-                        // console.log(response.data.data )
-                        if (response.data.data.status === 'success') {
-                            this.fetchFile(this.activeTab, this.pagination.current_page);
-                            this.$message({
-                                message: 'Успешно удалено!',
-                                type: 'success',
-                                duration: 2000,
-                                center: true
-                            });
-                        }
+            })
+                .then(() => {
+                    this.$axios
+                        .delete(process.env.apiWebUrl + `/adm/media/` + id, {
+                            params: { item_type: this.itemType }
+                        })
+                        .then((response) => {
+                            // console.log(response.data.data )
+                            if (response.data.data.status === 'success') {
+                                this.fetchFile(
+                                    this.activeTab,
+                                    this.pagination.current_page
+                                )
+                                this.$message({
+                                    message: 'Успешно удалено!',
+                                    type: 'success',
+                                    duration: 2000,
+                                    center: true
+                                })
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        })
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'Удаление отменено'
                     })
-                    .catch(error => {
-                        console.log(error)
-                    });
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: 'Удаление отменено'
-                });
-            });
+                })
+        },
+
+        activeDropGallery(id) {
+            this.$confirm('Полностью удалить файлы?', 'Warning', {
+                confirmButtonText: 'Да',
+                cancelButtonText: 'Отмена',
+                type: 'warning'
+            })
+                .then(() => {
+                    this.$axios
+                        .delete(
+                            process.env.apiWebUrl + `/adm/media/delete-gallery`,
+                            { params: { id } }
+                        )
+                        .then((response) => {
+                            // console.log(response.data.data )
+                            if (response.data.data.status === 'success') {
+                                this.fetchFile(
+                                    this.activeTab,
+                                    this.pagination.current_page
+                                )
+                                this.$message({
+                                    message: 'Успешно удалено!',
+                                    type: 'success',
+                                    duration: 2000,
+                                    center: true
+                                })
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        })
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: 'Удаление отменено'
+                    })
+                })
         },
 
         submitFiles() {
             for (let i = 0; i < this.$refs.files.files.length; i++) {
-                let formData = new FormData()
+                const formData = new FormData()
                 formData.append('id', this.$route.params.id)
                 formData.append('item_type', this.itemType)
                 formData.append('file', this.$refs.files.files[i])
 
-                this.$axios.post(process.env.apiWebUrl + '/adm/media',
-                    formData,
-                    {
+                this.$axios
+                    .post(process.env.apiWebUrl + '/adm/media', formData, {
                         headers: {
                             // 'X-Requested-With': 'XMLHttpRequest',
                             'Content-Type': 'multipart/form-data'
                         }
-                    }
-                ).then(function (response) {
-                    this.afterSubmitSave(response.data.media_data)
-                }.bind(this)).catch(function (data) {
-                    console.log('error');
-                });
-
+                    })
+                    .then(
+                        function(response) {
+                            this.afterSubmitSave(response.data.media_data)
+                        }.bind(this)
+                    )
+                    .catch(function(data) {
+                        console.log('error')
+                    })
             }
 
             // for (let i = 0; i < uploadedFiles.length; i++) {
@@ -274,122 +463,104 @@ export default {
         },
 
         afterSubmitSave() {
-            this.fetchFile(this.activeTab, this.pagination.current_page);
+            this.fetchFile(this.activeTab, this.pagination.current_page)
             this.$message({
                 showClose: true,
                 message: 'Успешно загружено',
                 type: 'success',
                 center: true
-            });
+            })
         },
 
         isActive(tabItem) {
-            return this.activeTab === tabItem;
+            return this.activeTab === tabItem
         },
 
         setActive(tabItem) {
-            this.activeTab = tabItem;
+            this.activeTab = tabItem
         },
 
         getFiles(type) {
-            this.setActive(type);
-            this.fetchFile(type);
+            this.setActive(type)
+            this.fetchFile(type)
 
-            this.canDrag = true;
+            this.canDrag = true
         },
 
         fetchFile(type, page) {
-            let currentUrlId = window.location.pathname.split('/');
-            this.loading = true;
-            this.$axios.get(process.env.apiWebUrl + `/adm/media` + '?page=' + page + '&item_id=' + this.$route.params.id + '&item_type=' + this.itemType).then(result => {
-                this.loading = false;
-                this.files = result.data.data.data;
-                this.pagination = result.data.pagination;
-            }).catch(error => {
-                console.log(error);
-                this.loading = false;
-            });
-
+            const currentUrlId = window.location.pathname.split('/')
+            this.loading = true
+            this.$axios
+                .get(
+                    process.env.apiWebUrl +
+                        `/adm/media` +
+                        '?page=' +
+                        page +
+                        '&item_id=' +
+                        this.$route.params.id +
+                        '&item_type=' +
+                        this.itemType
+                )
+                .then((result) => {
+                    this.loading = false
+                    this.files = result.data.data.data
+                    this.pagination = result.data.pagination
+                })
+                .catch((error) => {
+                    console.log(error)
+                    this.loading = false
+                })
         },
 
         isCurrentPage(page) {
-            return this.pagination.current_page === page;
+            return this.pagination.current_page === page
         },
 
         changePage(page) {
             if (page > this.pagination.last_page) {
-                page = this.pagination.last_page;
+                page = this.pagination.last_page
             }
-            this.pagination.current_page = page;
-            this.fetchFile(this.activeTab, page);
+            this.pagination.current_page = page
+            this.fetchFile(this.activeTab, page)
         },
 
         editFile(file) {
-            //this.editingFile = file;
-            //this.label = file.label;
+            // this.editingFile = file;
+            // this.label = file.label;
         },
 
         closeEdit() {
-            this.editingFile = {};
+            this.editingFile = {}
         },
 
         convertDate(dateTime) {
-            const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-                "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-            ];
-            const d = new Date(dateTime);
-            let m = monthNames[d.getMonth()];
-            let day = d.getDate();
-            var hr = d.getHours();
-            var min = d.getMinutes();
+            const monthNames = [
+                'Январь',
+                'Февраль',
+                'Март',
+                'Апрель',
+                'Май',
+                'Июнь',
+                'Июль',
+                'Август',
+                'Сентябрь',
+                'Октябрь',
+                'Ноябрь',
+                'Декабрь'
+            ]
+            const d = new Date(dateTime)
+            const m = monthNames[d.getMonth()]
+            const day = d.getDate()
+            let hr = d.getHours()
+            let min = d.getMinutes()
             if (min < 10) {
-                min = "0" + min;
+                min = '0' + min
             }
             if (hr < 10) {
-                hr = "0" + hr;
+                hr = '0' + hr
             }
 
-            return m + ', ' + day + ' в ' + hr + ":" + min;
-
-        }
-
-    },
-
-    mounted() {
-        this.fetchFile(this.activeTab, this.pagination.current_page);
-    },
-
-    computed: {
-        dragOptions() {
-            return {
-                animation: 200,
-                group: "description",
-                disabled: false,
-                ghostClass: "ghost"
-            };
-        },
-
-        pages() {
-            let pages = [];
-
-            let from = this.pagination.current_page - Math.floor(this.offset / 2);
-
-            if (from < 1) {
-                from = 1;
-            }
-
-            let to = from + this.offset - 1;
-
-            if (to > this.pagination.last_page) {
-                to = this.pagination.last_page;
-            }
-
-            while (from <= to) {
-                pages.push(from);
-                from++;
-            }
-
-            return pages;
+            return m + ', ' + day + ' в ' + hr + ':' + min
         }
     }
 }
@@ -398,7 +569,7 @@ export default {
 <style scoped>
 @import '@/assets/media.css';
 
-input[type="file"] {
+input[type='file'] {
     position: absolute;
     cursor: pointer;
     top: 0px;
@@ -434,7 +605,7 @@ input[type="file"] {
 
 .flag-file {
     z-index: 1;
-    color: #00c5dc;;
+    color: #00c5dc;
     cursor: pointer;
     font-size: 2rem;
     font-weight: 600;
@@ -457,5 +628,4 @@ input[type="file"] {
 .delete-file:hover {
     color: #f00;
 }
-
 </style>

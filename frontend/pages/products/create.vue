@@ -430,6 +430,10 @@ export default {
                     label: 'Новинка',
                     value: 'new'
                 },
+                  {
+                    label: 'Бронь',
+                    value: 'reservation'
+                  },
             ],
             stickerPositions: [
                 {
