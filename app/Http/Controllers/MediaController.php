@@ -92,4 +92,3 @@ class MediaController extends Controller
         return (new JResource(['status' => 'success']));
     }
 }
-

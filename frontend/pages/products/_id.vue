@@ -377,7 +377,7 @@ export default {
     },
     data() {
         return {
-            apiImgUrl: process.env.apiImgUrl,
+            apiImgUrl: process.env.API_IMG_URL,
             editorOptions: {
                 hideModeSwitch: false
             },
@@ -518,11 +518,11 @@ export default {
 
     methods: {
         imageUrlAlt(event) {
-            event.target.src = process.env.apiImgUrl + "image/no_image.jpg"
+            event.target.src = process.env.API_IMG_URL + "image/no_image.jpg"
         },
 
         async getItemOptionsData() {
-            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`)
+            const response = await this.$axios.$get(process.env.API_WEB_URL + `/adm/products/options/data`)
             if (response) {
                 this.tags = response.data.tags
                 this.attributes = response.data.attributes
@@ -531,12 +531,12 @@ export default {
         },
 
         async getEditData() {
-            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}`)
+            const response = await this.$axios.$get(process.env.API_WEB_URL + `/adm/products/${this.$route.params.id}`)
             if (response) {
                 this.product = response.data;
 
                 if (this.product.image) {
-                    this.photo = process.env.apiImgUrl + 'image/' + this.product.image
+                    this.photo = process.env.API_IMG_URL + '/image/' + this.product.image
                     this.showPhoto = true
                 }
 
@@ -574,7 +574,7 @@ export default {
 
         update() {
             this.loading = true;
-            this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}`, {
+            this.$axios.patch(process.env.API_WEB_URL + `/adm/products/${this.$route.params.id}`, {
                 product: this.product,
                 photo: this.photo,
                 product_slug: this.product_slug,
@@ -609,7 +609,7 @@ export default {
         removeAttribute: function (index, id, attr) {
             this.product.attributes.splice(index, 1)
             if (id) {
-                this.$axios.delete(process.env.apiWebUrl + `/adm/products/attribute/delete/${id}/${attr}`)
+                this.$axios.delete(process.env.API_WEB_URL + `/adm/products/attribute/delete/${id}/${attr}`)
                     .then(response => {
                         this.$message({
                             showClose: true,

@@ -208,7 +208,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4 align-self-start">
                     <a
                         class="btn btn-success btn-sm btn-block"
                         style="color: white;"
@@ -218,9 +218,10 @@
                         <span v-show="!activeDrop">Добавить фото</span>
                     </a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 align-self-center"></div>
+                <div class="col-md-4 align-self-end">
                     <a
-                        class="btn btn-success btn-sm btn-block"
+                        class="btn btn-danger btn-sm btn-block"
                         style="color: white;"
                         @click="activeDropGallery"
                     >
@@ -306,7 +307,7 @@ export default {
     methods: {
         sort() {
             this.$axios
-                .post(process.env.apiWebUrl + `/adm/media/sort`, {
+                .post(process.env.API_WEB_URL + `/adm/media/sort`, {
                     item_type: this.itemType,
                     files: this.files
                 })
@@ -331,7 +332,7 @@ export default {
             })
                 .then(() => {
                     this.$axios
-                        .delete(process.env.apiWebUrl + `/adm/media/` + id, {
+                        .delete(process.env.API_WEB_URL + `/adm/media/` + id, {
                             params: { item_type: this.itemType }
                         })
                         .then((response) => {
@@ -362,6 +363,7 @@ export default {
         },
 
         activeDropGallery(id) {
+          console.log(this.$route);
             this.$confirm('Полностью удалить файлы?', 'Warning', {
                 confirmButtonText: 'Да',
                 cancelButtonText: 'Отмена',
@@ -370,9 +372,7 @@ export default {
                 .then(() => {
                     this.$axios
                         .delete(
-                            process.env.apiWebUrl + `/adm/media/delete-gallery`,
-                            { params: { id } }
-                        )
+                            process.env.API_WEB_URL + `/adm/media/delete-gallery/` + this.$route.params.id)
                         .then((response) => {
                             // console.log(response.data.data )
                             if (response.data.data.status === 'success') {
@@ -408,7 +408,7 @@ export default {
                 formData.append('file', this.$refs.files.files[i])
 
                 this.$axios
-                    .post(process.env.apiWebUrl + '/adm/media', formData, {
+                    .post(process.env.API_WEB_URL + '/adm/media', formData, {
                         headers: {
                             // 'X-Requested-With': 'XMLHttpRequest',
                             'Content-Type': 'multipart/form-data'
@@ -492,7 +492,7 @@ export default {
             this.loading = true
             this.$axios
                 .get(
-                    process.env.apiWebUrl +
+                    process.env.API_WEB_URL +
                         `/adm/media` +
                         '?page=' +
                         page +
