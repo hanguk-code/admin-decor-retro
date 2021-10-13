@@ -307,7 +307,7 @@ export default {
     methods: {
         sort() {
             this.$axios
-                .post(process.env.API_WEB_URL + `/adm/media/sort`, {
+                .post(process.env.apiWebUrl + `/adm/media/sort`, {
                     item_type: this.itemType,
                     files: this.files
                 })
@@ -332,7 +332,7 @@ export default {
             })
                 .then(() => {
                     this.$axios
-                        .delete(process.env.API_WEB_URL + `/adm/media/` + id, {
+                        .delete(process.env.apiWebUrl + `/adm/media/` + id, {
                             params: { item_type: this.itemType }
                         })
                         .then((response) => {
@@ -372,7 +372,7 @@ export default {
                 .then(() => {
                     this.$axios
                         .delete(
-                            process.env.API_WEB_URL + `/adm/media/delete-gallery/` + this.$route.params.id)
+                            process.env.apiWebUrl + `/adm/media/delete-gallery/` + this.$route.params.id)
                         .then((response) => {
                             // console.log(response.data.data )
                             if (response.data.data.status === 'success') {
@@ -408,7 +408,7 @@ export default {
                 formData.append('file', this.$refs.files.files[i])
 
                 this.$axios
-                    .post(process.env.API_WEB_URL + '/adm/media', formData, {
+                    .post(process.env.apiWebUrl + '/adm/media', formData, {
                         headers: {
                             // 'X-Requested-With': 'XMLHttpRequest',
                             'Content-Type': 'multipart/form-data'
@@ -492,7 +492,7 @@ export default {
             this.loading = true
             this.$axios
                 .get(
-                    process.env.API_WEB_URL +
+                    process.env.apiWebUrl +
                         `/adm/media` +
                         '?page=' +
                         page +
