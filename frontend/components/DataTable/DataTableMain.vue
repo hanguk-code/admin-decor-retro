@@ -12,6 +12,7 @@
                    :loading="loading"
                    @sort="sortBy"
                    @search="searchData"
+                   @search_by_category="searchByCategory"
         />
         <div style="margin-top: 20px; "
              v-observe-visibility="pagination.currentPage !== pagination.lastPage ? visibilityChanged : false"
@@ -51,6 +52,7 @@ export default {
                 page: 1,
                 length: 10,
                 search: '',
+                search_by_category: '',
                 column: 0,
                 dir: 'desc',
                 type: this.itemType,
@@ -159,6 +161,13 @@ export default {
             this.tableData.page = 1
             this.items = [];
             this.tableData.search = search;
+            this.getItems()
+        },
+
+        searchByCategory(search_by_category) {
+            this.tableData.page = 1
+            this.items = [];
+            this.tableData.search_by_category = search_by_category;
             this.getItems()
         },
 

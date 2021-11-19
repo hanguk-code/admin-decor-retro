@@ -63,14 +63,14 @@
 
                                     <div class="col-md-8">
                                         <div class="form-group ">
-                                            <label>Показывать в категориях</label>
+                                            <label>Параметры фильтра</label>
                                             <br>
                                             <treeselect
                                                 :options="categories"
                                                 :multiple="multiple"
                                                 :sort-value-by="sortValueBy"
                                                 :show-count="true"
-                                                placeholder="Выберите категории"
+                                                placeholder="Выберите параметры фильтра"
                                                 v-model="product.categories"
                                             />
 
@@ -124,6 +124,48 @@
                                             >
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Цена закупки (руб)</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   placeholder="Введите цену закупки в рублях"
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Цена закупки (евро)</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   placeholder="Введите цену закупки в евро"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Курс (Евро - Руб)</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   placeholder="Укажите текущий курс для товара"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Выберите зону товара</label>
+                                            <treeselect
+                                                    :options="zones"
+                                                    :multiple="multiple"
+                                                    :sort-value-by="sortValueBy"
+                                                    :show-count="true"
+                                                    placeholder="Выберите зону"
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group ">
                                             <label>Статус</label>
@@ -208,10 +250,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group ">
-                                            <label>Теги</label>
+                                            <label>Связи</label>
                                             <el-select v-model="product.description.tag"
                                                        class="form-control fixed-select"
-                                                       filterable allow-create placeholder="Выберите или создайте теги"
+                                                       filterable allow-create placeholder="Выберите или создайте связи"
                                                        required>
                                                 <el-option
                                                     v-for="item in tags"
@@ -223,7 +265,17 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-last">
+                                            <label>Комментарий</label>
+                                            <textarea class="form-control" placeholder="Комментарий к товару.." size="4"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
                                     <div class="col-md-12">
                                         <div class="form-group form-group-last">
                                             <label>Описание</label>
@@ -410,6 +462,30 @@ export default {
             files: [],
             sortValueBy: 'ORDER_SELECTED',
             multiple: true,
+
+            zones: [
+                {
+                    label: 'Белая',
+                    value: 1
+                },
+
+                {
+                    label: 'Красная',
+                    value: 2
+                },
+                {
+                    label: 'Синяя',
+                    value: 3
+                },
+                {
+                    label: 'Зеленая',
+                    value: 4
+                },
+                {
+                    label: 'Желтая',
+                    value: 5
+                },
+            ],
 
             statuses: [
                 {

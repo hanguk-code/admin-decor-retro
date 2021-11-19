@@ -20,6 +20,30 @@
 									</span>
                                 </div>
                             </div>
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-input-icon kt-input-icon--left">
+                                    <!--<input v-model="search_by_category"
+                                           @input="$emit('search_by_category', search_by_category)"
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="Поиск по категории..."
+                                    >
+                                    <span class="kt-input-icon__icon kt-input-icon__icon&#45;&#45;left">
+										<span><i class="la la-search"></i></span>
+									</span>-->
+
+                                            <treeselect
+                                                    :options="categories"
+                                                    :multiple="multiple"
+                                                    :sort-value-by="sortValueBy"
+                                                    :show-count="true"
+                                                    placeholder="Фильтрация по категориям"
+                                                    v-model="search_by_category"
+                                                    @input="$emit('search_by_category', search_by_category)"
+                                            />
+
+                                </div>
+                            </div>
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile" :style="showActions"
                                  v-if="checkedItems.length > 0">
                                 <label class="kt--font-bold kt--font-danger-" style="float: right">Выбрано
@@ -104,6 +128,9 @@
 <script>
 //import VueHZoom from 'vue-h-zoom';
 //import Drift from 'drift-zoom';
+
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import PicZoom from 'vue-piczoom'
 //import VueZoomer from 'vue-zoomer'
 //import 'vue-zoomer/dist/vue-zoomer.css'
@@ -113,7 +140,8 @@ import PicZoom from 'vue-piczoom'
 export default {
     components: {
         //VueHZoom,
-        PicZoom
+        PicZoom,
+        Treeselect
         //VueZoomer
         //imageZoom
     },
@@ -133,7 +161,11 @@ export default {
 
         return {
             search: '',
+            search_by_category: '',
             apiImgUrl: process.env.apiImgUrl,
+
+            categories: [],
+            categoriesShow: [],
 
             checkedItems: [],
             showActions: 'display: none;',
@@ -210,7 +242,21 @@ export default {
             }
         }
     },
+
+
+    async fetch() {
+        await this.getItemOptionsData()
+    },
+
     methods: {
+
+        async getItemOptionsData() {
+            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`)
+            if (response) {
+                this.categories = response.data.categories
+            }
+        },
+
         imageUrlAlt(event) {
             event.target.src = process.env.apiImgUrl + "image/no_image.jpg"
         },

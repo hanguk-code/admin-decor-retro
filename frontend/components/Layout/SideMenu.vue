@@ -223,6 +223,14 @@
                         permission: ['*'],
                     },
                     {
+                        title: 'Админ-заказы',
+                        url: '/orders/orders',
+                        section: false,
+                        nested: false,
+                        icon: 'flaticon2-cube-1',
+                        permission: ['*'],
+                    },
+                    {
                         title: 'Системное',
                         url: false,
                         section: true,
