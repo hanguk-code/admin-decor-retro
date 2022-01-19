@@ -223,7 +223,7 @@
                         permission: ['*'],
                     },
                     {
-                        title: 'Админ-заказы',
+                        title: 'Архив',
                         url: '/orders/orders',
                         section: false,
                         nested: false,
@@ -241,6 +241,15 @@
                     {
                         title: 'Пользователи ',
                         url: '/system/users',
+                        section: false,
+                        nested: false,
+                        icon: 'flaticon2-calendar-3',
+                        permission: ['*'],
+                    },
+                    
+                    {
+                        title: 'Покупатели ',
+                        url: '/users',
                         section: false,
                         nested: false,
                         icon: 'flaticon2-calendar-3',

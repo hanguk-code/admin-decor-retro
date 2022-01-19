@@ -2,6 +2,7 @@
     <div>
         <DataTable :columns="columns"
                    :items="items"
+                   :stats="stats"
                    :sortKey="sortKey"
                    :sortOrders="sortOrders"
                    :itemRouteNameEdit="itemRouteNameEdit"
@@ -13,6 +14,7 @@
                    @sort="sortBy"
                    @search="searchData"
                    @search_by_category="searchByCategory"
+                   @search_by_zone="searchByZone"
         />
         <div style="margin-top: 20px; "
              v-observe-visibility="pagination.currentPage !== pagination.lastPage ? visibilityChanged : false"
@@ -43,6 +45,7 @@ export default {
         return {
             items: [],
             columns: [],
+            stats: [],
             sortKey: '',
             sortOrders: {},
             perPage: ['10', '20', '30'],
@@ -51,8 +54,9 @@ export default {
                 draw: 0,
                 page: 1,
                 length: 10,
-                search: '',
+                search: this.$route.query?.search ? this.$route.query?.search : '',
                 search_by_category: '',
+                search_by_zone: '',
                 column: 0,
                 dir: 'desc',
                 type: this.itemType,
@@ -105,6 +109,9 @@ export default {
                         this.items = this.items.concat(data.data.data)
                         this.configPagination(data.data);
                         this.columns = data.columns
+                        if (data.stats) {
+                            this.stats = data.stats
+                        }
                         if (!this.sortKey) {
                             this.sortKey = data.sortKey
                         }
@@ -161,7 +168,7 @@ export default {
             this.tableData.page = 1
             this.items = [];
             this.tableData.search = search;
-            this.getItems()
+            this.getItems();
         },
 
         searchByCategory(search_by_category) {
@@ -169,6 +176,14 @@ export default {
             this.items = [];
             this.tableData.search_by_category = search_by_category;
             this.getItems()
+        },
+
+        searchByZone(search_by_zone) {
+            this.tableData.page = 1
+            this.items = [];
+            this.tableData.search_by_zone = search_by_zone;
+            this.getItems()
+            console.log(this.tableData.search_by_zone)
         },
 
         getIndex(array, key, value) {

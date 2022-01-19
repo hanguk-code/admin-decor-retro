@@ -1,147 +1,11 @@
 <template>
     <div>
-        <div class="kt-portlet__body">
-
-            <div class="row d-flex" v-if="stats && this.$route.name === 'products'">
-                <span class="mr-3">Весь товар: <b>{{ stats.total }}</b></span>
-                <span class="mr-3">В работе: <b>{{ stats.white }}</b></span>
-                <span class="mr-3">В пути: <b>{{ stats.blue }}</b></span>
-                <span class="mr-3">Реставрация: <b>{{ stats.siniy }}</b></span>
-                <span class="mr-3">Не выставлен: <b>{{ stats.red }}</b></span>
-                <span class="mr-3">Ремонт: <b>{{ stats.green }}</b></span>
-                <span class="mr-3">Бронь: <b>{{ stats.yellow }}</b></span>
-                <span class="mr-3">Подготовка: <b>{{ stats.violet }}</b></span>
-            </div>
-
-            <div class="row d-flex" v-if="stats && this.$route.name === 'orders'">
-                <span class="mr-3">Всего заказов: <b>{{ stats.total }}</b></span>
-                <span class="mr-3">В работе: <b>{{ stats.yellow }}</b></span>
-                <span class="mr-3">Отказ: <b>{{ stats.red }}</b></span>
-                <span>Реализовано: <b>{{ stats.white }}</b></span>
-            </div>
-
-            <!--begin: Search Form -->
-            <div class="kt-form kt-fork--label-right kt-margin-t-20 kt-margin-b-10">
-                <div class="row align-items-center">
-                    <div class="col-xl-8 order-2 order-xl-1">
-                        <div class="row align-items-center">
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-input-icon kt-input-icon--left">
-                                    <input v-model="search"
-                                           @input="$emit('search', search)"
-                                           type="text"
-                                           class="form-control"
-                                           placeholder="Поиск..."
-                                    >
-                                    <span class="kt-input-icon__icon kt-input-icon__icon--left">
-										<span><i class="la la-search"></i></span>
-									</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile" v-if="this.$route.name !== 'orders'">
-                                <div class="kt-input-icon kt-input-icon--left">
-                                    <!--<input v-model="search_by_category"
-                                           @input="$emit('search_by_category', search_by_category)"
-                                           type="text"
-                                           class="form-control"
-                                           placeholder="Поиск по категории..."
-                                    >
-                                    <span class="kt-input-icon__icon kt-input-icon__icon&#45;&#45;left">
-										<span><i class="la la-search"></i></span>
-									</span>-->
-
-                                    <treeselect
-                                            :options="categories"
-                                            placeholder="Фильтрация по категориям"
-                                            v-model="search_by_category"
-                                            @input="$emit('search_by_category', search_by_category)"
-                                    />
-
-
-                                </div>
-                            </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-input-icon kt-input-icon--left">
-                                    <!--<input v-model="search_by_category"
-                                           @input="$emit('search_by_category', search_by_category)"
-                                           type="text"
-                                           class="form-control"
-                                           placeholder="Поиск по категории..."
-                                    >
-                                    <span class="kt-input-icon__icon kt-input-icon__icon&#45;&#45;left">
-										<span><i class="la la-search"></i></span>
-									</span>-->
-
-                                    <select
-                                            class="form-control"
-                                            placeholder="Выберите зону"
-                                            v-model="search_by_zone"
-                                            @change="$emit('search_by_zone', search_by_zone)">
-                                        <option class="select-zones" value="" selected>Все зоны</option>
-                                        <option
-                                                v-for="item in zones"
-                                                :key="item.value"
-                                                :value="item.value"
-                                                :class="item.value"
-                                                class="select-zones">
-                                            {{ item.label }}
-                                        </option>
-                                    </select>
-
-
-                                    <!--<el-select v-model="search_by_zone"
-                                               @input="$emit('search_by_zone', search_by_zone)"
-                                               class="form-control fixed-select"
-                                               filterable
-                                               placeholder="Выберите зону">
-                                        <el-option
-                                                v-for="item in zones"
-                                                :key="item.value"
-                                                label=""
-                                                :value="item.value"
-                                                :class="item.value"
-                                        >
-                                        </el-option>
-                                    </el-select>-->
-
-                                </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile" :style="showActions"
-                                 v-if="checkedItems.length > 0">
-                                <label class="kt--font-bold kt--font-danger-" style="float: right">Выбрано
-                                    <span id="kt_datatable_selected_number1">{{ checkedItems.length }}</span> записей:
-                                </label>
-                            </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile" :style="showActions"
-                                 v-if="checkedItems.length > 0">
-                                <button v-if="checkedItems.length === 1 && $route.name === 'products'"
-                                        class="btn btn-sm btn-primary" type="button" @click="copyItem">Копировать
-                                </button>
-                                <button class="btn btn-sm btn-danger" type="button" @click="destroy()">Удалить</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row d-flex" v-if="stats && this.$route.name === 'products'" style="float: right;">
-                    <h4 class="mr-3 mt-5">Сумма всего товара: <b>{{ stats.total_price_all_products }}</b> т.р.</h4>
-                </div>
-
-
-            </div>
-        </div>
         <div class="kt-portlet__body kt-portlet__body--fit">
             <!--begin: Table -->
             <div class="table-responsive" style="">
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>
-                            <label class="kt-checkbox kt-checkbox--single kt-checkbox--all kt-checkbox--solid">
-                                <input type="checkbox" v-model="selectAll"><span></span>
-                            </label>
-                        </th>
                         <th v-for="column in columns"
                             :key="column.name"
                             class="pointer"
@@ -153,13 +17,11 @@
                                  <i :class="sortKey === column.name ? (sortOrders[column.name] > 0 ? 'flaticon2-arrow-up arrow-sort' : 'flaticon2-arrow-down arrow-sort') : ''"></i>
                             </span>
                         </th>
-
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr v-if="items.length > 0" v-for="item in items" :key="item.id"
-                        :class="item.zone ? 'pointer ' + item.zone : 'pointer'">
+                    <tr v-if="items.length > 0" v-for="item in items" :key="item.id" :class="item.zone ? 'pointer ' + item.zone : 'pointer'">
                         <td>
                             <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid"
                                    @click="checkUncheck(item.id)">
@@ -219,7 +81,6 @@
         props: [
             'columns',
             'items',
-            'stats',
             'sortKey',
             'sortOrders',
             'itemRouteNameEdit',
@@ -228,14 +89,13 @@
             'permissionEdit',
             'loading',
             'statuses',
-            'search_by_zone'
         ],
         data() {
 
             return {
-                search: this.$route.query?.search ? this.$route.query?.search : '',
+/*                search: '',
                 search_by_category: '',
-                search_by_zone: '',
+                search_by_zone: '',*/
                 apiImgUrl: process.env.apiImgUrl,
 
                 categories: [],
@@ -251,37 +111,30 @@
 
                 zones: [
                     {
-                        label: 'В работе',
-                        value: 'white'
+                        label: 'Все зоны',
+                        value: ''
                     },
                     {
-                        label: 'Не выставлен на сайте есть в наличие',
-                        value: 'red'
+                        label: 'Белая',
+                        value: 1
+                    },
+
+                    {
+                        label: 'Красная',
+                        value: 2
                     },
                     {
-                        label: 'Бронь',
-                        value: 'yellow'
+                        label: 'Синяя',
+                        value: 3
                     },
                     {
-                        label: 'В пути',
-                        value: 'blue'
+                        label: 'Зеленая',
+                        value: 4
                     },
                     {
-                        label: 'Ремонт',
-                        value: 'green'
+                        label: 'Желтая',
+                        value: 5
                     },
-                    {
-                        label: 'Реставрация',
-                        value: 'siniy'
-                    },
-                    {
-                        label: 'Подготовка',
-                        value: 'violet'
-                    },
-                    {
-                        label: 'Архив',
-                        value: 'black'
-                    }
                 ],
 
                 'images': {
@@ -338,6 +191,7 @@
                     return this.items ? this.checkedItems.length == this.items.length : false;
                 },
                 set: function (value) {
+                    console.log(value)
                     let selected = [];
 
                     if (value) {
@@ -410,7 +264,8 @@
                             }
 
                         } else {
-                            this.$router.push({name: routeName, params: {id: id}, query: {search: this.search}});
+                            console.log(3)
+                            this.$router.push({name: routeName, params: {id: id}});
                         }
                     }
 
@@ -555,57 +410,6 @@
 </script>
 
 <style>
-
-    select.form-control.fixed-select {
-        border: 1px solid #d3dae6;
-    }
-
-    option.select-zones.red {
-        background: rgba(253, 57, 122, 0.9);
-        color: white;
-    }
-
-    option.select-zones.blue {
-        background: rgba(64, 158, 255, 0.84);
-        color: white;
-    }
-
-    option.select-zones.green {
-        background: rgba(29, 201, 107, 0.81);
-        color: white;
-    }
-
-    option.select-zones.yellow {
-        background: rgba(255, 255, 0, 0.64);
-        color: black;
-    }
-
-    option.select-zones.siniy {
-        background: #0067c2;
-        color: white;
-    }
-
-    option.select-zones.violet {
-        background: #bc08b5;
-        color: white;
-    }
-
-    option.select-zones.black {
-        background: #222;
-        color: white;
-    }
-
-    option.select-zones {
-        height: 50px;
-        cursor: pointer;
-    }
-
-    option.select-zones {
-        padding: 20px;
-        min-height: 50px;
-        curson: pointer;
-    }
-
     .pointer {
         cursor: pointer;
     }
@@ -620,30 +424,6 @@
         color: #fff;
     }
 
-    tr.pointer.blue {
-        background: #409eff;
-        color: #fff;
-    }
-
-    tr.pointer.green {
-        background: #1dc962;
-        color: #fff;
-    }
-
-    tr.pointer.siniy {
-        background: #0067c2;
-        color: white;
-    }
-
-    tr.pointer.violet {
-        background: #bc08b5;
-        color: white;
-    }
-
-    tr.pointer.black {
-        background: #222;
-        color: white;
-    }
 
     .mouse-cover-canvas {
         width: 200px;

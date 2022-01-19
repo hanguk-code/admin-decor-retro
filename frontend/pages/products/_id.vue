@@ -12,7 +12,7 @@
                         <div class="kt-portlet">
                             <div class="kt-portlet__head">
                                 <div class="kt-portlet__head-label">
-                                    <n-link :to="{name: 'products' }" class="btn btn-secondary"><i
+                                    <n-link :to="{path: '/products', query: { search: this.$route.query.search } }" class="btn btn-secondary"><i
                                         class="fa fa-arrow-left" aria-hidden="true"></i>
                                         В таблицу
                                     </n-link>
@@ -131,8 +131,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Цена закупки (руб)</label>
-                                            <input type="number"
-                                                   class="form-control"
+                                            <input type="number" v-model="product.price_rub"
+                                                   :class="errors.get('price_rub') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="Введите цену закупки в рублях"
                                             >
                                         </div>
@@ -140,8 +140,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Цена закупки (евро)</label>
-                                            <input type="number"
-                                                   class="form-control"
+                                            <input type="number" v-model="product.price_euro"
+                                                   :class="errors.get('price_euro') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="Введите цену закупки в евро"
                                             >
                                         </div>
@@ -150,8 +150,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Курс (Евро - Руб)</label>
-                                            <input type="number"
+                                            <input type="text" v-model="product.kurs"
                                                    class="form-control"
+                                                   :class="errors.get('kurs') ? 'form-control is-invalid' : 'form-control'"
                                                    placeholder="Укажите текущий курс для товара"
                                             >
                                         </div>
@@ -160,13 +161,31 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Выберите зону товара</label>
-                                            <treeselect
-                                                    :options="zones"
-                                                    :multiple="multiple"
-                                                    :sort-value-by="sortValueBy"
-                                                    :show-count="true"
+                                            <!--<el-select v-model="product.zone"
+                                                       :sort-value-by="sortValueBy"
+                                                       :show-count="true"
+                                                       class="form-control fixed-select" placeholder="Выберите зону"
+                                                       required>
+                                                <el-option
+                                                        v-for="item in zones"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
+                                                </el-option>
+                                            </el-select>-->
+                                            <select
+                                                    class="form-control"
                                                     placeholder="Выберите зону"
-                                            />
+                                                    v-model="product.zone">
+                                                <option
+                                                        v-for="item in zones"
+                                                        :key="item.value"
+                                                        :value="item.value"
+                                                        :class="item.value"
+                                                        class="select-zones">
+                                                    {{ item.label }}
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -220,22 +239,6 @@
                                             </el-select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group ">
-                                            <label>Товар в архиве</label>
-                                            <el-select v-model="product.manufacturer_id"
-                                                       class="form-control fixed-select"
-                                                       filterable
-                                                       placeholder="Выберите...">
-                                                <el-option
-                                                    v-for="item in productArchive"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -256,7 +259,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-10">
                                         <div class="form-group ">
                                             <label>Связи</label>
                                             <el-select v-model="product.description.tag"
@@ -264,12 +267,18 @@
                                                        filterable allow-create placeholder="Выберите или создайте связи"
                                                        required>
                                                 <el-option
-                                                    v-for="item in tags"
-                                                    :key="item.tag"
-                                                    :label="item.tag"
-                                                    :value="item.tag">
+                                                        v-for="item in tags"
+                                                        :key="item.tag"
+                                                        :label="item.tag"
+                                                        :value="item.tag">
                                                 </el-option>
                                             </el-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group ">
+                                            <label></label>
+                                            <button type="button" class="btn btn-primary btn-block" @click="product.description.tag = ''">Очистить поле</button>
                                         </div>
                                     </div>
                                 </div>
@@ -279,7 +288,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-last">
                                             <label>Комментарий</label>
-                                            <textarea class="form-control" placeholder="Комментарий к товару.." size="4"></textarea>
+                                            <textarea v-model="product.comment" class="form-control" placeholder="Комментарий к товару.." size="4"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -477,25 +486,36 @@ export default {
 
             zones: [
                 {
-                    label: 'Белая',
-                    value: 1
-                },
-
-                {
-                    label: 'Красная',
-                    value: 2
+                    label: 'В работе',
+                    value: 'white'
                 },
                 {
-                    label: 'Синяя',
-                    value: 3
+                    label: 'Не выставлен на сайте есть в наличие',
+                    value: 'red'
                 },
                 {
-                    label: 'Зеленая',
-                    value: 4
+                    label: 'Бронь',
+                    value: 'yellow'
                 },
                 {
-                    label: 'Желтая',
-                    value: 5
+                    label: 'В пути',
+                    value: 'blue'
+                },
+                {
+                    label: 'Ремонт',
+                    value: 'green'
+                },
+                {
+                    label: 'Реставрация',
+                    value: 'siniy'
+                },
+                {
+                    label: 'Подготовка',
+                    value: 'violet'
+                },
+                {
+                    label: 'Архив',
+                    value: 'black'
                 },
             ],
 
@@ -802,6 +822,55 @@ export default {
 </script>
 
 <style scoped>
+    select.form-control.fixed-select {
+        border: 1px solid #d3dae6;
+    }
+
+    option.select-zones.red {
+        background: rgba(253, 57, 122, 0.9);
+        color: white!important;
+    }
+
+    option.select-zones.blue {
+        background: rgba(64, 158, 255, 0.84);
+        color: white!important;
+    }
+
+    option.select-zones.green {
+        background: rgba(29, 201, 107, 0.81);
+        color: white!important;
+    }
+
+    option.select-zones.yellow {
+        background: rgba(255, 255, 0, 0.64);
+        color: black!important;
+    }
+
+    option.select-zones.siniy {
+        background: #0067c2;
+        color: white!important;
+    }
+
+    option.select-zones.violet {
+        background: #bc09b3;
+        color: white!important;
+    }
+
+    option.select-zones.black {
+        background: #222;
+        color: white!important;
+    }
+ 
+    option.select-zones {
+        height: 50px!important;
+        cursor: pointer;
+    }
+
+    option.select-zones {
+        padding: 20px;
+        min-height: 50px;
+        curson:pointer;
+    }
 .item__error {
     color: #F56C6C;
     font-size: 11px;

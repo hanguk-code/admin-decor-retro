@@ -75,7 +75,6 @@
                                                 :show-count="true"
                                                 placeholder="Выберите категорию"
                                                 v-model="category.parent_id"
-                                                required
                                             />
                                         </div>
                                     </div>
@@ -234,8 +233,8 @@
                 this.$axios.get(process.env.apiWebUrl+`/adm/categories/options/data`)
                     .then(response => {
                         let data = response.data.data;
-                        this.categories = data.categories
-                        this.categories.sort((a, b) => parseFloat(a.id) - parseFloat(b.id));
+                        this.categories = data
+
                     })
                     .catch(errors => {
                         console.log(errors);

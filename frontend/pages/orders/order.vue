@@ -17,42 +17,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-12" v-if="order.type === 'site'">
-                        <div class="form-group">
-                        <label>Тип:</label>
-                            <select class="form-control" v-model="order.typeTwo">
-                                <option value="order" selected>Заказ</option>
-                                <option value="call">По звонку</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" v-if="order.typeTwo === 'order'">
-                            <div class="form-group">
-                                <label>Номер заказа</label>
-                                <input type="text" class="form-control" v-model="order.order_id"
-                                       placeholder="Номер заказа"/>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-12" v-else>
-                            <div class="form-group">
-                                <label>Имя</label>
-                                <input type="text" class="form-control" v-model="order.name" placeholder="Имя"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Почта</label>
-                                <input type="email" class="form-control" v-model="order.email" placeholder="Почта"/>
-                            </div>
-                            <div class="form-group">
-                                <label>Номер телефона</label>
-                                <input type="tel" class="form-control" v-model="order.phone"
-                                       placeholder="Номер телефона"/>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group col-12" v-else-if="order.type !== 'site'">
+                    <div class="form-group col-12">
                         <div class="form-group">
                             <label>Имя</label>
                             <input type="text" class="form-control" v-model="order.name" placeholder="Имя"/>
@@ -65,11 +30,23 @@
                             <label>Номер телефона</label>
                             <input type="tel" class="form-control" v-model="order.phone" placeholder="Номер телефона"/>
                         </div>
+
+                        <div class="form-group">
+                            <label>Адрес</label>
+                            <input type="text" class="form-control" v-model="order.address" placeholder="Адрес"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Комментарии</label>
+                            <textarea class="form-control" v-model="order.comments" placeholder="Комментарии" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Теги</label>
+                            <textarea class="form-control" v-model="order.tags" placeholder="Теги" />
+                        </div>
                     </div>
-
-
                     <button type="submit" class="btn btn-primary">Добавить в заказы</button>
-
                 </div>
 
             </div>
@@ -91,8 +68,10 @@
                     name: "",
                     phone: "",
                     email: "",
-                    type: "Сайте",
-                    typeTwo: ""
+                    address: "",
+                    comments: "",
+                    tags: "",
+                    type: "Сайте"
                 }
             };
         },

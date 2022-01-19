@@ -216,7 +216,7 @@
             },
 
             async getEditData() {
-                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/orders/${this.$route.params.id}`)
+                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/orders-list/${this.$route.params.id}`)
                 if (response) {
                     this.order = response.data;
 
