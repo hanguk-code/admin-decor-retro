@@ -15,7 +15,7 @@ export default {
     },
 
     server: {
-        port: process.env.NUXT_PORT,
+        port: process.env.NUXT_PORT || 8040,
         host: '127.0.0.1',
         // host: '0.0.0.0',
     },
