@@ -9,11 +9,7 @@
                     <div class="form-group col-12">
                         <label>Продано на</label>
                         <select class="form-control" v-model="order.type">
-                            <option value="Сайте" selected>Сайте</option>
-                            <option value="Avito">Авито</option>
-                            <option value="Mewke">Мешке</option>
-                            <option value="Auction">Аукционе</option>
-                            <option value="Instagram">Инстаграм</option>
+                            <option v-for="area in areasList" :key="area.id" :value="area.name" selected>{{ area.name }}</option>
                         </select>
                     </div>
 
@@ -28,7 +24,13 @@
                         </div>
                         <div class="form-group">
                             <label>Номер телефона</label>
-                            <input type="tel" class="form-control" v-model="order.phone" placeholder="Номер телефона"/>
+                            <VuePhoneNumberInput
+                                    placeholder="Номер телефона"
+                                    required
+                                    :only-countries="['RU','BY','UA','AM','KZ']"
+                                    v-model="order.phone"
+                                    @update="updatePhone"
+                            />
                         </div>
 
                         <div class="form-group">
@@ -46,7 +48,7 @@
                             <textarea class="form-control" v-model="order.tags" placeholder="Теги" />
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Добавить в заказы</button>
+                    <button type="submit" class="btn btn-primary">Провести</button>
                 </div>
 
             </div>
@@ -56,9 +58,14 @@
 </template>
 
 <script>
+    import VuePhoneNumberInput from 'vue-phone-number-input';
+    import 'vue-phone-number-input/dist/vue-phone-number-input.css';
 
     export default {
         middleware: 'auth',
+        components: {
+            VuePhoneNumberInput
+        },
         data() {
             return {
                 loading: false,
@@ -71,9 +78,13 @@
                     address: "",
                     comments: "",
                     tags: "",
-                    type: "Сайте"
-                }
+                    type: "Сайт"
+                },
+                areasList: []
             };
+        },
+        async fetch() {
+            await this.getAreasList();
         },
         methods: {
             create() {
@@ -99,6 +110,24 @@
                     .finally(() => {
                         this.loading = false;
                     });
+            },
+
+            async getAreasList() {
+                this.loading = true;
+                this.$axios.get(process.env.apiWebUrl + `/adm/areas/index`)
+                    .then(response => {
+                        this.areasList = response.data.data;
+                    })
+                    .catch(error =>
+                        this.errors.record(error.response.data)
+                    )
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+
+            updatePhone(params) {
+                this.order.phoneDetails = params;
             },
 
         }

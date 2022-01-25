@@ -12,8 +12,9 @@
                         <div class="kt-portlet">
                             <div class="kt-portlet__head">
                                 <div class="kt-portlet__head-label">
-                                    <n-link :to="{path: '/products', query: { search: this.$route.query.search } }" class="btn btn-secondary"><i
-                                        class="fa fa-arrow-left" aria-hidden="true"></i>
+                                    <n-link :to="{path: '/products', query: { search: this.$route.query.search } }"
+                                            class="btn btn-secondary"><i
+                                            class="fa fa-arrow-left" aria-hidden="true"></i>
                                         В таблицу
                                     </n-link>
                                 </div>
@@ -21,7 +22,8 @@
                                     <button type="button" class="btn btn-success" @click="sellProduct">Продажа</button>
                                 </div>
                                 <div class="kt-portlet__head-label">
-                                    <button type="button" class="btn btn-danger" @click="backSellProduct">Возврат</button>
+                                    <button type="button" class="btn btn-danger" @click="backSellProduct">Возврат
+                                    </button>
                                 </div>
                                 <div class="kt-portlet__head-label">
                                     <button type="submit" class="btn btn-primary">Сохранить</button>
@@ -55,12 +57,12 @@
                                         <div class="form-group ">
                                             <label>Главная категория</label>
                                             <treeselect
-                                                :options="categories"
-                                                :sort-value-by="sortValueBy"
-                                                :show-count="true"
-                                                placeholder="Выберите категорию"
-                                                v-model="product.main_category_id"
-                                                required
+                                                    :options="categories"
+                                                    :sort-value-by="sortValueBy"
+                                                    :show-count="true"
+                                                    placeholder="Выберите категорию"
+                                                    v-model="product.main_category_id"
+                                                    required
                                             />
                                         </div>
                                     </div>
@@ -69,12 +71,12 @@
                                         <div class="form-group ">
                                             <label>Параметры фильтра</label>
                                             <treeselect
-                                                :options="categories"
-                                                :multiple="multiple"
-                                                :sort-value-by="sortValueBy"
-                                                :show-count="true"
-                                                placeholder="Выберите параметры фильтра"
-                                                v-model="product.categories"
+                                                    :options="categories"
+                                                    :multiple="multiple"
+                                                    :sort-value-by="sortValueBy"
+                                                    :show-count="true"
+                                                    placeholder="Выберите параметры фильтра"
+                                                    v-model="product.categories"
                                             />
                                         </div>
                                     </div>
@@ -158,36 +160,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Выберите зону товара</label>
-                                            <!--<el-select v-model="product.zone"
-                                                       :sort-value-by="sortValueBy"
-                                                       :show-count="true"
-                                                       class="form-control fixed-select" placeholder="Выберите зону"
-                                                       required>
-                                                <el-option
-                                                        v-for="item in zones"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                        :value="item.value">
-                                                </el-option>
-                                            </el-select>-->
-                                            <select
-                                                    class="form-control"
-                                                    placeholder="Выберите зону"
-                                                    v-model="product.zone">
-                                                <option
-                                                        v-for="item in zones"
-                                                        :key="item.value"
-                                                        :value="item.value"
-                                                        :class="item.value"
-                                                        class="select-zones">
-                                                    {{ item.label }}
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group ">
@@ -196,14 +168,40 @@
                                             <el-select v-model="product.status" class="form-control fixed-select"
                                                        filterable placeholder="Выберите статус">
                                                 <el-option
-                                                    v-for="item in statuses"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
+                                                        v-for="item in statuses"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
                                                 </el-option>
                                             </el-select>
                                         </div>
                                     </div>
+
+
+                                    <div class="col-md-6">
+                                        <form class="d-flex" @submit.prevent="updateZone" v-loading="loadingOptions">
+                                            <div class="form-group">
+                                                <label>Выберите зону товара</label>
+                                                <select
+                                                        class="form-control"
+                                                        placeholder="Выберите зону"
+                                                        v-model="zone">
+                                                    <option
+                                                            v-for="item in zones"
+                                                            :key="item.value"
+                                                            :value="item.value"
+                                                            :class="item.value"
+                                                            class="select-zones">
+                                                        {{ item.label }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-auto ml-3">
+                                                <button type="submit" class="btn btn-primary">Изменить зону</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
                                 </div>
 
                                 <div class="row">
@@ -215,10 +213,10 @@
                                                        filterable
                                                        placeholder="Выберите стикер">
                                                 <el-option
-                                                    v-for="item in stickers"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
+                                                        v-for="item in stickers"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
                                                 </el-option>
                                             </el-select>
                                         </div>
@@ -231,10 +229,10 @@
                                                        filterable
                                                        placeholder="Выберите позицию стикера">
                                                 <el-option
-                                                    v-for="item in stickerPositions"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
+                                                        v-for="item in stickerPositions"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
                                                 </el-option>
                                             </el-select>
                                         </div>
@@ -248,10 +246,10 @@
                                             <el-select v-model="product.is_booked" class="form-control fixed-select"
                                                        filterable placeholder="Выберите...">
                                                 <el-option
-                                                    v-for="item in productBooking"
-                                                    :key="item.value"
-                                                    :label="item.label"
-                                                    :value="item.value">
+                                                        v-for="item in productBooking"
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value">
                                                 </el-option>
                                             </el-select>
                                         </div>
@@ -278,7 +276,9 @@
                                     <div class="col-md-2">
                                         <div class="form-group ">
                                             <label></label>
-                                            <button type="button" class="btn btn-primary btn-block" @click="product.description.tag = ''">Очистить поле</button>
+                                            <button type="button" class="btn btn-primary btn-block"
+                                                    @click="product.description.tag = ''">Очистить поле
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -288,7 +288,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group form-group-last">
                                             <label>Комментарий</label>
-                                            <textarea v-model="product.comment" class="form-control" placeholder="Комментарий к товару.." size="4"></textarea>
+                                            <textarea v-model="product.comment" class="form-control"
+                                                      placeholder="Комментарий к товару.." size="4"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -298,8 +299,8 @@
                                         <div class="form-group form-group-last">
                                             <label>Описание</label>
                                             <quill-editor
-                                                v-model="product.description.description"
-                                                :options="editorOption">
+                                                    v-model="product.description.description"
+                                                    :options="editorOption">
                                             </quill-editor>
 
                                         </div>
@@ -365,10 +366,10 @@
                                                        allow-create filterable
                                                        placeholder="Выберите Атрибут или создайте новый" required>
                                                 <el-option
-                                                    v-for="item in attributes"
-                                                    :key="item.id"
-                                                    :label="item.label"
-                                                    :value="item.id">
+                                                        v-for="item in attributes"
+                                                        :key="item.id"
+                                                        :label="item.label"
+                                                        :value="item.id">
                                                 </el-option>
                                             </el-select>
                                         </div>
@@ -424,401 +425,429 @@
 </template>
 
 <script>
-import myUpload from 'vue-image-crop-upload';
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+    import myUpload from 'vue-image-crop-upload';
+    import Treeselect from '@riophae/vue-treeselect'
+    import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-import Breadcrumbs from '~/components/Breadcrumbs.vue'
-import Errors from '~/helpers/error.js'
+    import Breadcrumbs from '~/components/Breadcrumbs.vue'
+    import Errors from '~/helpers/error.js'
 
-import {quillEditor} from 'vue-quill-editor'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+    import {quillEditor} from 'vue-quill-editor'
+    import 'quill/dist/quill.core.css'
+    import 'quill/dist/quill.snow.css'
+    import 'quill/dist/quill.bubble.css'
 
-import slug from 'limax';
+    import slug from 'limax';
 
-export default {
-    middleware: 'auth',
-    components: {
-        Breadcrumbs, 'my-upload': myUpload, Treeselect, quillEditor
-    },
-    data() {
-        return {
-            apiImgUrl: process.env.API_IMG_URL,
-            editorOptions: {
-                hideModeSwitch: false
-            },
-            content: [
-                '<span class="size" style="font-size:16px"><span class="font" style="font-family:arial, helvetica, sans-serif">Очень красивая фигурка лебедя, времен СССР, скорей всего хрусталь, <span class="size" style="font-size:16px">очень эффектно и антуражно смотрится, не хуже чем у Сваровски, <span class="size" style="font-size:16px">необыкновенно хорошо вписывается в любой интерьер, </span></span>высота 16см. Состояние идеальное, без сколов и трещин</span></span>.',
-            ].join("\n"),
-            breadcrumbsItems: [
-                {
-                    title: 'Товары',
-                    name: 'products'
-                },
-                {
-                    title: 'Редактирование',
-                    name: 'products-id',
-                    params: 'id: ' + this.$route.params.id,
-                }
-            ],
-            editorOption: {},
-            description: '',
-
-            product: {
-                description: [],
-                attributes: [],
-                categories: [],
-                gallery: [],
-                main_category_id: null,
-            },
-            product_slug: '',
-
-            categories: [],
-            categoriesShow: [],
-            tags: [],
-            attributes: [],
-
-            files: [],
-            sortValueBy: 'ORDER_SELECTED',
-            multiple: true,
-
-            zones: [
-                {
-                    label: 'В работе',
-                    value: 'white'
-                },
-                {
-                    label: 'Не выставлен на сайте есть в наличие',
-                    value: 'red'
-                },
-                {
-                    label: 'Бронь',
-                    value: 'yellow'
-                },
-                {
-                    label: 'В пути',
-                    value: 'blue'
-                },
-                {
-                    label: 'Ремонт',
-                    value: 'green'
-                },
-                {
-                    label: 'Реставрация',
-                    value: 'siniy'
-                },
-                {
-                    label: 'Подготовка',
-                    value: 'violet'
-                },
-                {
-                    label: 'Архив',
-                    value: 'black'
-                },
-            ],
-
-            statuses: [
-                {
-                    label: 'Включен',
-                    value: 1
-                },
-                {
-                    label: 'Отключен',
-                    value: 0
-                },
-            ],
-            stickers: [
-                {
-                    label: 'Нет',
-                    value: ''
-                },
-                {
-                    label: 'Новинка',
-                    value: 'new'
-                },
-                {
-                    label: 'Бронь',
-                    value: 'reserve'
-                },
-            ],
-            stickerPositions: [
-                {
-                    label: 'Нет',
-                    value: ''
-                },
-                {
-                    label: 'Справа сверху',
-                    value: '4'
-                },
-                {
-                    label: 'Слева сверху',
-                    value: '3'
-                },
-                {
-                    label: 'Справа снизу',
-                    value: '2'
-                },
-                {
-                    label: 'Слева снизу',
-                    value: '1'
-                },
-            ],
-            productArchive: [
-                {
-                    label: 'Нет',
-                    value: 0
-                },
-                {
-                    label: 'Да',
-                    value: 8
-                },
-            ],
-            productBooking: [
-                {
-                    label: 'Нет',
-                    value: 0
-                },
-                {
-                    label: 'Да',
-                    value: 1
-                },
-            ],
-
-            //Photo
-            photo: 'https://retro-decor.ru/image/no_image.jpg',
-            show: false,
-            showPhoto: false,
-            params: {
-                //token: tokenN.content,
-                name: 'photo'
-            },
-            images: [],
-
-            loading: false,
-            loadingOptions: false,
-            errors: new Errors(),
-        };
-    },
-    computed: {
-        iSlug: function () {
-            if (this.product.description.name) {
-                let iSlug = this.sanitizeTitle(this.product.description.name);
-                this.product_slug = iSlug;
-                return iSlug;
-            }
+    export default {
+        middleware: 'auth',
+        components: {
+            Breadcrumbs, 'my-upload': myUpload, Treeselect, quillEditor
         },
-
-    },
-    async fetch() {
-        if (!this.$permission(['*'])) {
-            await this.$router.push({name: 'index'});
-        }
-        await this.getItemOptionsData()
-        await this.getEditData()
-    },
-
-    methods: {
-        imageUrlAlt(event) {
-            event.target.src = process.env.API_IMG_URL + "image/no_image.jpg"
-        },
-
-        async getItemOptionsData() {
-            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`)
-            if (response) {
-                this.tags = response.data.tags
-                this.attributes = response.data.attributes
-                this.categories = response.data.categories
-            }
-        },
-
-        async getEditData() {
-            const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}`)
-            if (response) {
-                this.product = response.data;
-
-                if (this.product.image) {
-                    this.photo = process.env.apiImgUrl + '/image/' + this.product.image
-                    this.showPhoto = true
-                }
-
-                if (this.product.description) {
-                    this.description = this.product.description.description
-                    // this.product.name = this.product.description.name
-                }
-
-                if (this.product.images) {
-                    this.images = this.product.images
-                    // this.product.name = this.product.description.name
-                }
-
-                this.product_slug = this.product.keyword
-
-                // let f = this.product.tags
-                // self.product.tags = []
-                // f.forEach(function (value, key) {
-                //     self.product.tags.push(f[key].id);
-                // });
-
-                let c = this.product.categories
-                let list_categories = []
-                let main_category = null
-                c.forEach(function (value, key) {
-                    if (value.main_category === 1) {
-                        main_category = value.category_id
+        data() {
+            return {
+                apiImgUrl: process.env.API_IMG_URL,
+                editorOptions: {
+                    hideModeSwitch: false
+                },
+                content: [
+                    '<span class="size" style="font-size:16px"><span class="font" style="font-family:arial, helvetica, sans-serif">Очень красивая фигурка лебедя, времен СССР, скорей всего хрусталь, <span class="size" style="font-size:16px">очень эффектно и антуражно смотрится, не хуже чем у Сваровски, <span class="size" style="font-size:16px">необыкновенно хорошо вписывается в любой интерьер, </span></span>высота 16см. Состояние идеальное, без сколов и трещин</span></span>.',
+                ].join("\n"),
+                breadcrumbsItems: [
+                    {
+                        title: 'Товары',
+                        name: 'products'
+                    },
+                    {
+                        title: 'Редактирование',
+                        name: 'products-id',
+                        params: 'id: ' + this.$route.params.id,
                     }
-                    list_categories.push(value.category_id);
-                });
-                this.product.categories = list_categories
-                this.product.main_category_id = main_category
-            }
-        },
-
-        update() {
-            this.loading = true;
-            this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}`, {
-                product: this.product,
-                photo: this.photo,
-                product_slug: this.product_slug,
-            })
-                .then(response => {
-                    let status = response.data.data;
-                    if (status.status === 'success') {
-                        this.$message({
-                            showClose: true,
-                            message: 'Товар успешно обновлен',
-                            type: 'success',
-                            center: true
-                        });
-                    }
-                })
-                .catch(error =>
-                    this.errors.record(error.response.data)
-                )
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-
-
-        sellProduct() {
-            this.loading = true;
-            this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}/sell`, {
-                product: this.product
-            })
-                .then(response => {
-                    let status = response.data.data;
-                    if (status.status === 'success') {
-                        this.$message({
-                            showClose: true,
-                            message: 'Статус товара успешно изменён',
-                            type: 'success',
-                            center: true
-                        });
-                        this.$router.push({path: '/orders/order', query: { product_id: this.$route.params.id }});
-                    }
-                })
-                .catch(error =>
-                    this.errors.record(error.response.data)
-                )
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-
-        backSellProduct() {
-            this.loading = true;
-            this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}/reset`, {
-                product: this.product
-            })
-                .then(response => {
-                    let status = response.data.data;
-                    if (status.status === 'success') {
-                        this.$message({
-                            showClose: true,
-                            message: 'Статус товара успешно изменён',
-                            type: 'success',
-                            center: true
-                        });
-                    }
-                })
-                .catch(error =>
-                    this.errors.record(error.response.data)
-                )
-                .finally(() => {
-                    this.loading = false;
-                });
-        },
-
-
-        addAttribute: function () {
-            this.product.attributes.push({
-                name: '',
+                ],
+                editorOption: {},
                 description: '',
-                id: '',
-            })
-        },
 
-        removeAttribute: function (index, id, attr) {
-            this.product.attributes.splice(index, 1)
-            if (id) {
-                this.$axios.delete(process.env.apiWebUrl + `/adm/products/attribute/delete/${id}/${attr}`)
-                    .then(response => {
-                        this.$message({
-                            showClose: true,
-                            message: 'Успешно удалено',
-                            type: 'success',
-                            center: true
-                        });
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                    });
-            }
+                product: {
+                    description: [],
+                    attributes: [],
+                    categories: [],
+                    gallery: [],
+                    main_category_id: null,
+                },
+                product_slug: '',
 
-        },
+                categories: [],
+                categoriesShow: [],
+                tags: [],
+                attributes: [],
 
-        sanitizeTitle: function (name) {
-            return slug(name);
-        },
+                files: [],
+                sortValueBy: 'ORDER_SELECTED',
+                multiple: true,
+                zone: '',
 
-        toggleShow() {
-            this.show = !this.show;
-        },
+                zones: [
+                    {
+                        label: 'В работе',
+                        value: 'white'
+                    },
+                    {
+                        label: 'Не выставлен на сайте есть в наличие',
+                        value: 'red'
+                    },
+                    {
+                        label: 'Бронь',
+                        value: 'yellow'
+                    },
+                    {
+                        label: 'В пути',
+                        value: 'blue'
+                    },
+                    {
+                        label: 'Ремонт',
+                        value: 'green'
+                    },
+                    {
+                        label: 'Реставрация',
+                        value: 'siniy'
+                    },
+                    {
+                        label: 'Подготовка',
+                        value: 'violet'
+                    },
+                    {
+                        label: 'Архив',
+                        value: 'black'
+                    },
+                ],
 
-        /**
-         * crop success
-         *
-         * [param] imgDataUrl
-         * [param] field
-         */
-        cropSuccess(imgDataUrl) {
-            this.photo = imgDataUrl;
-            this.showPhoto = true;
-        },
+                statuses: [
+                    {
+                        label: 'Включен',
+                        value: 1
+                    },
+                    {
+                        label: 'Отключен',
+                        value: 0
+                    },
+                ],
+                stickers: [
+                    {
+                        label: 'Нет',
+                        value: ''
+                    },
+                    {
+                        label: 'Новинка',
+                        value: 'new'
+                    },
+                    {
+                        label: 'Бронь',
+                        value: 'reserve'
+                    },
+                ],
+                stickerPositions: [
+                    {
+                        label: 'Нет',
+                        value: ''
+                    },
+                    {
+                        label: 'Справа сверху',
+                        value: '4'
+                    },
+                    {
+                        label: 'Слева сверху',
+                        value: '3'
+                    },
+                    {
+                        label: 'Справа снизу',
+                        value: '2'
+                    },
+                    {
+                        label: 'Слева снизу',
+                        value: '1'
+                    },
+                ],
+                productArchive: [
+                    {
+                        label: 'Нет',
+                        value: 0
+                    },
+                    {
+                        label: 'Да',
+                        value: 8
+                    },
+                ],
+                productBooking: [
+                    {
+                        label: 'Нет',
+                        value: 0
+                    },
+                    {
+                        label: 'Да',
+                        value: 1
+                    },
+                ],
 
-        onFileChange(e) {
-            let files = e.target.files || e.dataTransfer.files;
-            if (!files.length)
-                return;
+                //Photo
+                photo: 'https://retro-decor.ru/image/no_image.jpg',
+                show: false,
+                showPhoto: false,
+                params: {
+                    //token: tokenN.content,
+                    name: 'photo'
+                },
+                images: [],
 
-            this.showPhoto = true
-            this.createImage(files[0]);
-        },
-
-        createImage(file) {
-            let image = new Image();
-            let reader = new FileReader();
-            let vm = this;
-
-            reader.onload = (e) => {
-                vm.photo = e.target.result;
+                loading: false,
+                loadingOptions: false,
+                errors: new Errors(),
             };
-            reader.readAsDataURL(file);
         },
+        computed: {
+            iSlug: function () {
+                if (this.product.description.name) {
+                    let iSlug = this.sanitizeTitle(this.product.description.name);
+                    this.product_slug = iSlug;
+                    return iSlug;
+                }
+            },
+
+        },
+        async fetch() {
+            if (!this.$permission(['*'])) {
+                await this.$router.push({name: 'index'});
+            }
+            await this.getItemOptionsData()
+            await this.getEditData()
+        },
+
+        methods: {
+            async updateZone() {
+                this.loading = true;
+                this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}/set-zone`, {
+                    zone: this.zone,
+                })
+                    .then(response => {
+                        let status = response.data.data;
+                        if (status.status === 'success') {
+                            this.$message({
+                                showClose: true,
+                                message: 'Зона товара успешно обновлена',
+                                type: 'success',
+                                center: true
+                            });
+                        }
+                    })
+                    .catch(error =>
+                        this.errors.record(error.response.data)
+                    )
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+
+            imageUrlAlt(event) {
+                event.target.src = process.env.API_IMG_URL + "image/no_image.jpg"
+            },
+
+            async getItemOptionsData() {
+                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`)
+                if (response) {
+                    this.tags = response.data.tags
+                    this.attributes = response.data.attributes
+                    this.categories = response.data.categories
+                }
+            },
+
+            async getEditData() {
+                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}`)
+                if (response) {
+
+                    this.zone = response.data.zone;
+                    delete response.data.zone;
+                    this.product = response.data;
+
+                    if (this.product.image) {
+                        this.photo = process.env.apiImgUrl + '/image/' + this.product.image
+                        this.showPhoto = true
+                    }
+
+                    if (this.product.description) {
+                        this.description = this.product.description.description
+                        // this.product.name = this.product.description.name
+                    }
+
+                    if (this.product.images) {
+                        this.images = this.product.images
+                        // this.product.name = this.product.description.name
+                    }
+
+                    this.product_slug = this.product.keyword
+
+                    // let f = this.product.tags
+                    // self.product.tags = []
+                    // f.forEach(function (value, key) {
+                    //     self.product.tags.push(f[key].id);
+                    // });
+
+                    let c = this.product.categories
+                    let list_categories = []
+                    let main_category = null
+                    c.forEach(function (value, key) {
+                        if (value.main_category === 1) {
+                            main_category = value.category_id
+                        }
+                        list_categories.push(value.category_id);
+                    });
+                    this.product.categories = list_categories
+                    this.product.main_category_id = main_category
+                }
+            },
+
+            update() {
+                this.loading = true;
+                this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}`, {
+                    product: this.product,
+                    photo: this.photo,
+                    product_slug: this.product_slug,
+                })
+                    .then(response => {
+                        let status = response.data.data;
+                        if (status.status === 'success') {
+                            this.$message({
+                                showClose: true,
+                                message: 'Товар успешно обновлен',
+                                type: 'success',
+                                center: true
+                            });
+                        }
+                    })
+                    .catch(error =>
+                        this.errors.record(error.response.data)
+                    )
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+
+
+            sellProduct() {
+                this.loading = true;
+                this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}/sell`, {
+                    product: this.product
+                })
+                    .then(response => {
+                        let status = response.data.data;
+                        if (status.status === 'success') {
+                            this.$message({
+                                showClose: true,
+                                message: 'Статус товара успешно изменён',
+                                type: 'success',
+                                center: true
+                            });
+                            this.$router.push({path: '/orders/order', query: {product_id: this.$route.params.id}});
+                        }
+                    })
+                    .catch(error =>
+                        this.errors.record(error.response.data)
+                    )
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+
+            backSellProduct() {
+                this.loading = true;
+                this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}/reset`, {
+                    product: this.product
+                })
+                    .then(response => {
+                        let status = response.data.data;
+                        if (status.status === 'success') {
+                            this.$message({
+                                showClose: true,
+                                message: 'Статус товара успешно изменён',
+                                type: 'success',
+                                center: true
+                            });
+                        }
+                    })
+                    .catch(error =>
+                        this.errors.record(error.response.data)
+                    )
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+
+
+            addAttribute: function () {
+                this.product.attributes.push({
+                    name: '',
+                    description: '',
+                    id: '',
+                })
+            },
+
+            removeAttribute: function (index, id, attr) {
+                this.product.attributes.splice(index, 1)
+                if (id) {
+                    this.$axios.delete(process.env.apiWebUrl + `/adm/products/attribute/delete/${id}/${attr}`)
+                        .then(response => {
+                            this.$message({
+                                showClose: true,
+                                message: 'Успешно удалено',
+                                type: 'success',
+                                center: true
+                            });
+                        })
+                        .catch(errors => {
+                            console.log(errors);
+                        });
+                }
+
+            },
+
+            sanitizeTitle: function (name) {
+                return slug(name);
+            },
+
+            toggleShow() {
+                this.show = !this.show;
+            },
+
+            /**
+             * crop success
+             *
+             * [param] imgDataUrl
+             * [param] field
+             */
+            cropSuccess(imgDataUrl) {
+                this.photo = imgDataUrl;
+                this.showPhoto = true;
+            },
+
+            onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+
+                this.showPhoto = true
+                this.createImage(files[0]);
+            },
+
+            createImage(file) {
+                let image = new Image();
+                let reader = new FileReader();
+                let vm = this;
+
+                reader.onload = (e) => {
+                    vm.photo = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+        }
     }
-}
 </script>
 
 <style scoped>
@@ -828,56 +857,57 @@ export default {
 
     option.select-zones.red {
         background: rgba(253, 57, 122, 0.9);
-        color: white!important;
+        color: white !important;
     }
 
     option.select-zones.blue {
         background: rgba(64, 158, 255, 0.84);
-        color: white!important;
+        color: white !important;
     }
 
     option.select-zones.green {
         background: rgba(29, 201, 107, 0.81);
-        color: white!important;
+        color: white !important;
     }
 
     option.select-zones.yellow {
         background: rgba(255, 255, 0, 0.64);
-        color: black!important;
+        color: black !important;
     }
 
     option.select-zones.siniy {
         background: #0067c2;
-        color: white!important;
+        color: white !important;
     }
 
     option.select-zones.violet {
         background: #bc09b3;
-        color: white!important;
+        color: white !important;
     }
 
     option.select-zones.black {
         background: #222;
-        color: white!important;
+        color: white !important;
     }
- 
+
     option.select-zones {
-        height: 50px!important;
+        height: 50px !important;
         cursor: pointer;
     }
 
     option.select-zones {
         padding: 20px;
         min-height: 50px;
-        curson:pointer;
+        curson: pointer;
     }
-.item__error {
-    color: #F56C6C;
-    font-size: 11px;
-    line-height: 1;
-    padding-top: 4px;
-    position: absolute;
-}
+
+    .item__error {
+        color: #F56C6C;
+        font-size: 11px;
+        line-height: 1;
+        padding-top: 4px;
+        position: absolute;
+    }
 
 
 </style>

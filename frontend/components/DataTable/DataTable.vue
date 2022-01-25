@@ -11,6 +11,7 @@
                 <span class="mr-3">Ремонт: <b>{{ stats.green }}</b></span>
                 <span class="mr-3">Бронь: <b>{{ stats.yellow }}</b></span>
                 <span class="mr-3">Подготовка: <b>{{ stats.violet }}</b></span>
+                <span class="mr-3">В архиве: <b>{{ stats.black }}</b></span>
             </div>
 
             <div class="row d-flex" v-if="stats && this.$route.name === 'orders'">

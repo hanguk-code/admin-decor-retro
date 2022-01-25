@@ -255,6 +255,30 @@
                         icon: 'flaticon2-calendar-3',
                         permission: ['*'],
                     },
+                    {
+                        title: 'Статистика',
+                        url: '/statistics/',
+                        section: false,
+                        nested: false,
+                        icon: 'flaticon-more-v2',
+                        permission: ['*'],
+                    },
+                    {
+                        title: 'Площадки',
+                        url: '/areas/',
+                        section: false,
+                        nested: false,
+                        icon: 'flaticon2-cube-1',
+                        permission: ['*'],
+                    },
+                    {
+                        title: 'Фин. отчёт',
+                        url: '/finances/',
+                        section: false,
+                        nested: false,
+                        icon: 'flaticon2-cube-1',
+                        permission: ['*'],
+                    },
                 ]
             };
         },
