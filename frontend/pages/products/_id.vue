@@ -533,16 +533,12 @@
                 ],
                 stickers: [
                     {
-                        label: 'Нет',
+                        label: 'Не новинка',
                         value: ''
                     },
                     {
                         label: 'Новинка',
                         value: 'new'
-                    },
-                    {
-                        label: 'Бронь',
-                        value: 'reserve'
                     },
                 ],
                 stickerPositions: [
