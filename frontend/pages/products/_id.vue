@@ -240,23 +240,6 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group ">
-                                            <label>Товар забронирован</label>
-                                            <el-select v-model="product.is_booked" class="form-control fixed-select"
-                                                       filterable placeholder="Выберите...">
-                                                <el-option
-                                                        v-for="item in productBooking"
-                                                        :key="item.value"
-                                                        :label="item.label"
-                                                        :value="item.value">
-                                                </el-option>
-                                            </el-select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-md-10">
                                         <div class="form-group ">
                                             <label>Связи</label>
@@ -728,28 +711,7 @@
 
 
             sellProduct() {
-                this.loading = true;
-                this.$axios.patch(process.env.apiWebUrl + `/adm/products/${this.$route.params.id}/sell`, {
-                    product: this.product
-                })
-                    .then(response => {
-                        let status = response.data.data;
-                        if (status.status === 'success') {
-                            this.$message({
-                                showClose: true,
-                                message: 'Статус товара успешно изменён',
-                                type: 'success',
-                                center: true
-                            });
-                            this.$router.push({path: '/orders/order', query: {product_id: this.$route.params.id}});
-                        }
-                    })
-                    .catch(error =>
-                        this.errors.record(error.response.data)
-                    )
-                    .finally(() => {
-                        this.loading = false;
-                    });
+                this.$router.push({path: '/orders/order', query: {product_id: this.$route.params.id}});
             },
 
             backSellProduct() {
