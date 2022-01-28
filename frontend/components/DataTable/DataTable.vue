@@ -125,8 +125,10 @@
                 </div>
 
 
-                <div class="row d-flex" v-if="stats && this.$route.name === 'products'" style="float: right;">
-                    <h4 class="mr-3 mt-5">Сумма всего товара: <b>{{ stats.total_price_all_products }}</b> т.р.</h4>
+                <div class="d-block" v-if="stats && this.$route.name === 'products'" style="float: right;">
+                    <h4 class="mr-3 mt-5">Сумма продажи товара: <b>{{ stats.total_price_all_products }}</b> т.р.</h4>
+                    <br>
+                    <h4 class="mr-3">Сумма закупки товара: <b>{{ stats.price_rub_all_products }}</b> т.р.</h4>
                 </div>
 
 

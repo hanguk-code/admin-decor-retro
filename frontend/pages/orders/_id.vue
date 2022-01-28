@@ -83,7 +83,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Комментарий</label>
-                                            <div>{{ order.comment }}</div>
+                                            <div>{{ order.comment ? order.comment : order.comments }}</div>
                                         </div>
                                     </div>
                                 </div>

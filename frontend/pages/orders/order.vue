@@ -7,13 +7,24 @@
                 <div class="card-body">
 
                     <div class="form-group col-12">
-                        <label>Продано на</label>
-                        <select class="form-control" v-model="order.type">
-                            <option v-for="area in areasList" :key="area.id" :value="area.name" selected>{{ area.name }}</option>
-                        </select>
-                    </div>
 
-                    <div class="form-group col-12">
+                        <div class="form-group">
+                            <label>Дата</label>
+                            <input type="date" class="form-control" v-model="order.date" placeholder="Дата"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Продано на</label>
+                            <select class="form-control" v-model="order.type">
+                                <option v-for="area in areasList" :key="area.id" :value="area.name" selected>{{ area.name }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Цена продажи</label>
+                            <input type="text" class="form-control" v-model="order.price" placeholder="Цена продажи"/>
+                        </div>
+
                         <div class="form-group">
                             <label>Имя</label>
                             <input type="text" class="form-control" v-model="order.name" placeholder="Имя"/>
@@ -26,7 +37,6 @@
                             <label>Номер телефона</label>
                             <VuePhoneNumberInput
                                     placeholder="Номер телефона"
-                                    required
                                     :only-countries="['RU','BY','UA','AM','KZ']"
                                     v-model="order.phone"
                                     @update="updatePhone"
@@ -78,15 +88,25 @@
                     address: "",
                     comments: "",
                     tags: "",
-                    type: "Сайт"
+                    type: "Сайт",
+                    date: new Date(),
+                    price: 0
                 },
                 areasList: []
             };
         },
         async fetch() {
             await this.getAreasList();
+            await this.getProductData();
         },
         methods: {
+            async getProductData() {
+                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/${this.$route.query.product_id}`)
+                if (response) {
+                    this.order.price = response.data.price
+                }
+            },
+
             create() {
                 this.loading = true;
                 this.$axios.post(process.env.apiWebUrl + `/adm/orders/${this.$route.query.product_id}/create`, {
