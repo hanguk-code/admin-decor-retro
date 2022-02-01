@@ -9,7 +9,7 @@
                     <div class="form-group col-12">
 
                         <div class="form-group">
-                            <label>Дата</label>
+                            <label>Дата продажи товара</label>
                             <input type="date" class="form-control" v-model="order.date" placeholder="Дата"/>
                         </div>
 

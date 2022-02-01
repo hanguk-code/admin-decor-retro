@@ -132,6 +132,20 @@
                                                               rows="4"></textarea>
                                                 </div>
                                             </div>
+
+                                        </div>
+
+
+                                        <div class="row mt-5">
+                                            <div class="col-md-12">
+                                                <div class="form-group form-group-last">
+                                                    <label>SEO текст</label>
+                                                    <quill-editor
+                                                            v-model="category.seo_text"
+                                                            :options="editorOption">
+                                                    </quill-editor>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -165,10 +179,15 @@ import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import Errors from '~/helpers/error.js'
 import slug from 'limax';
 
+import {quillEditor} from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 export default {
     middleware: 'auth',
     components: {
-        Breadcrumbs, 'my-upload': myUpload, Treeselect
+        Breadcrumbs, 'my-upload': myUpload, Treeselect,  quillEditor
     },
     data() {
         return {
@@ -185,6 +204,7 @@ export default {
                 }
             ],
 
+            editorOption: {},
             category: {},
             photo: '',
             statuses: [
