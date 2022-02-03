@@ -26,6 +26,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Размер скидки</label>
+                            <input type="text" class="form-control" v-model="order.amount_of_discount" placeholder="Размер скидки"/>
+                        </div>
+
+                        <div class="form-group">
                             <label>Имя</label>
                             <input type="text" class="form-control" v-model="order.name" placeholder="Имя"/>
                         </div>
@@ -90,7 +95,8 @@
                     tags: "",
                     type: "Сайт",
                     date: new Date(),
-                    price: 0
+                    price: 0,
+                    amount_of_discount: 0
                 },
                 areasList: []
             };
@@ -104,6 +110,7 @@
                 const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/${this.$route.query.product_id}`)
                 if (response) {
                     this.order.price = response.data.price
+                    this.order.amount_of_discount = response.data.amount_of_discount
                 }
             },
 

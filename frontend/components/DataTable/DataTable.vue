@@ -12,13 +12,13 @@
                 <span class="mr-3">Бронь: <b>{{ stats.yellow }}</b></span>
                 <span class="mr-3">Подготовка: <b>{{ stats.violet }}</b></span>
                 <span class="mr-3">В архиве: <b>{{ stats.black }}</b></span>
+                <span class="mr-3">Повтор: <b>{{ stats.grey }}</b></span>
             </div>
 
             <div class="row d-flex" v-if="stats && this.$route.name === 'orders'">
                 <span class="mr-3">Всего заказов: <b>{{ stats.total }}</b></span>
-                <span class="mr-3">В работе: <b>{{ stats.yellow }}</b></span>
-                <span class="mr-3">Отказ: <b>{{ stats.red }}</b></span>
-                <span>Реализовано: <b>{{ stats.white }}</b></span>
+                <span class="mr-3">Новые: <b>{{ stats.red }}</b></span>
+                <span class="mr-3">Завершенные: <b>{{ stats.green }}</b></span>
             </div>
 
             <!--begin: Search Form -->
@@ -39,7 +39,7 @@
 									</span>
                                 </div>
                             </div>
-                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile" v-if="this.$route.name !== 'orders'">
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile" v-if="this.$route.name === 'products'">
                                 <div class="kt-input-icon kt-input-icon--left">
                                     <!--<input v-model="search_by_category"
                                            @input="$emit('search_by_category', search_by_category)"
@@ -77,10 +77,10 @@
                                             class="form-control"
                                             placeholder="Выберите зону"
                                             v-model="search_by_zone"
-                                            @change="$emit('search_by_zone', search_by_zone)">
+                                            @change="$emit('search_by_zone', search_by_zone)" v-if="this.$route.name === 'products'">
                                         <option class="select-zones" value="" selected>Все зоны</option>
                                         <option
-                                                v-for="item in zones"
+                                                v-for="item in zonesProducts"
                                                 :key="item.value"
                                                 :value="item.value"
                                                 :class="item.value"
@@ -89,7 +89,21 @@
                                         </option>
                                     </select>
 
-
+                                    <select
+                                            class="form-control"
+                                            placeholder="Выберите зону"
+                                            v-model="search_by_zone"
+                                            @change="$emit('search_by_zone', search_by_zone)" v-if="this.$route.name === 'orders'">
+                                        <option class="select-zones" value="" selected>Все зоны</option>
+                                        <option
+                                                v-for="item in zonesOrders"
+                                                :key="item.value"
+                                                :value="item.value"
+                                                :class="item.value"
+                                                class="select-zones">
+                                            {{ item.label }}
+                                        </option>
+                                    </select>
                                     <!--<el-select v-model="search_by_zone"
                                                @input="$emit('search_by_zone', search_by_zone)"
                                                class="form-control fixed-select"
@@ -252,7 +266,7 @@
                     1: 'Включен',
                 },
 
-                zones: [
+                zonesProducts: [
                     {
                         label: 'В работе',
                         value: 'white'
@@ -284,6 +298,29 @@
                     {
                         label: 'Архив',
                         value: 'black'
+                    },
+                    {
+                        label: 'Повтор',
+                        value: 'grey'
+                    },
+                ],
+
+                zonesOrders: [
+                    {
+                        value: 'white',
+                        label: 'В работе',
+                    },
+                    {
+                        value: 'red',
+                        label: 'Новый',
+                    },
+                    {
+                        value: 'green',
+                        label: 'Состоявшийся заказ',
+                    },
+                    {
+                        value: 'black',
+                        label: 'Отказ',
                     }
                 ],
 
@@ -598,6 +635,11 @@
         color: white;
     }
 
+    option.select-zones.grey {
+        background: #ccc;
+        color: white;
+    }
+
     option.select-zones {
         height: 50px;
         cursor: pointer;
@@ -645,6 +687,11 @@
 
     tr.pointer.black {
         background: #222;
+        color: white;
+    }
+
+    tr.pointer.grey {
+        background: #ccc;
         color: white;
     }
 

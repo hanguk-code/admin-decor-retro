@@ -162,11 +162,12 @@
 
 <script>
     export default {
-        data() {
+        async data() {
             return {
                 clientUrl: process.env.clientUrl,
+                orders_count: 0,
                 menuItems: [
-                   {
+                    {
                         title: 'Меню',
                         url: false,
                         section: true,
@@ -215,7 +216,7 @@
                         permission: ['*'],
                     },
                     {
-                        title: 'Заказы',
+                        title: 'Заказы ' + this.orders_count || 0,
                         url: '/orders',
                         section: false,
                         nested: false,
@@ -246,7 +247,7 @@
                         icon: 'flaticon2-calendar-3',
                         permission: ['*'],
                     },
-                    
+
                     {
                         title: 'Покупатели ',
                         url: '/users',
@@ -281,6 +282,10 @@
                     },
                 ]
             };
+        },
+
+        async fetch() {
+            this.orders_count = (await this.$axios.get('http://139.162.135.193:80/api/adm/statistic/get-orders')).data
         },
 
         methods: {

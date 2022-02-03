@@ -46,6 +46,13 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-4">
+                                        <select class="form-control" v-model="chooseZone" @change="updateZone">
+                                            <option v-for="zone in zones" :key="zone.value" :class="zone.value"
+                                                    class="select-zones" :value="zone.value">{{ zone.label }}</option>
+                                        </select>
+                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
@@ -62,7 +69,9 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Телефон</label>
-                                            <div>{{ order.phone }}</div>
+                                            <div>
+                                                <a :href="'/users/' + buyer.id">{{ order.phone }}</a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -97,6 +106,7 @@
                                                     <th>Фото</th>
                                                     <th>Атикул</th>
                                                     <th>Название</th>
+                                                    <th>Цена продажи</th>
                                                 </tr>
                                                 <tr v-for="product in order.product_id">
 
@@ -109,6 +119,9 @@
                                                     <td>
                                                         {{ product.description.name }}
                                                     </td>
+                                                    <td>
+                                                        {{ product.price }} т.р.
+                                                    </td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -120,11 +133,8 @@
                                                 <div class="col-md-4">
                                                     <n-link :to="{name: 'orders-edit', query: {order_id: order.id}}" class="btn btn-success">Исправить</n-link>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <button type="button" class="btn btn-warning" @click="setStatus('white')">Провести</button>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <button type="button" class="btn btn-danger" @click="setStatus('red')">Отказ</button>
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control" placeholder="Комментарий.."></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -174,6 +184,8 @@
                 ],
 
                 order: {},
+                buyer: {},
+                chooseZone: '',
 
                 bouquets: [],
                 flowers: [],
@@ -197,6 +209,26 @@
                 errors: new Errors(),
                 editField: '',
                 oldValueField: '',
+
+
+                zones: [
+                    {
+                        value: 'white',
+                        label: 'В работе',
+                    },
+                    {
+                        value: 'red',
+                        label: 'Новый',
+                    },
+                    {
+                        value: 'green',
+                        label: 'Состоявшийся заказ',
+                    },
+                    {
+                        value: 'black',
+                        label: 'Отказ',
+                    }
+                ]
             };
         },
         async fetch() {
@@ -208,39 +240,18 @@
         },
 
         methods: {
-            async getItemOptionsData() {
-                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/orders/options/data`,)
-                if (response) {
-                    this.orders = response.data
-                }
-            },
 
-            async getEditData() {
-                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/orders/${this.$route.params.id}`)
-                if (response) {
-                    this.order = response.data;
-
-                    if (this.product.image) {
-                        this.photo = process.env.apiImgUrl + 'image/' + this.product.image
-                        this.showPhoto = true
-                    }
-
-                    if (this.product.description) {
-                        // this.product.name = this.product.description.name
-                    }
-
-                }
-            },
-
-            setStatus(zone) {
+            async updateZone() {
                 this.loading = true;
-                this.$axios.get(process.env.apiWebUrl + `/adm/orders/${this.$route.params.id}/set-status?zone=${zone}`)
+                this.$axios.patch(process.env.apiWebUrl + `/adm/orders/${this.$route.params.id}/set-zone`, {
+                    zone: this.chooseZone,
+                })
                     .then(response => {
                         let status = response.data.data;
                         if (status.status === 'success') {
                             this.$message({
                                 showClose: true,
-                                message: 'Успешно обновлено',
+                                message: 'Зона заказа успешно обновлена',
                                 type: 'success',
                                 center: true
                             });
@@ -252,6 +263,31 @@
                     .finally(() => {
                         this.loading = false;
                     });
+            },
+
+            async getItemOptionsData() {
+                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/orders/options/data`,)
+                if (response) {
+                    this.orders = response.data
+                }
+            },
+
+            async getEditData() {
+                const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/orders/${this.$route.params.id}`)
+                if (response) {
+                    this.order = response.data;
+                    this.buyer = response.data.buyer;
+
+                    if (this.product.image) {
+                        this.photo = process.env.apiImgUrl + 'image/' + this.product.image
+                        this.showPhoto = true
+                    }
+
+                    if (this.product.description) {
+                        // this.product.name = this.product.description.name
+                    }
+
+                }
             },
 
             update() {

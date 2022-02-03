@@ -202,6 +202,17 @@
                                         </form>
                                     </div>
 
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Размер скидки</label>
+                                            <input type="text" v-model="product.amount_of_discount"
+                                                   class="form-control"
+                                                   :class="errors.get('amount_of_discount') ? 'form-control is-invalid' : 'form-control'"
+                                                   placeholder="Укажите размер скидки"
+                                            >
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="row">
@@ -235,6 +246,17 @@
                                                         :value="item.value">
                                                 </el-option>
                                             </el-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Дата покупки товара</label>
+                                            <input type="date" v-model="product.date_zakup"
+                                                   class="form-control"
+                                                   :class="errors.get('date_zakup') ? 'form-control is-invalid' : 'form-control'"
+                                                   placeholder="Укажите дату покупки товара"
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -501,6 +523,10 @@
                     {
                         label: 'Архив',
                         value: 'black'
+                    },
+                    {
+                        label: 'Повтор',
+                        value: 'grey'
                     },
                 ],
 
@@ -846,6 +872,11 @@
     option.select-zones.black {
         background: #222;
         color: white !important;
+    }
+
+    option.select-zones.grey {
+        background: #ccc;
+        color: white;
     }
 
     option.select-zones {
