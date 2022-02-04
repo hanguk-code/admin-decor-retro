@@ -16,9 +16,9 @@
             </div>
 
             <div class="row d-flex" v-if="stats && this.$route.name === 'orders'">
-                <span class="mr-3">Всего заказов: <b>{{ stats.total }}</b></span>
-                <span class="mr-3">Новые: <b>{{ stats.red }}</b></span>
-                <span class="mr-3">Завершенные: <b>{{ stats.green }}</b></span>
+                <a class="mr-3 btn-link" @click="refreshOrders('')">Всего заказов: <b>{{ stats.total }}</b></a>
+                <a class="mr-3 btn-link" @click="refreshOrders('red')">Новые: <b>{{ stats.red }}</b></a>
+                <a class="mr-3 btn-link" @click="refreshOrders('green')">Завершенные: <b>{{ stats.green }}</b></a>
             </div>
 
             <!--begin: Search Form -->
@@ -93,10 +93,42 @@
                                             class="form-control"
                                             placeholder="Выберите зону"
                                             v-model="search_by_zone"
-                                            @change="$emit('search_by_zone', search_by_zone)" v-if="this.$route.name === 'orders'">
+                                            @change="$emit('search_by_zone', search_by_zone)" v-if="this.$route.name === 'orders' && tab === ''">
                                         <option class="select-zones" value="" selected>Все зоны</option>
                                         <option
                                                 v-for="item in zonesOrders"
+                                                :key="item.value"
+                                                :value="item.value"
+                                                :class="item.value"
+                                                class="select-zones">
+                                            {{ item.label }}
+                                        </option>
+                                    </select>
+
+                                    <select
+                                            class="form-control"
+                                            placeholder="Выберите зону"
+                                            v-model="search_by_zone"
+                                            @change="$emit('search_by_zone', search_by_zone)" v-if="this.$route.name === 'orders' && tab === 'red'">
+                                        <option class="select-zones" value="" selected>Все зоны</option>
+                                        <option
+                                                v-for="item in zonesOrdersRed"
+                                                :key="item.value"
+                                                :value="item.value"
+                                                :class="item.value"
+                                                class="select-zones">
+                                            {{ item.label }}
+                                        </option>
+                                    </select>
+
+                                    <select
+                                            class="form-control"
+                                            placeholder="Выберите зону"
+                                            v-model="search_by_zone"
+                                            @change="$emit('search_by_zone', search_by_zone)" v-if="this.$route.name === 'orders' && tab === 'green'">
+                                        <option class="select-zones" value="" selected>Все зоны</option>
+                                        <option
+                                                v-for="item in zonesOrdersGreen"
                                                 :key="item.value"
                                                 :value="item.value"
                                                 :class="item.value"
@@ -255,6 +287,8 @@
                 search_by_zone: '',
                 apiImgUrl: process.env.apiImgUrl,
 
+                tab: false,
+
                 categories: [],
                 categoriesShow: [],
 
@@ -314,6 +348,28 @@
                         value: 'red',
                         label: 'Новый',
                     },
+                    {
+                        value: 'green',
+                        label: 'Состоявшийся заказ',
+                    },
+                    {
+                        value: 'black',
+                        label: 'Отказ',
+                    }
+                ],
+
+                zonesOrdersRed: [
+                    {
+                        value: 'white',
+                        label: 'В работе',
+                    },
+                    {
+                        value: 'red',
+                        label: 'Новый',
+                    }
+                ],
+
+                zonesOrdersGreen: [
                     {
                         value: 'green',
                         label: 'Состоявшийся заказ',
@@ -394,9 +450,27 @@
 
         async fetch() {
             await this.getItemOptionsData()
+            console.log(this.items)
         },
 
         methods: {
+
+            async refreshOrders(zone) {
+                this.tab = zone;
+                this.items = (await this.$axios.get(process.env.apiWebUrl + `/adm/orders`, {
+                    params: {
+                        page: 1,
+                        service: true,
+                        draw: 2,
+                        length: 10,
+                        search: '',
+                        search_by_category: '',
+                        search_by_zone: zone,
+                        column: 0,
+                        dir: 'desc'
+                    }
+                })).data.data.data;
+            },
 
             async getItemOptionsData() {
                 const response = await this.$axios.$get(process.env.apiWebUrl + `/adm/products/options/data`)
@@ -751,4 +825,7 @@
         top: 0;
     }
 
+    .btn-link {
+        cursor: pointer;
+    }
 </style>

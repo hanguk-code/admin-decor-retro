@@ -162,130 +162,131 @@
 
 <script>
     export default {
-        async data() {
+        data() {
             return {
                 clientUrl: process.env.clientUrl,
                 orders_count: 0,
-                menuItems: [
-                    {
-                        title: 'Меню',
-                        url: false,
-                        section: true,
-                        nested: false,
-                        icon: 'flaticon-more-v2',
-                        permission: ['*'],
-                    },
-                    // {
-                    //     title: 'Рабочий стол',
-                    //     url: '/',
-                    //     section: false,
-                    //     nested: false,
-                    //     icon: 'flaticon2-graphic',
-                    //     permission: ['*'],
-                    // },
-                    {
-                        title: 'Пользователи',
-                        url: '/web/users',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-calendar-3',
-                        permission: ['user_web_show', 'user_web_create', 'user_web_edit'],
-                    },
-                    {
-                        title: 'Меню',
-                        url: false,
-                        section: true,
-                        nested: false,
-                        icon: 'flaticon-more-v2',
-                        permission: ['item_show', 'language_platform_show'],
-                    },
-                    {
-                        title: 'Категории',
-                        url: '/categories',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-cube-1',
-                        permission: ['*'],
-                    },
-                    {
-                        title: 'Товары',
-                        url: '/products',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-cube-1',
-                        permission: ['*'],
-                    },
-                    {
-                        title: 'Заказы ' + this.orders_count || 0,
-                        url: '/orders',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-cube-1',
-                        permission: ['*'],
-                    },
-                    {
-                        title: 'Архив',
-                        url: '/orders/orders',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-cube-1',
-                        permission: ['*'],
-                    },
-                    {
-                        title: 'Системное',
-                        url: false,
-                        section: true,
-                        nested: false,
-                        icon: 'flaticon-more-v2',
-                        permission: ['user_system_show', 'role_system_show', 'platform_system_show'],
-                    },
-                    {
-                        title: 'Пользователи ',
-                        url: '/system/users',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-calendar-3',
-                        permission: ['*'],
-                    },
-
-                    {
-                        title: 'Покупатели ',
-                        url: '/users',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-calendar-3',
-                        permission: ['*'],
-                    },
-                    {
-                        title: 'Статистика',
-                        url: '/statistics/',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon-more-v2',
-                        permission: ['*'],
-                    },
-                    {
-                        title: 'Площадки',
-                        url: '/areas/',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-cube-1',
-                        permission: ['*'],
-                    },
-                    {
-                        title: 'Фин. отчёт',
-                        url: '/finances/',
-                        section: false,
-                        nested: false,
-                        icon: 'flaticon2-cube-1',
-                        permission: ['*'],
-                    },
-                ]
+                menuItems: []
             };
         },
 
         async fetch() {
-            this.orders_count = (await this.$axios.get('http://139.162.135.193:80/api/adm/statistic/get-orders')).data
+            this.orders_count = (await this.$axios.get(process.env.apiWebUrl + `/adm/statistic/get-orders`)).data
+            this.menuItems = [
+                {
+                    title: 'Меню',
+                    url: false,
+                    section: true,
+                    nested: false,
+                    icon: 'flaticon-more-v2',
+                    permission: ['*'],
+                },
+                // {
+                //     title: 'Рабочий стол',
+                //     url: '/',
+                //     section: false,
+                //     nested: false,
+                //     icon: 'flaticon2-graphic',
+                //     permission: ['*'],
+                // },
+                {
+                    title: 'Пользователи',
+                    url: '/web/users',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-calendar-3',
+                    permission: ['user_web_show', 'user_web_create', 'user_web_edit'],
+                },
+                {
+                    title: 'Меню',
+                    url: false,
+                    section: true,
+                    nested: false,
+                    icon: 'flaticon-more-v2',
+                    permission: ['item_show', 'language_platform_show'],
+                },
+                {
+                    title: 'Категории',
+                    url: '/categories',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-cube-1',
+                    permission: ['*'],
+                },
+                {
+                    title: 'Товары',
+                    url: '/products',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-cube-1',
+                    permission: ['*'],
+                },
+                {
+                    title: 'Заказы ' + this.orders_count,
+                    url: '/orders',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-cube-1',
+                    permission: ['*'],
+                },
+                {
+                    title: 'Архив',
+                    url: '/orders/orders',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-cube-1',
+                    permission: ['*'],
+                },
+                {
+                    title: 'Системное',
+                    url: false,
+                    section: true,
+                    nested: false,
+                    icon: 'flaticon-more-v2',
+                    permission: ['user_system_show', 'role_system_show', 'platform_system_show'],
+                },
+                {
+                    title: 'Пользователи ',
+                    url: '/system/users',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-calendar-3',
+                    permission: ['*'],
+                },
+
+                {
+                    title: 'Покупатели ',
+                    url: '/users',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-calendar-3',
+                    permission: ['*'],
+                },
+                {
+                    title: 'Статистика',
+                    url: '/statistics/',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon-more-v2',
+                    permission: ['*'],
+                },
+                {
+                    title: 'Площадки',
+                    url: '/areas/',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-cube-1',
+                    permission: ['*'],
+                },
+                {
+                    title: 'Фин. отчёт',
+                    url: '/finances/',
+                    section: false,
+                    nested: false,
+                    icon: 'flaticon2-cube-1',
+                    permission: ['*'],
+                },
+            ]
         },
 
         methods: {

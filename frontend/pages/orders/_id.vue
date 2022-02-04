@@ -108,7 +108,7 @@
                                                     <th>Название</th>
                                                     <th>Цена продажи</th>
                                                 </tr>
-                                                <tr v-for="product in order.product_id">
+                                                <tr v-for="product in order.product_id" v-if="product">
 
                                                     <td>
                                                         <img :src="apiImgUrl + 'image/' + product.image" width="100"/>
