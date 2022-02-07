@@ -104,7 +104,7 @@
                 this.loading = true;
                 this.order.total_price = this.totalPrice;
 
-                this.products = this.products.split(',');
+                this.products = (this.products).split(',');
 
                 this.$axios.post(process.env.apiWebUrl + `/adm/orders/${this.$route.query.order_id}/edit`, {
                     order: this.order,
