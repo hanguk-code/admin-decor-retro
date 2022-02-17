@@ -113,10 +113,6 @@
                             if (this.sortOrders[this.columns[0].name] === undefined) {
                                 this.sortOrder()
                             }
-
-                            if (this.uniqueItems) {
-                                this.uniqueArray()
-                            }
                         }
                     })
                     .catch(errors => {

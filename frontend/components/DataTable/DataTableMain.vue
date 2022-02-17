@@ -105,8 +105,9 @@ export default {
             this.$axios.get(url, {params: this.tableData})
                 .then(response => {
                     let data = response.data;
-                    if (this.tableData.draw == data.draw) {
+
                         this.items = this.items.concat(data.data.data)
+                    console.log((this.items).length)
                         this.configPagination(data.data);
                         this.columns = data.columns
                         if (data.stats) {
@@ -122,10 +123,8 @@ export default {
                             this.sortOrder()
                         }
 
-                        if (this.uniqueItems) {
-                            this.uniqueArray()
-                        }
-                    }
+
+
                 })
                 .catch(errors => {
                     console.log(errors);
