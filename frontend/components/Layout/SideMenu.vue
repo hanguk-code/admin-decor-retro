@@ -222,7 +222,7 @@
                     permission: ['*'],
                 },
                 {
-                    title: 'Заказы ' + this.orders_count,
+                    title: 'Заказы (' + this.orders_count + ')',
                     url: '/orders',
                     section: false,
                     nested: false,

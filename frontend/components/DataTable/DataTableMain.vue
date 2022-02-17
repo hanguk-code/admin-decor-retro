@@ -52,11 +52,11 @@ export default {
             tableData: {
                 service: true,
                 draw: 0,
-                page: 1,
+                page: 0,
                 length: 10,
                 search: this.$route.query?.search ? this.$route.query?.search : '',
                 search_by_category: '',
-                search_by_zone: '',
+                search_by_zone: this.$route.name === 'orders' ? 'red' : '',
                 column: 0,
                 dir: 'desc',
                 type: this.itemType,
