@@ -19,6 +19,7 @@
                                 </div>
                                 <div class="kt-portlet__head-label">
                                     <button type="submit" class="btn btn-primary">Сохранить</button>
+                                    <n-link type="submit" class="btn btn-success ml-4" :to="{path: '/articles/create', query: {category_id: this.$route.params.id}}">Статья</n-link>
                                 </div>
                             </div>
 
