@@ -39,6 +39,23 @@
 									</span>
                                 </div>
                             </div>
+
+
+                            <div class="col-md-4 kt-margin-b-20-tablet-and-mobile" v-if="this.$route.name === 'orders'">
+                                <div class="kt-input-icon kt-input-icon--left">
+                                    <input v-model="search_by_date"
+                                           @input="$emit('search_by_date', search_by_date)"
+                                           type="date"
+                                           class="form-control"
+                                           placeholder="Поиск..."
+                                    >
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--left">
+										<span><i class="la la-search"></i></span>
+									</span>
+                                </div>
+                            </div>
+
+
                             <div class="col-md-4 kt-margin-b-20-tablet-and-mobile" v-if="this.$route.name === 'products'">
                                 <div class="kt-input-icon kt-input-icon--left">
                                     <!--<input v-model="search_by_category"
@@ -277,7 +294,8 @@
             'permissionEdit',
             'loading',
             'statuses',
-            'search_by_zone'
+            'search_by_zone',
+            'search_by_date'
         ],
         data() {
 
@@ -285,6 +303,7 @@
                 search: this.$route.query?.search ? this.$route.query?.search : '',
                 search_by_category: '',
                 search_by_zone: '',
+                search_by_date: '',
                 apiImgUrl: process.env.apiImgUrl,
 
                 tab: false,

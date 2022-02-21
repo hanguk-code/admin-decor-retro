@@ -18,7 +18,9 @@
                         <div class="col-md-4 p-5">
                             <div class="form-group">
                                 <div class="form-group">
-                                    <h4>Имя: <b>{{ user.name }}</b></h4>
+                                    <label>Имя</label>
+                                    <input type="tel" class="form-control" placeholder="Укажите имя покупателя"
+                                           v-model="user.name"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Номер телефона</label>
@@ -31,9 +33,24 @@
                                            v-model="user.email"/>
                                 </div>
                                 <div class="form-group">
-                                    <label>Адрес доставки</label>
+                                    <label>Адрес доставки №1</label>
                                     <input type="text" class="form-control" placeholder="Укажите адрес доставки"
                                            v-model="user.address"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Адрес доставки №2</label>
+                                    <input type="text" class="form-control"
+                                           v-model="user.address2"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Адрес доставки №3</label>
+                                    <input type="text" class="form-control"
+                                           v-model="user.address3"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Адрес доставки №4</label>
+                                    <input type="text" class="form-control"
+                                           v-model="user.address4"/>
                                 </div>
                             </div>
 
@@ -46,7 +63,8 @@
                                             v-for="status in statuses"
                                             :key="status.value"
                                             :label="status.label"
-                                            :value="status.value">
+                                            :value="status.value"
+                                            :class="'bg-' + status.value">
                                     </el-option>
                                 </el-select>
                             </div>
@@ -68,7 +86,8 @@
 
 
                             <div class="form-group">
-                                <h5>Количество покупок: {{ total_buys }}</h5>
+                                <h5>Количество обращений: {{ total_buys }}</h5>
+                                <h5>Количество покупок: {{ total_buys_prods }}</h5>
                             </div>
                             <div class="form-group">
                                 <h5>Сумма: {{ total_sum }} т.р.</h5>
@@ -86,24 +105,32 @@
                                           v-model="user.comments"></textarea>
                             </div>
 
+                            <div class="row form-group col-md-6">
+                                    <label>Фильтр продаж за год:</label>
+                                    <input type="number" min="1900" max="2099" maxlength="4" step="1" class="form-control" placeholder="Выберите год.." v-model="filter_year" @change="searchByDate">
+                            </div>
+
                             <table class="table table-bordered">
                                 <tr>
-                                    <th>ID</th>
                                     <th>Дата продажи</th>
+                                    <th>Фото</th>
                                     <th>Артикул</th>
-                                    <th>Сумма</th>
+                                    <th>Цена продажи</th>
+                                    <th>Скидка</th>
                                     <th>Площадка</th>
                                 </tr>
                                 <tr v-for="order in orders" :class="order.zone ? 'pointer ' + order.zone : 'pointer'"
                                     :key="order.id">
                                     <td>
-                                        {{ order.id }}
-                                    </td>
-                                    <td>
                                         {{ order.created_at }}
                                     </td>
                                     <td>
-                                        <b v-for="product in order.product_id" style="display: block;">
+                                        <b v-for="product in order.product_id" style="display: block;" :key="product.product_id">
+                                            <img :src="'https://decor-retro.ru/image/' + product.image" width="100"/>
+                                        </b>
+                                    </td>
+                                    <td>
+                                        <b v-for="product in order.product_id" style="display: block;" :key="product.product_id">
                                             <n-link :to="{path: '/products/' + product.product_id }"
                                                     class="btn btn-white" :title="product.name">
                                                 {{ product.sku }} - {{ product.price }} т.р.
@@ -112,6 +139,9 @@
                                     </td>
                                     <td>
                                         {{ order.total_price }} т.р.
+                                    </td>
+                                    <td>
+                                        {{ order.amount_of_price || 0 }} р.
                                     </td>
                                     <td>
                                         {{ order.type }}
@@ -145,6 +175,8 @@
                 orders: {},
                 total_sum: 0,
                 total_buys: 0,
+                total_buys_prods: 0,
+                filter_year: 2022,
                 statuses: [
                     {
                         label: 'Постоянный',
@@ -183,6 +215,26 @@
                 }
             },
 
+            async searchByDate() {
+                this.total_sum = 0;
+                this.total_buys = 0;
+                this.total_buys_prods = 0;
+                const response = await this.$axios.get(process.env.apiWebUrl + `/adm/users/${this.$route.params.id}/orders`, {
+                    params: {
+                        search_by_date: this.filter_year
+                    }
+                })
+                if (response) {
+                    this.orders = response.data;
+                    for (let index in response.data) {
+                        let order = response.data[index];
+                        this.total_sum += +order.total_price;
+                        this.total_buys += 1;
+                        this.total_buys_prods += +(order.product_id).length;
+                    }
+                }
+            },
+
             async getUserOrders() {
                 const response = await this.$axios.get(process.env.apiWebUrl + `/adm/users/${this.$route.params.id}/orders`)
                 if (response) {
@@ -191,6 +243,7 @@
                         let order = response.data[index];
                         this.total_sum += +order.total_price;
                         this.total_buys += 1;
+                        this.total_buys_prods += +(order.product_id).length
                     }
                 }
             },
@@ -223,5 +276,13 @@
 </script>
 
 <style scoped>
+    .bg-permanent {
+        background-color: #f44336;
+        color: #fff;
+    }
 
+    .bg-blacklist {
+        background-color: #222222;
+        color: #fff;
+    }
 </style>

@@ -13,6 +13,7 @@
                    @sort="sortBy"
                    @search="searchData"
                    @search_by_category="searchByCategory"
+                   @search_by_date="searchByDate"
         />
         <div style="margin-top: 20px; "
              v-observe-visibility="pagination.currentPage !== pagination.lastPage ? visibilityChanged : false"
@@ -53,6 +54,7 @@
                     length: 10,
                     search: '',
                     search_by_category: '',
+                    search_by_date: '',
                     column: 0,
                     dir: 'desc',
                     type: this.itemType,
@@ -168,6 +170,13 @@
                 this.tableData.page = 1
                 this.items = [];
                 this.tableData.search_by_category = search_by_category;
+                this.getItems()
+            },
+
+            searchByDate(search_by_date) {
+                this.tableData.page = 1
+                this.items = [];
+                this.tableData.search_by_date = search_by_date;
                 this.getItems()
             },
 

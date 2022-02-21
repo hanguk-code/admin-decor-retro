@@ -86,6 +86,18 @@
                                             <div>{{ order.created_at }}</div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Срок реализации</label>
+                                            <div>{{ order.release }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" v-if="order.amount_of_discount">
+                                        <div class="form-group">
+                                            <label>Скидка от продажной цены</label>
+                                            <div>{{ order.amount_of_discount }} р.</div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -106,6 +118,7 @@
                                                     <th>Фото</th>
                                                     <th>Атикул</th>
                                                     <th>Название</th>
+                                                    <th>Цена закупки</th>
                                                     <th>Цена продажи</th>
                                                 </tr>
                                                 <tr v-for="product in order.product_id" v-if="product">
@@ -118,6 +131,9 @@
                                                     </td>
                                                     <td>
                                                         {{ product.description.name }}
+                                                    </td>
+                                                    <td>
+                                                        {{ product.price_rub }} т.р.
                                                     </td>
                                                     <td>
                                                         {{ product.price }} т.р.
@@ -186,6 +202,7 @@
                 order: {},
                 buyer: {},
                 chooseZone: '',
+                release: 0,
 
                 bouquets: [],
                 flowers: [],
@@ -277,6 +294,10 @@
                 if (response) {
                     this.order = response.data;
                     this.buyer = response.data.buyer;
+                    let date1 = new Date(response.data.created_at);
+                    let date2 = new Date(response.data.date_added);
+                    let daysLag = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
+                    this.release = daysLag;
 
                     if (this.product.image) {
                         this.photo = process.env.apiImgUrl + 'image/' + this.product.image

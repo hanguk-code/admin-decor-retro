@@ -15,18 +15,23 @@
 
                             <div class="row">
                                 <div class="col-md-8 border-right p-5">
-                                    <h5>Количество продаж: <b>{{ orders.length }}</b> р.</h5>
+                                    <h5>Количество продаж: <b>{{ orders.length }}</b> шт.</h5>
                                     <h5>Валовая сумма продаж: <b>{{ total_sum }}</b> р.</h5>
                                     <h5>Сумма дохода: <b>{{ income }}</b> р.</h5>
                                     <hr>
                                     <h5>Сумма возврата инвестиций: <b>{{ Number(total_sum) - Number(income) }}</b> р.</h5>
                                     <h5>Прибыль по месяцу: <b>{{ Number(income) - Number(expenses_total_sum) }}</b> р.</h5>
 
-
+                                    <div class="row form-group col-md-6 mt-5">
+                                        <label>Фильтр за месяц и год:</label>
+                                        <input type="number" min="1900" max="2099" maxlength="4" step="1" class="form-control" placeholder="Выберите год.." v-model="filter_date" @change="searchByDateFinances">
+                                        <span>Формат ввода: 2022-02</span>
+                                    </div>
 
                                     <table class="table mt-5">
                                         <tr>
                                             <th>Дата</th>
+                                            <th>Фото</th>
                                             <th>Артикул</th>
                                             <th>Название</th>
                                             <th>Сумма</th>
@@ -36,6 +41,11 @@
 
                                         <tr v-for="order in orders" :key="order.id">
                                             <td>{{ order.created_at }}</td>
+                                            <td>
+                                                <b v-for="product in order.product_id">
+                                                    <img :src="'https://decor-retro.ru/image/' + product.image" width="100"/>
+                                                </b>
+                                            </td>
                                             <td>
                                                 <p v-for="product in order.product_id">
                                                     <a :href="'/products/' + product.product_id">{{ product.sku }}</a>
@@ -109,7 +119,7 @@
                 ],
 
 
-
+                filter_date: new Date().getFullYear() + "-" + new Date().getMonth(),
                 expensesList: [],
                 expenses_total_sum: 0,
                 total_sum: 0,
@@ -137,6 +147,26 @@
                     .then(response => {
                         this.expensesList = response.data.data;
                         this.expenses_total_sum = response.data.total_sum;
+                    })
+                    .catch(error =>
+                        this.errors.record(error.response.data)
+                    )
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+
+            async searchByDateFinances() {
+                this.loading = true;
+                this.$axios.get(process.env.apiWebUrl + `/adm/finances/orders/get`, {
+                    params: {
+                        search_by_date: this.filter_date
+                    }
+                })
+                    .then(response => {
+                        this.orders = response.data.data;
+                        this.total_sum = response.data.total_sum;
+                        this.income = response.data.income;
                     })
                     .catch(error =>
                         this.errors.record(error.response.data)
